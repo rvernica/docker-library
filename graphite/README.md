@@ -21,8 +21,7 @@ This image is intended to be used behind an HTTP server like nginx. (See below f
                     alias /opt/graphite/static;
                 }
                 location / {
-                    proxy_pass http://web:8080;
-                    proxy_set_header Host $host;
+                    proxy_pass http://graphite:8080;
                 }
                 ...
             }
