@@ -57,3 +57,5 @@ Additionally this image can also be used without any HTTP server in development 
             /opt/graphite/bin/carbon-cache.py start && \
             PYTHONPATH=/opt/graphite/webapp DJANGO_SETTINGS_MODULE=graphite.settings python /usr/local/bin/post-setup-graphite-web.py --debug && \
             PYTHONPATH=/opt/graphite/whisper /opt/graphite/bin/run-graphite-devel-server.py --libs=/opt/graphite/webapp/ /opt/graphite/"
+
+If you would like to use a URL prefix (e.g., `/graphite`), you need to set the `URL_PREFIX = '...'` variable in the `local_settings.py` (`/opt/graphite/webapp/graphite/local_settings.py`) file. This can be done in the [post-setup-graphite-web.py](https://github.com/rvernica/Dockerfile/blob/master/graphite/post-setup-graphite-web.py#L16) script before you build the image. See Graphite [documentation](http://graphite.readthedocs.org/en/latest/config-webapp.html) for additional details.
