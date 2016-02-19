@@ -1,8 +1,5 @@
 FROM alpine:3.3
 
-ENV http_proxy=http://web-proxy-pa.labs.hpicorp.net:8088 \
-    https_proxy=https://web-proxy-pa.labs.hpicorp.net:8088
-
 
 RUN apk add --update py-pip py-cairo py-twisted && \
     rm -rf /var/cache/apk/*
