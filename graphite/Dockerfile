@@ -18,12 +18,14 @@ RUN PYTHONPATH=/opt/graphite/webapp django-admin.py collectstatic --settings=gra
     PYTHONPATH=/opt/graphite/webapp django-admin.py makemigrations account events dashboard url_shortener --settings=graphite.settings && \
     PYTHONPATH=/opt/graphite/webapp django-admin.py migrate --settings=graphite.settings
 
-COPY post-setup-graphite-web.py /usr/local/bin/
-
 
 EXPOSE 2003
-EXPOSE 8080
+EXPOSE 2004
+EXPOSE 8081
 VOLUME /opt/graphite/static
+
+
+COPY post-setup-graphite-web.py /usr/local/bin/
 
 
 ## 1. Start Carbon daemon
