@@ -59,7 +59,7 @@ RUN wget --no-verbose --output-document - \
     tar xzf - -C /usr/src
 WORKDIR /usr/src/scidb-15.7.0.9267
 RUN ./run.py setup --force
-RUN ./run.py make -j4
+RUN ./run.py make -j2
 
 
 COPY run.py.oscheck_datapath.patch .
