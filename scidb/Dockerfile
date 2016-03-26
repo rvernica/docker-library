@@ -1,0 +1,75 @@
+FROM debian:latest
+
+ENV http_proxy=http://web-proxy-pa.labs.hpicorp.net:8088 \
+    https_proxy=https://web-proxy-pa.labs.hpicorp.net:8088 \
+    no_proxy=localhost,hpicorp.net
+
+ENV SCIDB_VER=15.7 \
+    SCIDB_INSTALL_PATH=/usr/local/scidb \
+    SCIDB_BUILD_TYPE=Release
+
+
+ARG TERM=linux
+ARG DEBIAN_FRONTEND=noninteractive
+
+
+RUN apt-get update && apt-get install -y \
+            wget unzip apt-transport-https pkg-config sudo \
+            openssh-server postgresql postgresql-contrib \
+            cmake python python-paramiko g++ gfortran flex bison \
+            protobuf-compiler libprotobuf-dev liblog4cxx10-dev libbz2-dev libreadline6-dev \
+            liblapack-dev libcppunit-dev && \
+   rm -rf /var/lib/apt/lists/*
+
+## Install openjdk-8-jdk from jessie-backports
+## Install packages requiring default-jre-headless
+RUN echo "deb http://http.debian.net/debian jessie-backports main" > \
+         /etc/apt/sources.list.d/jessie-backports.list && \
+    apt-get update && \
+    apt-get install -y openjdk-8-jdk ant ant-contrib junit libprotobuf-java && \
+    rm -rf /var/lib/apt/lists/*
+
+
+## Build and install libpqxx3 from wheezy
+RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
+         /etc/apt/sources.list.d/wheezy.list && \
+    apt-get update && \
+    apt-get build-dep -y libpqxx3 && \
+    mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
+    apt-get --build source libpqxx3 && \
+    dpkg --install libpqxx-3.1_3.1-1.1_amd64.deb libpqxx3-dev_3.1-1.1_amd64.deb && \
+    rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
+
+## Install Paradigm4 packages
+RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | \
+    apt-key add - && \
+    echo "deb https://downloads.paradigm4.com/ ubuntu14.04/3rdparty/" > \
+         /etc/apt/sources.list.d/scidb.list && \
+    apt-get update && \
+    apt-get install -y \
+            scidb-${SCIDB_VER}-cityhash \
+            scidb-${SCIDB_VER}-libboost1.54-all-dev \
+            scidb-${SCIDB_VER}-libcsv && \
+    rm -rf /var/lib/apt/lists/*
+
+## Setup SSH
+RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
+    ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
+    cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
+
+RUN wget --no-verbose --output-document - \
+    http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
+    tar xzf - -C /usr/src
+WORKDIR /usr/src/scidb-15.7.0.9267
+RUN ./run.py setup --force
+RUN ./run.py make -j4
+
+
+COPY run.py.oscheck_datapath.patch .
+RUN patch --strip=0 < run.py.oscheck_datapath.patch
+RUN echo "127.0.0.1:5432:mydb:mydb:mydb" > /root/.pgpass
+
+# service ssh start && service postgresql start && ./run.py install --force
+# /usr/local/scidb/bin/scidb.py startall mydb
+# /usr/local/scidb/bin/iquery --afl --query "list()"
