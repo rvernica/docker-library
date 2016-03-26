@@ -1,9 +1,5 @@
 FROM debian:latest
 
-ENV http_proxy=http://web-proxy-pa.labs.hpicorp.net:8088 \
-    https_proxy=https://web-proxy-pa.labs.hpicorp.net:8088 \
-    no_proxy=localhost,hpicorp.net
-
 ENV SCIDB_VER=15.7 \
     SCIDB_INSTALL_PATH=/usr/local/scidb \
     SCIDB_BUILD_TYPE=Release
