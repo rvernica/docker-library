@@ -1,5 +1,10 @@
 FROM debian:latest
 
+ENV SCIDB_VER=15.7 \
+    SCIDB_INSTALL_PATH=/usr/local/scidb \
+    SCIDB_BUILD_TYPE=Release
+
+
 ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
