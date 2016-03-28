@@ -55,3 +55,10 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
 RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
     ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
+## Get SciDB source and setup
+RUN wget --no-verbose --output-document - \
+    http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
+    tar xzf - -C /usr/src
+WORKDIR /usr/src/scidb-15.7.0.9267
+RUN ./run.py setup --force
