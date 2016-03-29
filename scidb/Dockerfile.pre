@@ -2,7 +2,8 @@ FROM debian:latest
 
 ENV SCIDB_VER=15.7 \
     SCIDB_INSTALL_PATH=/usr/local/scidb \
-    SCIDB_BUILD_TYPE=Release
+    SCIDB_BUILD_TYPE=Release \
+    PATH=$PATH:/usr/local/scidb/bin
 
 
 ARG TERM=linux
@@ -13,8 +14,8 @@ RUN apt-get update && apt-get install -y \
             wget unzip apt-transport-https pkg-config sudo \
             openssh-server postgresql postgresql-contrib \
             cmake python python-paramiko g++ gfortran flex bison \
-            protobuf-compiler libprotobuf-dev liblog4cxx10-dev libbz2-dev libreadline6-dev \
-            liblapack-dev libcppunit-dev && \
+            protobuf-compiler libprotobuf-dev liblog4cxx10-dev libbz2-dev \
+            libreadline6-dev liblapack-dev libcppunit-dev && \
    rm -rf /var/lib/apt/lists/*
 
 
@@ -56,9 +57,26 @@ RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
     ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
-## Get SciDB source and setup
+
+## Get SciDB source, run setup, compile libs
 RUN wget --no-verbose --output-document - \
     http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
     tar xzf - -C /usr/src
-WORKDIR /usr/src/scidb-15.7.0.9267
-RUN ./run.py setup --force
+RUN /usr/src/scidb-15.7.0.9267/run.py setup --force
+RUN cd /usr/src/scidb-15.7.0.9267/stage/build &&
+    make -j2 \
+         json_lib \
+         MurmurHash_lib \
+         util_lib \
+         scidb_msg_lib \
+         genmeta \
+         catalog_lib \
+         array_lib \
+         system_lib \
+         compression_lib \
+         ops_lib \
+         scalar_proc_lib \
+         qproc_lib \
+         usr_namespace_lib \
+         io_lib \
+         network_lib

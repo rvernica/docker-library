@@ -10,17 +10,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 
 ## Compile SciDB source
-WORKDIR /usr/src/scidb-15.7.0.9267
-RUN ./run.py make -j2
+RUN /usr/src/scidb-15.7.0.9267/run.py make -j2
 
 
 ## Apply patch and set mydb password
-COPY run.py.oscheck_datapath.patch .
-RUN patch --strip=0 < run.py.oscheck_datapath.patch
-RUN echo "127.0.0.1:5432:mydb:mydb:mydb" > /root/.pgpass && \
+COPY run.py.oscheck_datapath.patch /usr/src/scidb-15.7.0.9267/
+RUN cd /usr/src/scidb-15.7.0.9267 && \
+    patch --strip=0 < run.py.oscheck_datapath.patch && \
+    echo "127.0.0.1:5432:mydb:mydb:mydb" > /root/.pgpass && \
     chmod go-r /root/.pgpass
 
 
-# service ssh start && service postgresql start && ./run.py install --force
-# /usr/local/scidb/bin/scidb.py startall mydb
-# /usr/local/scidb/bin/iquery --afl --query "list()"
+# service ssh start && service postgresql start
+# /usr/src/scidb-15.7.0.9267//run.py install --force
+# scidb.py startall mydb
+# iquery --afl --query "list()"
