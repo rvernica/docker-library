@@ -63,7 +63,7 @@ RUN wget --no-verbose --output-document - \
     http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
     tar xzf - -C /usr/src
 RUN /usr/src/scidb-15.7.0.9267/run.py setup --force
-RUN cd /usr/src/scidb-15.7.0.9267/stage/build &&
+RUN cd /usr/src/scidb-15.7.0.9267/stage/build && \
     make -j2 \
          json_lib \
          MurmurHash_lib \
