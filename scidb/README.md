@@ -46,3 +46,6 @@ limit. For this reason, this image is split into two parts:
   [Dockerfile](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile)
   which finishes up compiling SciDB and does the final setup. The
   resulting image is intended to be used by the end user.
+
+
+[![](https://badge.imagelayers.io/rvernica/scidb:latest.svg)](https://imagelayers.io/?images=rvernica/scidb:latest)
