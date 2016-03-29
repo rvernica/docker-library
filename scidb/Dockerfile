@@ -21,7 +21,9 @@ RUN cd /usr/src/scidb-15.7.0.9267 && \
     chmod go-r /root/.pgpass
 
 
-# service ssh start && service postgresql start
-# /usr/src/scidb-15.7.0.9267//run.py install --force
+# service ssh start
+# service postgresql start
+# /usr/src/scidb-15.7.0.9267/run.py install --force
 # scidb.py startall mydb
 # iquery --afl --query "list()"
+# scidb.py stopall mydb
