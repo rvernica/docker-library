@@ -2,27 +2,47 @@ ScidDB
 ======
 
 *   Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
-*   Build on top of [Debian](https://www.debian.org/) Linux
+*   Build on top of [Debian Linux](https://www.debian.org/)
 *   Size: `~1.9GB`
 
 Notes
 -----
 
 The image contains all the required Debian packages (except for R) and
-SciDB DBMS compiled from source. (When the image is built, the SciDB
-source code is downloaded and compiled.)
+the SciDB DBMS compiled from source.
 
 The last installation step needs to be run manually:
 
     > docker run --tty --interactive rvernica/scidb bash
     # service ssh start
     # service postgresql start
-    # ./run.py install --force
+    # /usr/src/scidb-15.7.0.9267/run.py install --force
 
 Start SciDB:
 
-    # /usr/local/scidb/bin/scidb.py startall mydb
+    # scidb.py startall mydb
 
 Example:
 
-    # /usr/local/scidb/bin/iquery --afl --query "list()"
+    # iquery --afl --query "list()"
+
+Stop SciDB:
+
+    # scidb.py stopall mydb
+
+The SciDB source code is downloaded and compiled when the image is
+built. The image is build automatically on
+[Docker Hub](https://hub.docker.com/). Docker Hub has a two hour time
+limit for image builds. Compiling SciDB on Docker Hub exceeds the time
+limit. For this reason, this image is split into two parts:
+
+*
+  [Dockerfile.pre](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile.pre)
+  which installs the required Debian packages and compiles the SciDB
+  libraries. The resulting image is an intermediary image not intended
+  to be used by the end user.
+
+*
+  [Dockerfile](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile)
+  which finishes up compiling SciDB and does the final setup. The
+  resulting image is intended to be used by the end user.
