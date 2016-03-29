@@ -36,14 +36,12 @@ built. The image is build automatically on
 limit for image builds. Compiling SciDB on Docker Hub exceeds the time
 limit. For this reason, this image is split into two parts:
 
-*
-  [Dockerfile.pre](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile.pre)
+* [Dockerfile.pre](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile.pre)
   which installs the required Debian packages and compiles the SciDB
   libraries. The resulting image is an intermediary image not intended
   to be used by the end user.
 
-*
-  [Dockerfile](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile)
+* [Dockerfile](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile)
   which finishes up compiling SciDB and does the final setup. The
   resulting image is intended to be used by the end user.
 
