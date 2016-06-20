@@ -3,47 +3,70 @@ ScidDB
 
 *   Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
 *   Build on top of [Debian Linux](https://www.debian.org/)
-*   Size: `~1.9GB`
+*   Size: `~2GB`
 
 Notes
 -----
 
-The image contains all the required Debian packages (except for R) and
-the SciDB DBMS compiled from source.
+The image contains SciDB DBMS compiled from source. SciDB is started
+when a container is created. The image has a *base* and a *complete*
+version:
 
-The last installation step needs to be run manually:
+   * `rvernica/scidb:VERSION-base` for *base* version
+   * `rvernica/scidb:VERSION` for *complete* version
 
-    > docker run --tty --interactive rvernica/scidb bash
-    # service ssh start
-    # service postgresql start
-    # /usr/src/scidb-15.7.0.9267/run.py install --force
+The *base* version contains a functional SciDB DBMS with
+[Shim](https://github.com/Paradigm4/shim). The *complete* version
+contains the *base* version plus the
+[dev_tools](https://github.com/Paradigm4/dev_tools/) and the
+[accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)
+libraries.
 
-Start SciDB:
+Start *base* version in interactive mode:
 
-    # scidb.py startall mydb
+    > docker run --tty --interactive rvernica/scidb:15.7-base bash
+    ...
+    # iquery --afl --query "list('libraries')"
+    {inst,n} name,major,minor,patch,build,build_type
+    {0,0} 'SciDB',15,7,0,9267,'Release'
+    {1,0} 'SciDB',15,7,0,9267,'Release'
 
-Example:
+Start *base* version in non-interactive mode:
 
-    # iquery --afl --query "list()"
+    > docker run --tty rvernica/scidb:15.7-base
+    ...
 
-Stop SciDB:
+Start *complete* version in interactive mode:
 
-    # scidb.py stopall mydb
+    > docker run --tty --interactive rvernica/scidb:15.7 bash
+    ...
+    # iquery --afl --query "load_library('accelerated_io_tools'); list('libraries')"
+    Query was executed successfully
+    {inst,n} name,major,minor,patch,build,build_type
+    {0,0} 'SciDB',15,7,0,9267,'Release'
+    {0,1} 'libaccelerated_io_tools.so',15,7,0,9267,null
+    {0,2} 'libdev_tools.so',15,7,0,9267,null
+    {1,0} 'SciDB',15,7,0,9267,'Release'
+    {1,1} 'libaccelerated_io_tools.so',15,7,0,9267,null
+    {1,2} 'libdev_tools.so',15,7,0,9267,null
+
+
+The image exposes the following ports:
+
+| Port | Application
+| --- |
+| 1239 | SciDB (`iquery`) |
+| 8080 | SciDB Shim (http://localhost:8080) |
+| 8083 | SciDB Shim (https://localhost:8080) |
 
 The SciDB source code is downloaded and compiled when the image is
-built. The image is build automatically on
-[Docker Hub](https://hub.docker.com/). Docker Hub has a two hour time
-limit for image builds. Compiling SciDB on Docker Hub exceeds the time
-limit. For this reason, this image is split into two parts:
-
-* [Dockerfile.pre](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile.pre)
-  which installs the required Debian packages and compiles the SciDB
-  libraries. The resulting image is an intermediary image not intended
-  to be used by the end user.
-
-* [Dockerfile](https://github.com/rvernica/Dockerfile/blob/master/scidb/Dockerfile)
-  which finishes up compiling SciDB and does the final setup. The
-  resulting image is intended to be used by the end user.
+built. The image is built automatically on
+[Docker Hub](https://hub.docker.com/). Docker Hub has a two-hour time
+limit for image builds. Because compiling SciDB on Docker Hub exceeds
+the time limit, there is a third image version, *pre*. The *pre* image
+installs the requirements and compiles some of the SciDB
+libraries. This image is partial and not intended to be used by the
+end user. The *base* image continues from where *pre* left off.
 
 
 [![](https://badge.imagelayers.io/rvernica/scidb:latest.svg)](https://imagelayers.io/?images=rvernica/scidb:latest)
