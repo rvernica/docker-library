@@ -53,8 +53,8 @@ Start *complete* version in interactive mode:
 
 The image exposes the following ports:
 
-| Port | Application
-| --- |
+| Port | Application |
+| --- | --- |
 | 1239 | SciDB (`iquery`) |
 | 8080 | SciDB Shim (http://localhost:8080) |
 | 8083 | SciDB Shim (https://localhost:8080) |
