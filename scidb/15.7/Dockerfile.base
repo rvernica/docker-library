@@ -5,13 +5,12 @@ FROM rvernica/scidb:15.7-pre
 RUN /usr/src/${SCIDB_SRC}/run.py make -j2
 
 
-ARG SCIDB_INSTANCE_NUM=1
+ARG SCIDB_INSTANCE_NUM=2
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
 
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
-    SCIDB_DBG=True \
     PATH=$PATH:/usr/local/scidb/bin
 
 
