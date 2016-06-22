@@ -5,6 +5,21 @@ FROM rvernica/scidb:15.7-pre
 RUN /usr/src/${SCIDB_SRC}/run.py make -j2
 
 
+## Setup SSH
+RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' \
+        /etc/pam.d/sshd && \
+    echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
+    ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
+    cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+# sed --in-place 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+
+
+## Setup PostgreSQL
+RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
+        > /root/.pgpass && \
+    chmod go-r /root/.pgpass
+
+
 ARG SCIDB_INSTANCE_NUM=2
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
@@ -14,12 +29,9 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     PATH=$PATH:/usr/local/scidb/bin
 
 
-## Setup
+## Setup SciDB
 COPY run.py.oscheck_datapath.patch /usr/src/${SCIDB_SRC}/
-RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
-         > /root/.pgpass && \
-    chmod go-r /root/.pgpass && \
-    service ssh start && \
+RUN service ssh start && \
     service postgresql start && \
     cd /usr/src/${SCIDB_SRC} && \
     patch --strip=0 < run.py.oscheck_datapath.patch && \
