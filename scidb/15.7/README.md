@@ -9,14 +9,14 @@ Notes
 -----
 
 The image contains SciDB DBMS compiled from source. SciDB is started
-when a container is created. The image has a *base* and a *complete*
+when a container is created. The image has a *base* and an *enhanced*
 version:
 
-   * `rvernica/scidb:VERSION-base` for *base* version
-   * `rvernica/scidb:VERSION` for *complete* version
+   * `rvernica/scidb:15.7-base` for the *base* version
+   * `rvernica/scidb:15.7` for the *enhanced* version
 
 The *base* version contains a functional SciDB DBMS with
-[Shim](https://github.com/Paradigm4/shim). The *complete* version
+[Shim](https://github.com/Paradigm4/shim). The *enhanced* version
 contains the *base* version plus the
 [dev_tools](https://github.com/Paradigm4/dev_tools/) and the
 [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)
@@ -36,7 +36,7 @@ Start *base* version in non-interactive mode:
     > docker run --tty rvernica/scidb:15.7-base
     ...
 
-Start *complete* version in interactive mode:
+Start *enhanced* version in interactive mode:
 
     > docker run --tty --interactive rvernica/scidb:15.7 bash
     ...
