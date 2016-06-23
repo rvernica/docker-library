@@ -23,5 +23,6 @@ RUN wget --no-verbose --output-document /usr/src/dev_tools.zip \
 ## Install accelerated_io_tools
 RUN service ssh start && \
     service postgresql start && \
+    cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     scidb.py startall $SCIDB_NAME && \
     iquery --afl --query "load_library('dev_tools'); install_github('paradigm4/accelerated_io_tools', '$SCIDB_DEV_TOOLS', 'https_proxy=$https_proxy')"
