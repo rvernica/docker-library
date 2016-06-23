@@ -3,6 +3,11 @@ FROM debian:8
 ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
+ENV SCIDB_VER=15.7 \
+    SCIDB_SRC=scidb-15.7.0.9267 \
+    SCIDB_INSTALL_PATH=/usr/local/scidb \
+    SCIDB_BUILD_TYPE=Release
+
 
 ## Install dependencies
 RUN apt-get update && apt-get install --assume-yes \
@@ -49,12 +54,6 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
     dpkg --install \
          libpqxx-3.1_3.1-1.1_amd64.deb libpqxx3-dev_3.1-1.1_amd64.deb && \
     rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
-
-
-ENV SCIDB_VER=15.7 \
-    SCIDB_SRC=scidb-15.7.0.9267 \
-    SCIDB_INSTALL_PATH=/usr/local/scidb \
-    SCIDB_BUILD_TYPE=Release
 
 
 ## Install Paradigm4 packages
