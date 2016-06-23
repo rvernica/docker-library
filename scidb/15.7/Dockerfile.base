@@ -33,12 +33,12 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
 COPY run.py.oscheck_datapath.patch /usr/src/${SCIDB_SRC}/
 RUN service ssh start && \
     service postgresql start && \
+    cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     cd /usr/src/${SCIDB_SRC} && \
     patch --strip=0 < run.py.oscheck_datapath.patch && \
     ./run.py install --force && \
     sed --in-place s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
       $SCIDB_INSTALL_PATH/share/scidb/log1.properties
-# cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass
 
 
 ## Install Shim
