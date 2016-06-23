@@ -33,6 +33,7 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
 COPY run.py.oscheck_datapath.patch /usr/src/${SCIDB_SRC}/
 RUN service ssh start && \
     service postgresql start && \
+    cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     cd /usr/src/${SCIDB_SRC} && \
     patch --strip=0 < run.py.oscheck_datapath.patch && \
     ./run.py install --force && \
