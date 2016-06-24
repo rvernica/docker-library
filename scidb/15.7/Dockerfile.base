@@ -23,17 +23,13 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
 # sed --in-place 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
 
 
-## Setup PostgreSQL
+## Setup SciDB
+COPY patch/run.py.oscheck_datapath.patch /usr/src/${SCIDB_SRC}/
 RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
-    chmod go-r /root/.pgpass
-
-
-## Setup SciDB
-COPY run.py.oscheck_datapath.patch /usr/src/${SCIDB_SRC}/
-RUN service ssh start && \
+    chmod go-r /root/.pgpass && \
+    service ssh start && \
     service postgresql start && \
-    cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     cd /usr/src/${SCIDB_SRC} && \
     patch --strip=0 < run.py.oscheck_datapath.patch && \
     ./run.py install --force && \
