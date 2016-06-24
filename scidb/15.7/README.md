@@ -48,9 +48,9 @@ The image exposes the following ports:
 
 | Port | Application | Usage |
 | --- | --- | --- |
-| 1239 | SciDB      | `iquery`                |
-| 8080 | SciDB Shim | http://localhost:8080)  |
-| 8083 | SciDB Shim | https://localhost:8080) |
+| 1239 | SciDB      | `iquery`               |
+| 8080 | SciDB Shim | http://localhost:8080  |
+| 8083 | SciDB Shim | https://localhost:8080 |
 
 The SciDB source code is downloaded and compiled when the image is built. The image is built automatically on [Docker Hub](https://hub.docker.com/). Docker Hub has a two-hour time limit for image builds. Because compiling SciDB on Docker Hub exceeds the time limit, there is a third image version, [*pre*](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pre). The *pre* image installs the requirements and compiles some of the SciDB libraries. This image is partial and not intended to be used by the end user. The *base* image continues from where *pre* left off.
 
