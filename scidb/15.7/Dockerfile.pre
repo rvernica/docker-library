@@ -1,4 +1,4 @@
-FROM debian:8
+FROM ubuntu:14.04
 
 ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
@@ -65,7 +65,8 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
     apt-get install -y \
             scidb-${SCIDB_VER}-cityhash \
             scidb-${SCIDB_VER}-libboost1.54-all-dev \
-            scidb-${SCIDB_VER}-libcsv && \
+            scidb-${SCIDB_VER}-libcsv \
+            scidb-${SCIDB_VER}-mpich2 && \
     rm -rf /var/lib/apt/lists/*
 
 
