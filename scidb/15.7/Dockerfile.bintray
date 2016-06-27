@@ -10,6 +10,7 @@ ENV SCIDB_VER=15.7 \
 
 ## Install SciDB packages
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
+            ca-certificates \
             wget && \
     wget --no-verbose --output-document - https://downloads.paradigm4.com/key | \
          apt-key add - && \
