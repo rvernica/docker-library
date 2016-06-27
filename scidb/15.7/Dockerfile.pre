@@ -90,7 +90,7 @@ RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
 ## Partially compile SciDB (first few libs only)
 RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
     env PATH=$PATH:/opt/scidb/15.7/3rdparty/mpich2/bin \
-        ./run.py setup --force
+        ./run.py setup --force && \
     cd stage/build && make -j2 \
         json_lib \
         MurmurHash_lib \
