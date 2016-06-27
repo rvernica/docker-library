@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
          apt-transport-https \
          ca-certificates \
          pkg-config \
-         wget
+         wget \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -26,7 +26,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
     apt-get source --build libpqxx3 && \
     dpkg --install \
         libpqxx-3.1_3.1-1.1_amd64.deb \
-        libpqxx3-dev_3.1-1.1_amd64.deb
+        libpqxx3-dev_3.1-1.1_amd64.deb \
     && rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
 
 
