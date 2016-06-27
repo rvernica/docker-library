@@ -26,12 +26,13 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         libprotobuf-dev \
         libreadline6-dev \
         openssh-server \
-        pkg-config sudo \
+        pkg-config \
         postgresql \
         postgresql-contrib \
         protobuf-compiler \
         python \
         python-paramiko \
+        sudo \
         unzip \
         wget \
    && rm -rf /var/lib/apt/lists/*
@@ -54,8 +55,9 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
     mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
     apt-get source --build libpqxx3 && \
     dpkg --install \
-        libpqxx-3.1_3.1-1.1_amd64.deb libpqxx3-dev_3.1-1.1_amd64.deb && \
-    rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
+        libpqxx-3.1_3.1-1.1_amd64.deb \
+        libpqxx3-dev_3.1-1.1_amd64.deb \
+    && rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
 
 
 ## Install Paradigm4 packages
@@ -68,8 +70,9 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
         scidb-$SCIDB_VER-cityhash \
         scidb-$SCIDB_VER-libboost1.54-all-dev \
         scidb-$SCIDB_VER-libcsv \
-        scidb-$SCIDB_VER-mpich2 && \
-    rm -rf /var/lib/apt/lists/*
+        scidb-$SCIDB_VER-libmpich2-dev \
+        scidb-$SCIDB_VER-mpich2 \
+    && rm -rf /var/lib/apt/lists/*
 
 
 ## Get SciDB source code
@@ -86,7 +89,8 @@ RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
 
 ## Partially compile SciDB (first few libs only)
 RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
-    ./run.py setup --force && \
+    env PATH=$PATH:/opt/scidb/15.7/3rdparty/mpich2/bin \
+        ./run.py setup --force
     cd stage/build && make -j2 \
         json_lib \
         MurmurHash_lib \
