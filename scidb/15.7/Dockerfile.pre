@@ -81,7 +81,7 @@ RUN wget --no-verbose --output-document - \
 ## Apply Debian 8 patches
 COPY patch /usr/src/$SCIDB_SOURCE_PATH-patch/
 RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
-    patch --strip=1 < ../$SCIDB_SOURCE_PATH-patch/*
+    cat ../$SCIDB_SOURCE_PATH-patch/* | patch --strip=1
 
 
 ## Partially compile SciDB (first few libs only)
