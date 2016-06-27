@@ -1,0 +1,11 @@
+--- a/src/mpi/CMakeLists.txt
++++ b/src/mpi/CMakeLists.txt
+@@ -37,7 +37,7 @@ if (USE_LOCAL_MPI)
+    set(LOCAL_MPI_PATH "UNDEFINED_FOR_THIS_PLATFORM")
+    set(MPICH2_SUFFIX "")
+ 
+-   if(${DISTRO_NAME_VER} MATCHES "Ubuntu")
++   if(${DISTRO_NAME_VER} MATCHES "Ubuntu" OR ${DISTRO_NAME_VER} MATCHES "Debian")
+        set(LOCAL_MPI_PATH "/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2")
+        set(MPI_INCLUDE "-I ${LOCAL_MPI_PATH}/include/mpich2")
+        set(MPICH2_SUFFIX ".mpich2")

@@ -1,0 +1,11 @@
+--- a/src/dense_linear_algebra/CMakeLists.txt
++++ b/src/dense_linear_algebra/CMakeLists.txt
+@@ -28,7 +28,7 @@ message(STATUS "*****BEGIN dense_linear_algebra/CMakeLists.txt *****************
+ # here.  To protect us from constant re-writing of includes, we will
+ # add to the default include paths
+ #
+-if(${DISTRO_NAME_VER} MATCHES "Ubuntu")
++if(${DISTRO_NAME_VER} MATCHES "Ubuntu" OR ${DISTRO_NAME_VER} MATCHES "Debian")
+   include_directories("${CMAKE_SOURCE_DIR}/src/mpi")
+ endif()
+ include_directories("${CMAKE_SOURCE_DIR}/src/dense_linear_algebra")  # include our own root
