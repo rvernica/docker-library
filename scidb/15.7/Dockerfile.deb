@@ -1,0 +1,20 @@
+FROM rvernica/scidb:15.7-base
+
+
+## Install dependencies
+RUN apt-get update && apt-get install --assume-yes \
+        docbook-xsl \
+        doxygen \
+        fakeroot \
+        fop \
+        git \
+        libpam-dev \
+        libscalapack-openmpi1
+        subversion \
+        swig2.0 \
+        xsltproc \
+    && rm -rf /var/lib/apt/lists/*
+
+
+## Build .deb packages
+RUN /usr/src/$SCIDB_SOURCE_PATH/run.py make_packages --force

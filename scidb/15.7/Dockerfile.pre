@@ -64,6 +64,7 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
          /etc/apt/sources.list.d/scidb.list && \
     apt-get update && \
     apt-get install -y \
+            scidb-$SCIDB_VER-ant \
             scidb-$SCIDB_VER-cityhash \
             scidb-$SCIDB_VER-libboost1.54-all-dev \
             scidb-$SCIDB_VER-libcsv \
