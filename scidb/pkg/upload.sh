@@ -17,15 +17,15 @@ for name in $names
 do
     echo Package $name
 
-    echo 1. Create
+    echo "1. Create"
     env NAME=$name envsubst < create.json.tmpl | \
         curl --request POST --user $USERNAME:$APIKEY \
              --header "Content-Type: application/json" \
              --data @- \
              "https://api.bintray.com/packages/$USERNAME/deb"
 
-    echo; echo 2. Upload (Override) & Publish
-    curl --verbose --request PUT --user $USERNAME:$APIKEY \
+    echo; echo "2. Upload (Override) & Publish"
+    curl --request PUT --user $USERNAME:$APIKEY \
          --header "X-GPG-PASSPHRASE: $PASSPHRASE" \
          --header "X-Bintray-Debian-Distribution: jessie" \
          --header "X-Bintray-Debian-Component: main" \
