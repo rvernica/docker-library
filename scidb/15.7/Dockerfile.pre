@@ -4,10 +4,11 @@ ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SCIDB_VER=15.7 \
-    SCIDB_SOURCE_PATH=scidb-15.7.0.9267 \
     SCIDB_BUILD_TYPE=Release
 
-ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
+ENV SCIDB_SOURCE_PATH=/usr/bin/scidb-$SCIDB_VER.0.9267 \
+    SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
+
 
 
 ## Install dependencies
@@ -82,13 +83,13 @@ RUN wget --no-verbose --output-document - \
 
 
 ## Apply Debian 8 patches
-COPY patch /usr/src/$SCIDB_SOURCE_PATH-patch/
-RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
-    cat ../$SCIDB_SOURCE_PATH-patch/* | patch --strip=1
+COPY patch $SCIDB_SOURCE_PATH-patch/
+RUN cd $SCIDB_SOURCE_PATH && \
+    cat $SCIDB_SOURCE_PATH-patch/* | patch --strip=1
 
 
 ## Partially compile SciDB (first few libs only)
-RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
+RUN cd $SCIDB_SOURCE_PATH && \
     env PATH=$PATH:/opt/scidb/15.7/3rdparty/mpich2/bin \
         ./run.py setup --force && \
     cd stage/build && make -j2 \
@@ -107,4 +108,4 @@ RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
         usr_namespace_lib \
         io_lib \
         network_lib
-    # /usr/src/$SCIDB_SOURCE_PATH/run.py make -j2
+    # $SCIDB_SOURCE_PATH/run.py make -j2
