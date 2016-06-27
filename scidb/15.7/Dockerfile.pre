@@ -11,7 +11,7 @@ ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
 
 
 ## Install dependencies
-RUN apt-get update && apt-get install --assume-yes \
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https \
         bison \
         cmake \
@@ -39,36 +39,35 @@ RUN apt-get update && apt-get install --assume-yes \
 ## Install openjdk-8-jdk from jessie-backports
 ## Install dependencies requiring default-jre-headless
 RUN echo "deb http://http.debian.net/debian jessie-backports main" > \
-         /etc/apt/sources.list.d/jessie-backports.list && \
-    apt-get update && \
-    apt-get install -y openjdk-8-jdk ant ant-contrib junit libprotobuf-java && \
+        /etc/apt/sources.list.d/jessie-backports.list && \
+    apt-get update && apt-get install --assume-yes --no-install-recommends \
+        openjdk-8-jdk ant ant-contrib junit libprotobuf-java && \
     rm -rf /var/lib/apt/lists/*
 
 
 ## Build and install libpqxx3 from wheezy
 RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
-         /etc/apt/sources.list.d/wheezy.list && \
+        /etc/apt/sources.list.d/wheezy.list && \
     apt-get update && \
-    apt-get build-dep -y libpqxx3 && \
+    apt-get build-dep --assume-yes --no-install-recommends libpqxx3 && \
     mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
-    apt-get --build source libpqxx3 && \
+    apt-get source --build libpqxx3 && \
     dpkg --install \
-         libpqxx-3.1_3.1-1.1_amd64.deb libpqxx3-dev_3.1-1.1_amd64.deb && \
+        libpqxx-3.1_3.1-1.1_amd64.deb libpqxx3-dev_3.1-1.1_amd64.deb && \
     rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
 
 
 ## Install Paradigm4 packages
 RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | \
-         apt-key add - && \
+        apt-key add - && \
     echo "deb https://downloads.paradigm4.com/ ubuntu14.04/3rdparty/" > \
-         /etc/apt/sources.list.d/scidb.list && \
-    apt-get update && \
-    apt-get install -y \
-            scidb-$SCIDB_VER-ant \
-            scidb-$SCIDB_VER-cityhash \
-            scidb-$SCIDB_VER-libboost1.54-all-dev \
-            scidb-$SCIDB_VER-libcsv \
-            scidb-$SCIDB_VER-mpich2 && \
+        /etc/apt/sources.list.d/scidb.list && \
+    apt-get update && apt-get install --assume-yes --no-install-recommends \
+        scidb-$SCIDB_VER-ant \
+        scidb-$SCIDB_VER-cityhash \
+        scidb-$SCIDB_VER-libboost1.54-all-dev \
+        scidb-$SCIDB_VER-libcsv \
+        scidb-$SCIDB_VER-mpich2 && \
     rm -rf /var/lib/apt/lists/*
 
 
@@ -88,19 +87,19 @@ RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
 RUN cd /usr/src/$SCIDB_SOURCE_PATH && \
     ./run.py setup --force && \
     cd stage/build && make -j2 \
-         json_lib \
-         MurmurHash_lib \
-         util_lib \
-         scidb_msg_lib \
-         genmeta \
-         catalog_lib \
-         array_lib \
-         system_lib \
-         compression_lib \
-         ops_lib \
-         scalar_proc_lib \
-         qproc_lib \
-         usr_namespace_lib \
-         io_lib \
-         network_lib
+        json_lib \
+        MurmurHash_lib \
+        util_lib \
+        scidb_msg_lib \
+        genmeta \
+        catalog_lib \
+        array_lib \
+        system_lib \
+        compression_lib \
+        ops_lib \
+        scalar_proc_lib \
+        qproc_lib \
+        usr_namespace_lib \
+        io_lib \
+        network_lib
     # /usr/src/$SCIDB_SOURCE_PATH/run.py make -j2

@@ -35,12 +35,9 @@ RUN echo "127.0.0.1:5432:$SCIDB_DB_NAME:$SCIDB_DB_NAME:`date +%s | sha256sum | b
 
 
 ## Install Shim
-RUN mkdir -p /opt/scidb/$SCIDB_VER/bin && \
-    touch /opt/scidb/$SCIDB_VER/bin/shim && \
-    ln -s /opt/scidb/$SCIDB_VER/bin/shim /usr/local/scidb/bin/shim && \
-    wget --no-verbose \
-         --output-document /usr/src/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb \
-         http://paradigm4.github.io/shim/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb && \
+RUN wget --no-verbose \
+        --output-document /usr/src/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb \
+        http://paradigm4.github.io/shim/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb && \
     dpkg --install /usr/src/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb
 
 

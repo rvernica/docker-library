@@ -2,7 +2,7 @@ FROM rvernica/scidb:15.7-base
 
 
 ## Install dependencies
-RUN apt-get update && apt-get install --assume-yes \
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         bc \
         libboost1.55-dev \
     && rm -rf /var/lib/apt/lists/*
