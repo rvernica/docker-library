@@ -8,8 +8,8 @@ ENV SCIDB_VER=15.12 \
     SCIDB_BUILD_TYPE=Release
 
 ENV SCIDB_SOURCE_PATH=/usr/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
-    SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
-
+    SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
+    PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
 ## Install dependencies
@@ -27,7 +27,9 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         liblog4cxx10-dev \
         libprotobuf-dev \
         libreadline6-dev \
+        make \
         openssh-server \
+        patch \
         pkg-config \
         postgresql \
         postgresql-contrib \
@@ -56,14 +58,45 @@ RUN echo "deb http://http.debian.net/debian jessie-backports main" > \
 ## Build and install libpqxx3 from wheezy
 RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         /etc/apt/sources.list.d/wheezy.list && \
-    apt-get update && \
-    apt-get build-dep --assume-yes --no-install-recommends libpqxx3 && \
-    mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
-    apt-get source --build libpqxx3 && \
-    dpkg --install \
+    apt-get update && apt-get build-dep --assume-yes --no-install-recommends \
+        libpqxx3 \
+    && mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
+    apt-get source --build \
+        libpqxx3 \
+    && apt-get purge --assume-yes \
+        autotools-dev \
+        bsdmainutils \
+        build-essential \
+        bzip2 \
+        chrpath \
+        debhelper \
+        dpkg-dev \
+        file \
+        gettext \
+        gettext-base \
+        groff-base \
+        intltool-debian \
+        libasprintf0c2 \
+        libcroco3 \
+        libdpkg-perl \
+        libgdbm3 \
+        libmagic1 \
+        libpipeline1 \
+        libtimedate-perl \
+        libtool \
+        libunistring0 \
+        man-db \
+        perl \
+        perl-modules \
+        po-debconf \
+        xz-utils \
+    && dpkg --install \
         libpqxx-3.1_3.1-1.1_amd64.deb \
         libpqxx3-dev_3.1-1.1_amd64.deb \
-    && rm -rf /etc/apt/sources.list.d/wheezy.list /var/lib/apt/lists/*
+    && rm -rf \
+        /etc/apt/sources.list.d/wheezy.list \
+        /usr/src/libpqxx3 \
+        /var/lib/apt/lists/*
 
 
 ## Install Paradigm4 packages
