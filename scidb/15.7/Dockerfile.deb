@@ -28,4 +28,4 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
 
 
 ## Build .deb packages
-RUN /usr/src/$SCIDB_SOURCE_PATH/run.py make_packages --force
+RUN $SCIDB_SOURCE_PATH/run.py make_packages --force
