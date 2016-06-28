@@ -18,7 +18,7 @@ RUN wget --no-verbose --output-document /usr/src/dev_tools.zip \
     export SCIDB_DEV_TOOLS_DIR=dev_tools-`echo $SCIDB_DEV_TOOLS | \
         sed s/^v//` && \
     make --directory=/usr/src/$SCIDB_DEV_TOOLS_DIR && \
-    cp /usr/src/$SCIDB_DEV_TOOLS_DIR/*.so /usr/local/scidb/lib/scidb/plugins
+    cp /usr/src/$SCIDB_DEV_TOOLS_DIR/*.so $SCIDB_INSTALL_PATH/lib/scidb/plugins
 
 
 ## Install accelerated_io_tools
