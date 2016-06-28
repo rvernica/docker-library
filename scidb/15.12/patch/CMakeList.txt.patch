@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -117,7 +117,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pedantic -W -Wextra -Wall -W
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-system-headers -isystem /opt/local/include/ -isystem /usr/local/include/")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__STDC_LIMIT_MACROS")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_ROOT=\\\"${CMAKE_SOURCE_DIR}/\\\"")
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wconversion -Werror")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wconversion -Wno-unused-variable -Wno-maybe-uninitialized -Werror")
+ 
+ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-DNDEBUG -O3 -fno-omit-frame-pointer -g -ggdb3 -Wno-error")
+ set(CMAKE_CXX_FLAGS_PROFILE "-O2 -pg -DNDEBUG")
