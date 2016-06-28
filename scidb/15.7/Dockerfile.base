@@ -6,11 +6,11 @@ RUN $SCIDB_SOURCE_PATH/run.py make -j2
 
 
 ARG SCIDB_INSTANCE_NUM=2
-ARG SCIDB_DB_NAME=scidb
+ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
 
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
-    SCIDB_DB_NAME=$SCIDB_DB_NAME \
+    SCIDB_NAME=$SCIDB_NAME \
     PATH=$PATH:/usr/local/scidb/bin
 
 
@@ -24,7 +24,7 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
 
 
 ## Setup SciDB
-RUN echo "127.0.0.1:5432:$SCIDB_DB_NAME:$SCIDB_DB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
+RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
     chmod go-r /root/.pgpass && \
     service ssh start && \
