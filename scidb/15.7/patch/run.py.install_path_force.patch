@@ -5,7 +5,7 @@
      os.chdir(scidbEnv.build_path)
  
 -    if not scidbEnv.args.light:
-+    if not scidbEnv.args.light and not scidbEnv.args.force:
++    if not scidbEnv.args.light and scidbEnv.args.force:
          rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
  
      mkdir_p(scidbEnv.install_path)
