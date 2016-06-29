@@ -1,7 +1,7 @@
-FROM rvernica/scidb:15.7-pre
+FROM rvernica/scidb:15.12-pre
 
 
-## Compile SciDB (leftover)
+## Compile SciDB (leftover, excluding tests)
 RUN $SCIDB_SOURCE_PATH/run.py make -j2
 
 
@@ -12,7 +12,7 @@ ARG SCIDB_LOG_LEVEL=WARN
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
     SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
-    SCIDB_SHIM=ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb
+    SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
 
 
 ## Setup SSH
@@ -30,7 +30,7 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
     chmod go-r /root/.pgpass && \
     service ssh start && \
     service postgresql start && \
-    echo n | $SCIDB_SOURCE_PATH/run.py install && \
+    $SCIDB_SOURCE_PATH/run.py install && \
     sed --in-place \
         s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties

@@ -1,0 +1,11 @@
+--- a/run.py
++++ b/run.py
+@@ -661,7 +661,7 @@ def install(scidbEnv):
+     os.chdir(scidbEnv.build_path)
+ 
+     if not scidbEnv.args.light:
+-        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
++        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force, throw=False)
+ 
+     mkdir_p(scidbEnv.install_path)
+ 
