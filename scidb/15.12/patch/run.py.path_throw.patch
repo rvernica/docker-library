@@ -1,14 +1,14 @@
 --- a/run.py
 +++ b/run.py
-@@ -662,7 +662,7 @@ def install(scidbEnv):
+@@ -661,7 +661,7 @@ def install(scidbEnv):
+     curr_dir=os.getcwd()
      os.chdir(scidbEnv.build_path)
  
-     if not scidbEnv.args.light:
--        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
-+        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force, throw=False)
+-    if not scidbEnv.args.light:
++    if not scidbEnv.args.light and scidbEnv.args.force:
+         rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
  
      mkdir_p(scidbEnv.install_path)
- 
 @@ -682,7 +682,7 @@ def install(scidbEnv):
          ret = executeIt(cmdList)
          data_path = getDataPath(configFile, db_name)
