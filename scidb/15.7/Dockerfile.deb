@@ -4,10 +4,14 @@ FROM rvernica/scidb:15.7-base
 ## Install dependencies
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         ant-optional \
+        build-essential \
+        debhelper \
         docbook-xsl \
         doxygen \
+        dpkg-dev \
         fop \
         git \
+        libblacs-openmpi1 \
         libpam-dev \
         subversion \
         swig2.0 \
@@ -26,10 +30,28 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
     && apt-get purge --assume-yes \
         blacs-pvm-dev \
         blacs1-pvm \
+        bsdmainutils \
+        bzip2 \
+        file \
+        gettext \
+        gettext-base \
+        groff-base \
+        intltool-debian \
+        libasprintf0c2 \
         libblacs-mpi-dev \
+        libcroco3 \
+        libdpkg-perl \
+        libmagic1 \
+        libpipeline1 \
         libpvm3 \
         libreadline-dev \
-        pvm pvm-dev \
+        libtimedate-perl \
+        libunistring0 \
+        man-db \
+        po-debconf \
+        pvm \
+        pvm-dev \
+        xz-utils \
     && dpkg --install \
         libscalapack-mpi1_1.8.0-9_amd64.deb \
     && rm -rf \
