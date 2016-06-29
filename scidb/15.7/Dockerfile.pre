@@ -4,12 +4,13 @@ ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SCIDB_VER=15.7 \
-    SCIDB_VER_MINOR=0.9267 \
-    SCIDB_BUILD_TYPE=Release
+    SCIDB_VER_MINOR=0.9267
 
 ENV SCIDB_SOURCE_PATH=/usr/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
     SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
-    PATH=$PATH:$SCIDB_INSTALL_PATH/bin
+    SCIDB_BUILD_TYPE=Release
+
+ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
 ## Install dependencies
@@ -117,7 +118,7 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
 ## Get SciDB source code
 RUN wget --no-verbose --output-document - \
         http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
-        tar xzf - -C /usr/src
+        tar --extract --gzip --directory=/usr/src
 
 
 ## Apply Debian 8 patches
