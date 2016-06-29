@@ -8,17 +8,19 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 
-ENV SCIDB_DEV_TOOLS=v15.7
+ENV SCIDB_DEV_TOOLS=d59838b5d99d63791a68d8db45dc140b85531368
+ENV SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
+ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
 ## Install dev_tools
-RUN wget --no-verbose --output-document /usr/src/dev_tools.zip \
-        https://codeload.github.com/Paradigm4/dev_tools/zip/$SCIDB_DEV_TOOLS && \
-    unzip /usr/src/dev_tools.zip -d /usr/src && \
-    export SCIDB_DEV_TOOLS_DIR=dev_tools-`echo $SCIDB_DEV_TOOLS | \
-        sed s/^v//` && \
-    make --directory=/usr/src/$SCIDB_DEV_TOOLS_DIR && \
-    cp /usr/src/$SCIDB_DEV_TOOLS_DIR/*.so $SCIDB_INSTALL_PATH/lib/scidb/plugins
+RUN wget --no-verbose --output-document - \
+        https://github.com/rvernica/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz | \
+        tar --extract --gzip --directory=/usr/src && \
+    make --directory=/usr/src/dev_tools-$SCIDB_DEV_TOOLS && \
+    cp /usr/src/dev_tools-$SCIDB_DEV_TOOLS/*.so \
+        $SCIDB_INSTALL_PATH/lib/scidb/plugins && \
+    rm -rf /usr/src/dev_tools-$SCIDB_DEV_TOOLS
 
 
 ## Install accelerated_io_tools
@@ -28,4 +30,8 @@ RUN cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     service postgresql start && \
     scidb.py startall $SCIDB_NAME && \
     iquery --afl --query \
-        "load_library('dev_tools'); install_github('paradigm4/accelerated_io_tools', '$SCIDB_DEV_TOOLS', 'https_proxy=$https_proxy')"
+        "load_library('dev_tools'); \
+         install_github( \
+             'paradigm4/accelerated_io_tools', \
+             '$SCIDB_ACCELERATED_IO_TOOLS', \
+             'https_proxy=$https_proxy')"
