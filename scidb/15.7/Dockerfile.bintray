@@ -7,6 +7,8 @@ ARG SCIDB_DB_NAME=scidb
 ENV SCIDB_VER=15.7 \
     SCIDB_DB_NAME=$SCIDB_DB_NAME
 
+ENV PATH=$PATH:/opt/scidb/$SCIDB_VER/bin
+
 
 ## Install initial dependencies
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
