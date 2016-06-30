@@ -78,7 +78,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         /var/lib/apt/lists/*
 
 
-## Install SciDB packages
+## Add Paradigm4 and Bintray repositories and install SciDB packages
 RUN wget --no-verbose --output-document - \
         https://downloads.paradigm4.com/key | \
         apt-key add - && \

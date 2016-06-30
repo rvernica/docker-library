@@ -30,28 +30,11 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
     && apt-get purge --assume-yes \
         blacs-pvm-dev \
         blacs1-pvm \
-        bsdmainutils \
-        bzip2 \
-        file \
-        gettext \
-        gettext-base \
-        groff-base \
-        intltool-debian \
-        libasprintf0c2 \
         libblacs-mpi-dev \
-        libcroco3 \
-        libdpkg-perl \
-        libmagic1 \
-        libpipeline1 \
         libpvm3 \
         libreadline-dev \
-        libtimedate-perl \
-        libunistring0 \
-        man-db \
-        po-debconf \
         pvm \
         pvm-dev \
-        xz-utils \
     && dpkg --install \
         libscalapack-mpi1_1.8.0-9_amd64.deb \
     && rm -rf \
