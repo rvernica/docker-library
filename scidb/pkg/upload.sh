@@ -4,6 +4,7 @@ USERNAME=rvernica
 # APIKEY=
 # PASSPHRASE=
 
+version="0-9267"
 names="\
 scidb-15.7 \
 scidb-15.7-all-coord \
@@ -11,6 +12,9 @@ scidb-15.7-client \
 scidb-15.7-client-python \
 scidb-15.7-plugins \
 scidb-15.7-utils"
+
+# version="15.12"
+# names="shim"
 
 
 for name in $names
@@ -30,7 +34,7 @@ do
          --header "X-Bintray-Debian-Distribution: jessie" \
          --header "X-Bintray-Debian-Component: main" \
          --header "X-Bintray-Debian-Architecture: amd64" \
-         --upload-file deb/${name}_0-9267_amd64.deb \
-         "https://api.bintray.com/content/$USERNAME/deb/${name}/0-9267/${name}_0-9267_amd64.deb?publish=1&override=1"
+         --upload-file deb/${name}_${version}_amd64.deb \
+         "https://api.bintray.com/content/$USERNAME/deb/$name/$version/${name}_${version}_amd64.deb?publish=1&override=1"
     echo; echo
 done
