@@ -1,37 +1,54 @@
-FROM rvernica/scidb:15.7-base
+FROM rvernica/scidb:15.7-pre
 
 
-## Install dependencies
-RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
-        bc \
-        libboost1.55-dev \
-    && rm -rf /var/lib/apt/lists/*
+## Compile SciDB (leftover)
+RUN $SCIDB_SOURCE_PATH/run.py make -j2
 
 
-ENV SCIDB_DEV_TOOLS=d59838b5d99d63791a68d8db45dc140b85531368
-ENV SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
-ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
+ARG SCIDB_INSTANCE_NUM=2
+ARG SCIDB_NAME=scidb
+ARG SCIDB_LOG_LEVEL=WARN
+
+ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
+    SCIDB_NAME=$SCIDB_NAME \
+    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
+    SCIDB_SHIM=ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb
 
 
-## Install dev_tools
-RUN wget --no-verbose --output-document - \
-        https://github.com/rvernica/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz | \
-        tar --extract --gzip --directory=/usr/src && \
-    make --directory=/usr/src/dev_tools-$SCIDB_DEV_TOOLS && \
-    cp /usr/src/dev_tools-$SCIDB_DEV_TOOLS/*.so \
-        $SCIDB_INSTALL_PATH/lib/scidb/plugins && \
-    rm -rf /usr/src/dev_tools-$SCIDB_DEV_TOOLS
+## Setup SSH
+RUN sed --in-place \
+        's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' \
+        /etc/pam.d/sshd && \
+    echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
+    ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
+    cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
-## Install accelerated_io_tools
-## Re-create ".pgpass" file due to hard links created by Docker Hub
-RUN cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
+## Setup SciDB
+RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
+        > /root/.pgpass && \
+    chmod go-r /root/.pgpass && \
     service ssh start && \
     service postgresql start && \
-    scidb.py startall $SCIDB_NAME && \
-    iquery --afl --query \
-        "load_library('dev_tools'); \
-         install_github( \
-             'paradigm4/accelerated_io_tools', \
-             '$SCIDB_ACCELERATED_IO_TOOLS', \
-             'https_proxy=$https_proxy')"
+    echo n | $SCIDB_SOURCE_PATH/run.py install && \
+    sed --in-place \
+        s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
+        $SCIDB_INSTALL_PATH/share/scidb/log1.properties
+
+
+## Install Shim
+RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+        http://paradigm4.github.io/shim/$SCIDB_SHIM && \
+    dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
+
+
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+## Port | App
+## -----+-----
+## 1239 | SciDB iquery
+## 8080 | SciDB Shim (HTTP)
+## 8083 | SciDB Shim (HTTPS)
+EXPOSE 1239 8080 8083
