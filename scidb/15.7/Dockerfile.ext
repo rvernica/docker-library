@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
 
 ENV SCIDB_DEV_TOOLS=d59838b5d99d63791a68d8db45dc140b85531368
 ENV SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
-ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
 ## Install dev_tools
