@@ -119,7 +119,9 @@ Once the SciDB `.deb` packages generated in the `scidb:15.7-pkg` image are uploa
 1. Add [Paradigm 4](https://downloads.paradigm4.com/) (Ubuntu `14.04`) and [rvernica/deb](https://bintray.com/rvernica/deb) Bintray repositories;
 1. Install SciDB `.deb` packages;
 1. Setup password-less SSH;
+1. Setup `config.ini` for SciDB;
 1. Setup PostgreSQL credentials;
+1. Initialize SciDB (`init-syscat` and `init-all`);
 1. Install Shim;
 1. Add and setup `ENTRYPOINT` script;
 1. Expose SciDB (`1239`) and Shim (`8080` and `8083`) ports;
