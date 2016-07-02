@@ -127,7 +127,7 @@ RUN cd $SCIDB_SOURCE_PATH && \
     cat $SCIDB_SOURCE_PATH-patch/* | patch --strip=1
 
 
-## Partially compile SciDB (first few libs only)
+## Build SciDB libraries (first few libs only)
 RUN cd $SCIDB_SOURCE_PATH && \
     env PATH=$PATH:/opt/scidb/$SCIDB_VER/3rdparty/mpich2/bin \
         ./run.py setup --force && \

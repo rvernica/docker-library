@@ -1,4 +1,4 @@
-FROM rvernica/scidb:15.7-base
+FROM rvernica/scidb:15.7
 
 
 ## Install dependencies

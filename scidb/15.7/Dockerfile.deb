@@ -10,7 +10,7 @@ ENV SCIDB_VER=15.7 \
 ENV PATH=$PATH:/opt/scidb/$SCIDB_VER/bin
 
 
-## Install initial dependencies
+## Install dependencies
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https \
         ca-certificates \
@@ -23,11 +23,39 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
 ## Build and install libpqxx3 from wheezy
 RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         /etc/apt/sources.list.d/wheezy.list && \
-    apt-get update && \
-    apt-get build-dep --assume-yes --no-install-recommends libpqxx3 && \
-    mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
-    apt-get source --build libpqxx3 && \
-    dpkg --install \
+    apt-get update && apt-get build-dep --assume-yes --no-install-recommends \
+        libpqxx3 \
+    && mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
+    apt-get source --build \
+        libpqxx3 \
+    && apt-get purge --assume-yes \
+        autotools-dev \
+        bsdmainutils \
+        build-essential \
+        bzip2 \
+        chrpath \
+        debhelper \
+        dpkg-dev \
+        file \
+        gettext \
+        gettext-base \
+        groff-base \
+        intltool-debian \
+        libasprintf0c2 \
+        libcroco3 \
+        libdpkg-perl \
+        libgdbm3 \
+        libmagic1 \
+        libpipeline1 \
+        libtimedate-perl \
+        libtool \
+        libunistring0 \
+        man-db \
+        perl \
+        perl-modules \
+        po-debconf \
+        xz-utils \
+    && dpkg --install \
         libpqxx-3.1_3.1-1.1_amd64.deb \
         libpqxx3-dev_3.1-1.1_amd64.deb \
     && rm -rf \
@@ -103,7 +131,7 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
-## Setup SciDB
+## Setup PostgreSQL and SciDB
 RUN echo "127.0.0.1:5432:$SCIDB_DB_NAME:$SCIDB_DB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
     chmod go-r /root/.pgpass
