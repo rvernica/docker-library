@@ -2,10 +2,10 @@ FROM debian:8
 
 ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
-ARG SCIDB_DB_NAME=scidb
+ARG SCIDB_NAME=scidb
 
 ENV SCIDB_VER=15.7 \
-    SCIDB_DB_NAME=$SCIDB_DB_NAME
+    SCIDB_NAME=$SCIDB_NAME
 
 ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
     PATH=$PATH:/opt/scidb/$SCIDB_VER/bin
@@ -132,10 +132,31 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
+## Setup SciDB "config.ini"
+## 1. Copy "sample_config.ini"
+## 2. Replace (case-insensitive) "SingleInstance" with $SCIDB_NAME
+## 3. Replace "localhost" with "127.0.0.1" so it matches ".pgpass"
+## 4. Remove unsupported option "tmp-path"
+RUN cp $SCIDB_INSTALL_PATH/etc/sample_config.ini \
+        $SCIDB_INSTALL_PATH/etc/config.ini && \
+    sed --in-place \
+        s/SingleInstance/$SCIDB_NAME/gI $SCIDB_INSTALL_PATH/etc/config.ini && \
+    sed --in-place \
+        s/localhost/127.0.0.1/g $SCIDB_INSTALL_PATH/etc/config.ini && \
+    sed --in-place \
+        /^tmp-path.*$/d $SCIDB_INSTALL_PATH/etc/config.ini
+
+
 ## Setup PostgreSQL and SciDB
 RUN echo "127.0.0.1:5432:$SCIDB_DB_NAME:$SCIDB_DB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
-    chmod go-r /root/.pgpass
+    chmod go-r /root/.pgpass && \
+    service ssh start && \
+    service postgresql start && \
+    su --command="$SCIDB_INSTALL_PATH/bin/scidb.py init-syscat $SCIDB_NAME \
+        --db-password `cut --delimiter : --fields 5  /root/.pgpass`" \
+        postgres && \
+    $SCIDB_INSTALL_PATH/bin/scidb.py init-all --force $SCIDB_NAME
 
 
 ## Install Shim
@@ -152,7 +173,6 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 ## Port | App
 ## -----+-----
 ## 1239 | SciDB iquery
-## 5432 | PostgreSQL (localhost ONLY)
 ## 8080 | SciDB Shim (HTTP)
 ## 8083 | SciDB Shim (HTTPS)
 EXPOSE 1239 8080 8083
