@@ -4,5 +4,5 @@ This is a collection of [Dockerfiles](https://docs.docker.com/engine/reference/b
 
    * [Django](https://www.djangoproject.com/) Dockerfile based on Alpine: [djnago](django) - moved to official Django image [fork](https://github.com/rvernica/docker-django)
    * [Graphite Project](https://github.com/graphite-project) Dockerfile based on Alpine: [graphite](graphite) (`~140MB`)
-   * [SciDB DBMS](http://www.paradigm4.com/) Dockerfiles based on Debian: [scidb](scidb) (`~600MB-2GB`)
+   * [SciDB DBMS](http://www.paradigm4.com/) Dockerfiles based on Debian: [scidb](scidb) (`~580MB-2GB`)
    * [Vector](http://vectoross.io/) Dockerfile based on Alpine: [vectror](vector) (`~10MB`)
