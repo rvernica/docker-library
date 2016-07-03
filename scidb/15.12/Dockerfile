@@ -1,7 +1,7 @@
 FROM rvernica/scidb:15.12-pre
 
 
-## Compile SciDB (leftover, excluding tests)
+## Build SciDB (leftover)
 RUN $SCIDB_SOURCE_PATH/run.py make -j2
 
 
@@ -24,13 +24,13 @@ RUN sed --in-place \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
-## Setup SciDB
+## Setup PostgreSQL and SciDB
 RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
     chmod go-r /root/.pgpass && \
     service ssh start && \
     service postgresql start && \
-    $SCIDB_SOURCE_PATH/run.py install && \
+    echo n | $SCIDB_SOURCE_PATH/run.py install && \
     sed --in-place \
         s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
