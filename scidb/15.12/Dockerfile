@@ -11,8 +11,9 @@ ARG SCIDB_LOG_LEVEL=WARN
 
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
-    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
-    SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
+    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
+
+# ENV SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
 
 
 ## Setup SSH
@@ -37,9 +38,15 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
 
 
 ## Install Shim
-RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
-        http://paradigm4.github.io/shim/$SCIDB_SHIM && \
-    dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
+# RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+#         http://paradigm4.github.io/shim/$SCIDB_SHIM && \
+#     dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
+RUN apt-key adv \
+        --keyserver hkp://keyserver.ubuntu.com --recv 46BD98A354BA5235 && \
+    echo "deb https://dl.bintray.com/rvernica/deb jessie main" > \
+        /etc/apt/sources.list.d/bintray.list && \
+    apt-get update && apt-get install --assume-yes --no-install-recommends \
+        shim
 
 
 COPY docker-entrypoint.sh /
