@@ -1,7 +1,7 @@
 FROM rvernica/scidb:15.12-pre
 
 
-## Compile SciDB (leftover, excluding tests)
+## Build SciDB (leftover)
 RUN $SCIDB_SOURCE_PATH/run.py make -j2
 
 
@@ -11,8 +11,9 @@ ARG SCIDB_LOG_LEVEL=WARN
 
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
-    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
-    SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
+    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
+
+# ENV SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
 
 
 ## Setup SSH
@@ -24,22 +25,28 @@ RUN sed --in-place \
     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
-## Setup SciDB
+## Setup PostgreSQL and SciDB
 RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
     chmod go-r /root/.pgpass && \
     service ssh start && \
     service postgresql start && \
-    $SCIDB_SOURCE_PATH/run.py install && \
+    echo n | $SCIDB_SOURCE_PATH/run.py install && \
     sed --in-place \
         s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
 
 
 ## Install Shim
-RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
-        http://paradigm4.github.io/shim/$SCIDB_SHIM && \
-    dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
+# RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+#         http://paradigm4.github.io/shim/$SCIDB_SHIM && \
+#     dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
+RUN apt-key adv \
+        --keyserver hkp://keyserver.ubuntu.com --recv 46BD98A354BA5235 && \
+    echo "deb https://dl.bintray.com/rvernica/deb jessie main" > \
+        /etc/apt/sources.list.d/bintray.list && \
+    apt-get update && apt-get install --assume-yes --no-install-recommends \
+        shim
 
 
 COPY docker-entrypoint.sh /
