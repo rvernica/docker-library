@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -112,7 +112,7 @@ endif(NOT CMAKE_BUILD_TYPE)
+ include(LinuxDistroVersion)
+ message(STATUS "DISTRO_NAME_VER is " ${DISTRO_NAME_VER})
+ 
+-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pedantic -W -Wextra -Wall -Wno-unused-local-typedefs -Wno-strict-aliasing -Wno-long-long -Wno-unused-parameter -Wno-variadic-macros -fPIC -D__STDC_FORMAT_MACROS")
++set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pedantic -W -Wextra -Wall -Wno-unused-local-typedefs -Wno-strict-aliasing -Wno-long-long -Wno-unused-parameter -Wno-variadic-macros -Wno-unused-variable -Wno-maybe-uninitialized -fno-strict-aliasing -fPIC -D__STDC_FORMAT_MACROS")
+ 
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-system-headers -isystem /opt/local/include/ -isystem /usr/local/include/")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__STDC_LIMIT_MACROS")

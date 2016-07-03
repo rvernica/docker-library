@@ -118,7 +118,7 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
 ## Get SciDB source code
 RUN wget --no-verbose --output-document - \
         https://dl.bintray.com/rvernica/generic/scidb-$SCIDB_VER.$SCIDB_VER_MINOR.tar.gz | \
-        tar xzf - -C /usr/src
+        tar --extract --gzip --directory=/usr/src
 
 
 ## Apply Debian 8 patches
@@ -127,66 +127,24 @@ RUN cd $SCIDB_SOURCE_PATH && \
     cat $SCIDB_SOURCE_PATH-patch/* | patch --strip=1
 
 
-# ## Partially compile SciDB (first few libs only)
-# RUN cd $SCIDB_SOURCE_PATH && \
-#     env PATH=$PATH:/opt/scidb/$SCIDB_VER/3rdparty/mpich2/bin \
-#         ./run.py setup --force && \
-#     $SCIDB_SOURCE_PATH/run.py make -j2
-#     # cd stage/build && make -j2 \
-#     #     json_lib \
-#     #     MurmurHash_lib \
-#     #     util_lib \
-#     #     scidb_msg_lib \
-#     #     genmeta \
-#     #     catalog_lib \
-#     #     array_lib \
-#     #     system_lib \
-#     #     compression_lib \
-#     #     ops_lib \
-#     #     scalar_proc_lib \
-#     #     qproc_lib \
-#     #     usr_namespace_lib \
-#     #     io_lib \
-#     #     network_lib
-#     # $SCIDB_SOURCE_PATH/run.py make -j2
-
-
-# ARG SCIDB_INSTANCE_NUM=2
-# ARG SCIDB_NAME=scidb
-# ARG SCIDB_LOG_LEVEL=WARN
-
-# ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
-#     SCIDB_NAME=$SCIDB_NAME \
-#     SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
-#     SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
-
-
-# ## Setup SSH
-# RUN sed --in-place \
-#         's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' \
-#         /etc/pam.d/sshd && \
-#     echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config && \
-#     ssh-keygen -f /root/.ssh/id_rsa -q -N "" && \
-#     cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-
-
-# ## Setup SciDB
-# RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
-#         > /root/.pgpass && \
-#     chmod go-r /root/.pgpass && \
-#     service ssh start && \
-#     service postgresql start && \
-#     $SCIDB_SOURCE_PATH/run.py install && \
-#     sed --in-place \
-#         s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
-#         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
-
-
-# ## Add Binray repository and install Shim
-# RUN apt-key adv \
-#         --keyserver hkp://keyserver.ubuntu.com --recv 46BD98A354BA5235 && \
-#     echo "deb https://dl.bintray.com/rvernica/deb jessie main" > \
-#         /etc/apt/sources.list.d/bintray.list && \
-#     apt-get update && apt-get install --assume-yes --no-install-recommends \
-#         shim=$SCIDB_VER \
-#     && rm -rf /var/lib/apt/lists/*
+## Build SciDB libraries (first few libs only)
+RUN cd $SCIDB_SOURCE_PATH && \
+    env PATH=$PATH:/opt/scidb/$SCIDB_VER/3rdparty/mpich2/bin \
+        ./run.py setup --force && \
+    cd stage/build && make -j2 \
+        json_lib \
+        MurmurHash_lib \
+        util_lib \
+        scidb_msg_lib \
+        genmeta \
+        catalog_lib \
+        array_lib \
+        system_lib \
+        compression_lib \
+        ops_lib \
+        scalar_proc_lib \
+        qproc_lib \
+        usr_namespace_lib \
+        io_lib \
+        network_lib
+    # $SCIDB_SOURCE_PATH/run.py make -j2
