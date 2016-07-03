@@ -12,7 +12,7 @@ $SCIDB_INSTALL_PATH/bin/scidb.py startall $SCIDB_NAME
 
 if [ "$1" = '' ]
 then
-    tail -f $SCIDB_INSTALL_PATH/DB-$SCIDB_NAME/000/0/scidb.log
+    tail -f $SCIDB_DATA_PATH/000/0/scidb.log
 else
     exec "$@"
 fi
