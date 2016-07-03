@@ -148,7 +148,7 @@ RUN cp $SCIDB_INSTALL_PATH/etc/sample_config.ini \
 
 
 ## Setup PostgreSQL and SciDB
-RUN echo "127.0.0.1:5432:$SCIDB_DB_NAME:$SCIDB_DB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
+RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 | head -c 32`" \
         > /root/.pgpass && \
     chmod go-r /root/.pgpass && \
     service ssh start && \
