@@ -1,3 +1,3 @@
-FROM rvernica/scidb:15.7
+FROM rvernica/scidb:15.12
 
 ## latest
