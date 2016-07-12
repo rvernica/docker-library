@@ -1,18 +1,29 @@
-#!/bin/bash
+#!/bin/sh
 
 USERNAME=rvernica
 # APIKEY=
 # PASSPHRASE=
 
-version="0-9267"
-names="\
-scidb-15.7 \
-scidb-15.7-all-coord \
-scidb-15.7-client \
-scidb-15.7-client-python \
-scidb-15.7-plugins \
-scidb-15.7-utils"
 
+## 15.7
+# version="0-9267"
+# base="scidb-15.7"
+
+## 15.12
+version="1-1"
+base="paradigm4-15.12"
+
+
+names="\
+$base \
+$base-all-coord \
+$base-client \
+$base-client-python \
+$base-plugins \
+$base-utils"
+
+
+## Shim
 # version="15.12"
 # names="shim"
 
