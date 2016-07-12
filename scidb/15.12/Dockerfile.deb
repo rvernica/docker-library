@@ -122,7 +122,7 @@ RUN wget --no-verbose --output-document - \
     echo "deb https://dl.bintray.com/rvernica/deb jessie main" > \
         /etc/apt/sources.list.d/bintray.list && \
     apt-get update && apt-get install --assume-yes --no-install-recommends \
-        paradimg4-$SCIDB_VER-all-coord \
+        paradigm4-$SCIDB_VER-all-coord \
         shim \
     && rm -rf /var/lib/apt/lists/*
 
