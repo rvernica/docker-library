@@ -1,5 +1,4 @@
-SciDB
-======
+# SciDB
 
    * Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
    * Build on top of [Debian Linux](https://www.debian.org/)
@@ -7,26 +6,49 @@ SciDB
    * Latest version: `15.7` (images for `15.12` are under development)
    * Automated build: [rvernica/scidb](https://hub.docker.com/r/rvernica/scidb/)
 
-Tags
-----
 
-Five different tags are available for SciDB. Three are intended for the final user, while two are used for building. The tags intended for the final user are:
+# Tags
+
+Five different tags are available for SciDB. Three are intended for the final user, while two are used for building.
+
+
+## `15.12`
+
+The tags intended for the final user are:
 
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
-| [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | `602.1MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages (Bintray)
-| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | `1.95GB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
+| [`scidb:15.12`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile)         | `scidb:15.12-pre` | `1.972 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | `602.3MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages (Bintray)
+| [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | `2.005GB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
 
 The tags used for building are:
 
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
-| [`scidb:15.7-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pre) | `debian:8`       | | Install and build SciDB dependencies and libs, respectively
-| [`scidb:15.7-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pkg) | `scidb:15.7`     | | Build SciDB Debian packages (.deb)
+| [`scidb:15.12-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pre) | `debian:8`        | `1.612 GB` | Install and build SciDB dependencies and libs, respectively
+| [`scidb:15.12-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pkg) | `scidb:15.12`     | `2.282 GB` | Build SciDB Debian packages (.deb)
 
-Usage
------
+
+## `15.7`
+
+The tags intended for the final user are:
+
+| Tag | From | Size | Comments |
+| --- | --- | --- | --- |
+| [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | `1.918 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | `602.1MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages (Bintray)
+| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | `1.95GB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
+
+The tags used for building are:
+
+| Tag | From | Size | Comments |
+| --- | --- | --- | --- |
+| [`scidb:15.7-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pre) | `debian:8`       | `1.585 GB` | Install and build SciDB dependencies and libs, respectively
+| [`scidb:15.7-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pkg) | `scidb:15.7`     | `2.223 GB` | Build SciDB Debian packages (.deb)
+
+
+# Usage
 
 When started, the images intended for the final user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. Any additional arguments provided when container starts are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. Below are a few examples.
 
@@ -59,8 +81,7 @@ Start a `scidb:15.7-ext` container in interactive mode:
     {1,2} 'libdev_tools.so',15,7,0,9267,null
 
 
-Ports Exposed
--------------
+# Ports Exposed
 
 The image exposes the following ports:
 
@@ -70,8 +91,8 @@ The image exposes the following ports:
 | 8080 | SciDB Shim  | http://localhost:8080  |
 | 8083 | SciDB Shim  | https://localhost:8080 |
 
-Build Details
--------------
+
+# Build Details
 
 The `scidb:15.7-pre`, `scidb:15.7`, and `scidb:15.7-ext` images are build as follows:
 
