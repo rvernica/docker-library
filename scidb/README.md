@@ -3,8 +3,8 @@
    * Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
    * Build on top of [Debian Linux](https://www.debian.org/)
    * Size: `~600MB-2GB`
-   * Latest version: `15.7` (images for `15.12` are under development)
-   * Automated build: [rvernica/scidb](https://hub.docker.com/r/rvernica/scidb/)
+   * Latest version: `15.12`
+   * Automated build at [Docker Hub](https://hub.docker.com/r/rvernica/scidb/)
 
 
 # Tags
@@ -19,7 +19,7 @@ The tags intended for the final user are:
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
 | [`scidb:15.12`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile)         | `scidb:15.12-pre` | `1.972 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | `602.3MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages (Bintray)
+| [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | `602.3MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
 | [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | `2.005GB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
 
 The tags used for building are:
@@ -37,7 +37,7 @@ The tags intended for the final user are:
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
 | [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | `1.918 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | `602.1MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages (Bintray)
+| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | `602.1MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
 | [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | `1.95GB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
 
 The tags used for building are:
@@ -50,35 +50,84 @@ The tags used for building are:
 
 # Usage
 
-When started, the images intended for the final user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. Any additional arguments provided when container starts are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. Below are a few examples.
+When started, the images intended for the final user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. As a final command the entrypoint script tails the SciDB log. For example:
 
-Start container in interactive mode:
+```bash
+> docker run --tty rvernica/scidb:15.12
+[ ok ] Starting OpenBSD Secure Shell server: sshd.
+[ ok ] Starting PostgreSQL 9.4 database server: main.
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+Starting shim
+load = fn(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict){store(input(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict),output_array)};
+sys_create_array_aux = fn(_A_,_E_,_C_){join(aggregate(apply(_A_,_t_,_E_),approxdc(_t_)),build(<values_per_chunk:uint64 null>[i=0:0,1,0],_C_))};
+sys_create_array_att = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(_L_,min(_D_),max(_D_),approxdc(_D_)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])};
+sys_create_array_dim = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(apply(aggregate(_L_,count(*),_D_),_t_,_D_),min(_t_),max(_t_),count(*)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])}
+2016-07-04 08:50:40,221 [0x7fc8f59b77c0] [DEBUG]: Network manager is intialized
+2016-07-04 08:50:40,221 [0x7fc8f59b77c0] [DEBUG]: NetworkManager::run()
+2016-07-04 08:50:40,229 [0x7fc8f59b77c0] [DEBUG]: server-id = 0
+2016-07-04 08:50:40,229 [0x7fc8f59b77c0] [DEBUG]: server-instance-id = 0
+2016-07-04 08:50:40,232 [0x7fc8f59b77c0] [DEBUG]: Registered instance # 0
+2016-07-04 08:50:40,232 [0x7fc8f59b77c0] [INFO ]: SciDB instance. SciDB Version: 15.12.1. Build Type: Release. Commit: 4cadab5. Copyright (C) 2008-2015 SciDB, Inc. is exiting.
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+```
 
-    > docker run --tty --interactive rvernica/scidb:15.7 bash
-    ...
-    # iquery --afl --query "list('libraries')"
-    {inst,n} name,major,minor,patch,build,build_type
-    {0,0} 'SciDB',15,7,0,9267,'Release'
-    {1,0} 'SciDB',15,7,0,9267,'Release'
+Any additional arguments provided when a container is started are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. For example, to start a container in interactive mode use:
 
-Start container in non-interactive mode:
+```bash
+> docker run --tty --interactive rvernica/scidb:15.12 bash
+[ ok ] Starting OpenBSD Secure Shell server: sshd.
+[ ok ] Starting PostgreSQL 9.4 database server: main.
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+Starting shim
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+root@ea2f0c0b5314:/# iquery --afl --query "list('libraries')"
+{inst,n} name,major,minor,patch,build,build_type
+{0,0} 'SciDB',15,12,1,80403125,'Release'
+{1,0} 'SciDB',15,12,1,80403125,'Release'
+root@ea2f0c0b5314:/# exit
+```
+Here is an example starting an `-ext` container detached:
 
-    > docker run --tty rvernica/scidb:15.7
-    ...
-
-Start a `scidb:15.7-ext` container in interactive mode:
-
-    > docker run --tty --interactive rvernica/scidb:15.7-ext bash
-    ...
-    # iquery --afl --query "load_library('accelerated_io_tools'); list('libraries')"
-    Query was executed successfully
-    {inst,n} name,major,minor,patch,build,build_type
-    {0,0} 'SciDB',15,7,0,9267,'Release'
-    {0,1} 'libaccelerated_io_tools.so',15,7,0,9267,null
-    {0,2} 'libdev_tools.so',15,7,0,9267,null
-    {1,0} 'SciDB',15,7,0,9267,'Release'
-    {1,1} 'libaccelerated_io_tools.so',15,7,0,9267,null
-    {1,2} 'libdev_tools.so',15,7,0,9267,null
+```bash
+> docker run --detach rvernica/scidb:15.12-ext
+4579d727aa406c4f917780d48a4b591e19e3f14260a2444d48609d96eb12bc23
+> docker logs 4579d72
+Starting OpenBSD Secure Shell server: sshd.
+Starting PostgreSQL 9.4 database server: main.
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+Starting shim
+load = fn(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict){store(input(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict),output_array)};
+sys_create_array_aux = fn(_A_,_E_,_C_){join(aggregate(apply(_A_,_t_,_E_),approxdc(_t_)),build(<values_per_chunk:uint64 null>[i=0:0,1,0],_C_))};
+sys_create_array_att = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(_L_,min(_D_),max(_D_),approxdc(_D_)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])};
+sys_create_array_dim = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(apply(aggregate(_L_,count(*),_D_),_t_,_D_),min(_t_),max(_t_),count(*)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])}
+2016-07-04 08:50:40,221 [0x7fc8f59b77c0] [DEBUG]: Network manager is intialized
+2016-07-04 08:50:40,221 [0x7fc8f59b77c0] [DEBUG]: NetworkManager::run()
+2016-07-04 08:50:40,229 [0x7fc8f59b77c0] [DEBUG]: server-id = 0
+2016-07-04 08:50:40,229 [0x7fc8f59b77c0] [DEBUG]: server-instance-id = 0
+2016-07-04 08:50:40,232 [0x7fc8f59b77c0] [DEBUG]: Registered instance # 0
+2016-07-04 08:50:40,232 [0x7fc8f59b77c0] [INFO ]: SciDB instance. SciDB Version: 15.12.1. Build Type: Release. Commit: 4cadab5. Copyright (C) 2008-2015 SciDB, Inc. is exiting.
+> docker exec --tty 4579d72 iquery --afl --query "load_library('accelerated_io_tools'); list('libraries')"
+Query was executed successfully
+{inst,n} name,major,minor,patch,build,build_type
+{0,0} 'SciDB',15,12,1,80403125,'Release'
+{0,1} 'libaccelerated_io_tools.so',15,12,1,80403125,null
+{0,2} 'libdev_tools.so',15,12,1,80403125,null
+{1,0} 'SciDB',15,12,1,80403125,'Release'
+{1,1} 'libaccelerated_io_tools.so',15,12,1,80403125,null
+{1,2} 'libdev_tools.so',15,12,1,80403125,null
+```
 
 
 # Ports Exposed
