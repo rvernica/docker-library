@@ -135,22 +135,7 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
 
 
 ## Setup SciDB "config.ini"
-## 1. Copy "sample_config.ini"
-## 2. Replace (case-insensitive) "SingleInstance" with $SCIDB_NAME
-## 3. Set $SCIDB_DATA_PATH in "base_path"
-## 4. Replace "localhost" with "127.0.0.1" so it matches ".pgpass"
-## 5. Remove unsupported option "tmp-path"
-RUN cp $SCIDB_INSTALL_PATH/etc/sample_config.ini \
-        $SCIDB_INSTALL_PATH/etc/config.ini && \
-    sed --in-place \
-        s/SingleInstance/$SCIDB_NAME/gI $SCIDB_INSTALL_PATH/etc/config.ini && \
-    sed --in-place \
-        s%^base-path=.*$%base-path=$SCIDB_DATA_PATH%g \
-        $SCIDB_INSTALL_PATH/etc/config.ini && \
-    sed --in-place \
-        s/localhost/127.0.0.1/g $SCIDB_INSTALL_PATH/etc/config.ini && \
-    sed --in-place \
-        /^tmp-path.*$/d $SCIDB_INSTALL_PATH/etc/config.ini
+COPY config.deb.ini $SCIDB_INSTALL_PATH/etc/config.ini
 
 
 ## Setup PostgreSQL and SciDB

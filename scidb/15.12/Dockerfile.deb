@@ -136,18 +136,7 @@ RUN sed --in-place 's/session\s*required\s*pam_loginuid.so/session optional pam_
 
 
 ## Setup SciDB "config.ini"
-RUN echo "\
-[$SCIDB_NAME]\n\
-server-0=127.0.0.1,1\n\
-db_user=$SCIDB_NAME\n\
-install_root=$SCIDB_INSTALL_PATH\n\
-pluginsdir= $SCIDB_INSTALL_PATH/lib/scidb/plugins\n\
-logconf=$SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties\n\
-base-path=$SCIDB_DATA_PATH\n\
-base-port=1239\n\
-interface=eth0\n\
-redundancy=1\n\
-security=trust" > $SCIDB_INSTALL_PATH/etc/config.ini
+COPY config.deb.ini $SCIDB_INSTALL_PATH/etc/config.ini
 
 
 ## Setup PostgreSQL and SciDB
