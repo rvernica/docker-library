@@ -9,12 +9,12 @@
 
 # Tags
 
-Five different tags are available for SciDB. Three are intended for the final user, while two are used for building.
+Five different tags are available for SciDB. Three are intended for the end user, while two are used for building.
 
 
 ## `15.12`
 
-The tags intended for the final user are:
+The tags intended for the end user are:
 
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
@@ -32,7 +32,7 @@ The tags used for building are:
 
 ## `15.7`
 
-The tags intended for the final user are:
+The tags intended for the end user are:
 
 | Tag | From | Size | Comments |
 | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ The tags used for building are:
 
 # Usage
 
-When started, the images intended for the final user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. As a final command the entrypoint script tails the SciDB log. For example:
+When started, the images intended for the end user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. As a final command the entrypoint script tails the SciDB log. For example to start a base container and redirect its output to the console, use:
 
 ```bash
 > docker run --tty rvernica/scidb:15.12
@@ -75,7 +75,7 @@ sys_create_array_dim = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:i
 shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
 ```
 
-Any additional arguments provided when a container is started are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. For example, to start a container in interactive mode use:
+Any additional arguments provided when a container is started are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. For example, to start a base container in interactive mode, use:
 
 ```bash
 > docker run --tty --interactive rvernica/scidb:15.12 bash
@@ -94,7 +94,7 @@ root@ea2f0c0b5314:/# iquery --afl --query "list('libraries')"
 {1,0} 'SciDB',15,12,1,80403125,'Release'
 root@ea2f0c0b5314:/# exit
 ```
-Here is an example starting an `-ext` container detached:
+Here is an example for starting and interacting with a detached extended container:
 
 ```bash
 > docker run --detach rvernica/scidb:15.12-ext
@@ -129,16 +129,35 @@ Query was executed successfully
 {1,2} 'libdev_tools.so',15,12,1,80403125,null
 ```
 
+Here is an example for starting a debian-package-based container in interactive mode:
+
+```bash
+> docker run --tty --interactive rvernica/scidb:15.12-deb bash
+[ ok ] Starting OpenBSD Secure Shell server: sshd.
+[ ok ] Starting PostgreSQL 9.4 database server: main.
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+Starting shim
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+root@fa37addad4e7:/# iquery --afl --query "list('libraries')"
+{inst,n} name,major,minor,patch,build,build_type
+{0,0} 'SciDB',15,12,1,80403125,'Release'
+{1,0} 'SciDB',15,12,1,80403125,'Release'
+root@fa37addad4e7:/# exit
+```
 
 # Ports Exposed
 
 The image exposes the following ports:
 
-| Port | Application | Usage                  |
-| ---  | ---         | ---                    |
-| 1239 | SciDB       | `iquery`               |
-| 8080 | SciDB Shim  | http://localhost:8080  |
-| 8083 | SciDB Shim  | https://localhost:8080 |
+| Port | Application        | Usage                  |
+| ---  | ---                | ---                    |
+| 1239 | SciDB              | `iquery`               |
+| 8080 | SciDB Shim (HTTP)  | http://localhost:8080  |
+| 8083 | SciDB Shim (HTTPS) | https://localhost:8080 |
 
 
 # Build Details
@@ -173,7 +192,7 @@ The `scidb:15.7-pre`, `scidb:15.7`, and `scidb:15.7-ext` images are build as fol
 
 The `scidb:15.7-pkg` image is build as follows:
 
-1. Base image is to to `scidb:15.7`;
+1. Base image is set to `scidb:15.7`;
 1. Install dependencies from Debian `8` repository;
 1. Build from source `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Build SciDB `.deb` packages;
@@ -187,12 +206,11 @@ Once the SciDB `.deb` packages generated in the `scidb:15.7-pkg` image are uploa
 1. Build from source `libpgxx3` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Build from source `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Add [Paradigm 4](https://downloads.paradigm4.com/) (Ubuntu `14.04`) and [rvernica/deb](https://bintray.com/rvernica/deb) Bintray repositories;
-1. Install SciDB `.deb` packages;
+1. Install SciDB and Shim from `.deb` packages;
 1. Setup password-less SSH;
 1. Setup `config.ini` for SciDB;
 1. Setup PostgreSQL credentials;
 1. Initialize SciDB (`init-syscat` and `init-all`);
-1. Install Shim;
 1. Add and setup `ENTRYPOINT` script;
 1. Expose SciDB (`1239`) and Shim (`8080` and `8083`) ports;
 1. **`scidb:15.7-deb`** is created.
