@@ -4,7 +4,8 @@ ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SCIDB_VER=15.12 \
-    SCIDB_VER_MINOR=1.4cadab5
+    SCIDB_VER_MINOR=1.4cadab5 \
+    SCIDB_SOURCE_URL="https://docs.google.com/uc?id=0B7yt0n33Us0raWtCYmNlZWRxWG8&export=download"
 
 ENV SCIDB_SOURCE_PATH=/usr/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
     SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
@@ -116,9 +117,18 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
 
 
 ## Get SciDB source code
-RUN wget --no-verbose --output-document - \
-        https://dl.bintray.com/rvernica/generic/scidb-$SCIDB_VER.$SCIDB_VER_MINOR.tar.gz | \
-        tar --extract --gzip --directory=/usr/src
+RUN wget --no-verbose --output-document - --load-cookies cookies.txt \
+        "$SCIDB_SOURCE_URL&`wget --no-verbose --output-document - \
+            --save-cookies cookies.txt "$SCIDB_SOURCE_URL" | \
+                grep --only-matching 'confirm=[^&]*'`" | \
+       tar --extract --gzip --directory=/usr/src
+
+
+## Apply SciDB patches
+ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTSFRXWHhOc1ZYTGM&export=download \
+    $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.h
+ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTakhoVjloS2l1aVE&export=download \
+    $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.cpp
 
 
 ## Apply Debian 8 patches
