@@ -7,7 +7,7 @@ ENV SCIDB_VER=15.12 \
     SCIDB_VER_MINOR=1.4cadab5 \
     SCIDB_SOURCE_URL="https://docs.google.com/uc?id=0B7yt0n33Us0raWtCYmNlZWRxWG8&export=download"
 
-ENV SCIDB_SOURCE_PATH=/usr/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
+ENV SCIDB_SOURCE_PATH=/usr/local/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
     SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
     SCIDB_BUILD_TYPE=Release
 
