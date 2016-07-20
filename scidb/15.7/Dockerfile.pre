@@ -118,7 +118,7 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key | 
 ## Get SciDB source code
 RUN wget --no-verbose --output-document - \
         http://forum.paradigm4.com/uploads/db6652/original/1X/af46ea0924d43cd943a10a3c83ecf778800bf2a0.tgz | \
-        tar --extract --gzip --directory=/usr/src
+        tar --extract --gzip --directory=/usr/local/src
 
 
 ## Apply Debian 8 patches

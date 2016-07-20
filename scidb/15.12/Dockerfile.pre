@@ -121,7 +121,7 @@ RUN wget --no-verbose --output-document - --load-cookies cookies.txt \
         "$SCIDB_SOURCE_URL&`wget --no-verbose --output-document - \
             --save-cookies cookies.txt "$SCIDB_SOURCE_URL" | \
                 grep --only-matching 'confirm=[^&]*'`" | \
-       tar --extract --gzip --directory=/usr/src
+       tar --extract --gzip --directory=/usr/local/src
 
 
 ## Apply SciDB patches
