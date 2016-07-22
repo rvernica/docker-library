@@ -2,12 +2,12 @@
 set -o errexit
 
 
-service ssh start
+service ssh        start
 service postgresql start
+service shimsvc    start
 
 
 $SCIDB_INSTALL_PATH/bin/scidb.py startall $SCIDB_NAME
-/etc/init.d/shimsvc start
 
 
 trap "$SCIDB_INSTALL_PATH/bin/scidb.py stopall $SCIDB_NAME; \
