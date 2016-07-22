@@ -30,6 +30,6 @@ RUN cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
     iquery --afl --query \
         "load_library('dev_tools'); \
          install_github( \
-             'paradigm4/accelerated_io_tools', \
+             'Paradigm4/accelerated_io_tools', \
              '$SCIDB_ACCELERATED_IO_TOOLS', \
              'https_proxy=$https_proxy')"
