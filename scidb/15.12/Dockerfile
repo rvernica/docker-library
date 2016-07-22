@@ -13,7 +13,7 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
     SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
 
-# ENV SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
+ENV SCIDB_SHIM=6db32a89d92ca05ca3c7475917aef04d18d82c97
 
 
 ## Setup SSH
@@ -37,16 +37,17 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
 
 
+
 ## Install Shim
-# RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
-#         http://paradigm4.github.io/shim/$SCIDB_SHIM && \
-#     dpkg --install /tmp/$SCIDB_SHIM && rm /tmp/$SCIDB_SHIM
-RUN apt-key adv \
-        --keyserver hkp://keyserver.ubuntu.com --recv 46BD98A354BA5235 && \
-    echo "deb https://dl.bintray.com/rvernica/deb jessie main" > \
-        /etc/apt/sources.list.d/bintray.list && \
-    apt-get update && apt-get install --assume-yes --no-install-recommends \
-        shim
+RUN wget --no-verbose --output-document - \
+        https://github.com/Paradigm4/shim/archive/$SCIDB_SHIM.tar.gz | \
+        tar --extract --gzip --directory=/usr/local/src && \
+    cd /usr/local/src/shim-$SCIDB_SHIM && \
+    rm --recursive src/network src/util && \
+    cp --recursive $SCIDB_SOURCE_PATH/src/network                     src && \
+    cp --recursive $SCIDB_SOURCE_PATH/src/util                        src && \
+    cp --recursive $SCIDB_SOURCE_PATH/stage/build/src/network/proto/* src/network/proto && \
+    make service
 
 
 COPY docker-entrypoint.sh /
