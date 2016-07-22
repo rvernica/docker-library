@@ -13,12 +13,12 @@ ENV SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
 
 ## Install dev_tools
 RUN wget --no-verbose --output-document - \
-        https://github.com/rvernica/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz | \
-        tar --extract --gzip --directory=/usr/src && \
-    make --directory=/usr/src/dev_tools-$SCIDB_DEV_TOOLS && \
-    cp /usr/src/dev_tools-$SCIDB_DEV_TOOLS/*.so \
+        https://github.com/Paradigm4/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz | \
+        tar --extract --gzip --directory=/usr/local/src && \
+    make --directory=/usr/local/src/dev_tools-$SCIDB_DEV_TOOLS && \
+    cp /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS/*.so \
         $SCIDB_INSTALL_PATH/lib/scidb/plugins && \
-    rm -rf /usr/src/dev_tools-$SCIDB_DEV_TOOLS
+    rm -rf /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS
 
 
 ## Install accelerated_io_tools
