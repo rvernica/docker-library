@@ -13,11 +13,13 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
         git \
         libblacs-openmpi1 \
         libpam-dev \
+    	ruby \
+	ruby-dev \
         subversion \
         swig2.0 \
         xsltproc \
-    && rm -rf /var/lib/apt/lists/*
-
+    && rm -rf /var/lib/apt/lists/* && \
+    gem install fpm
 
 ## Build and install libscalapack-mpi1 from wheezy
 RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
@@ -46,3 +48,5 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
 ## Build .deb packages
 RUN cd $SCIDB_SOURCE_PATH && \
     ./run.py make_packages --force
+
+RUN make --directory=/usr/local/src/shim-$SCIDB_SHIM  deb-pkg
