@@ -62,7 +62,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         /etc/apt/sources.list.d/wheezy.list && \
     apt-get update && apt-get build-dep --assume-yes --no-install-recommends \
         libpqxx3 \
-    && mkdir /usr/src/libpqxx3 && cd /usr/src/libpqxx3 && \
+    && mkdir /usr/local/src/libpqxx3 && cd /usr/local/src/libpqxx3 && \
     apt-get source --build \
         libpqxx3 \
     && apt-get purge --assume-yes \
@@ -97,7 +97,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         libpqxx3-dev_3.1-1.1_amd64.deb \
     && rm -rf \
         /etc/apt/sources.list.d/wheezy.list \
-        /usr/src/libpqxx3 \
+        /usr/local/src/libpqxx3 \
         /var/lib/apt/lists/*
 
 

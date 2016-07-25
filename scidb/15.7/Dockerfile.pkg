@@ -24,7 +24,8 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         /etc/apt/sources.list.d/wheezy.list && \
     apt-get update && apt-get build-dep --assume-yes --no-install-recommends \
         libscalapack-mpi1 \
-    && mkdir /usr/src/libscalapack-mpi1 && cd /usr/src/libscalapack-mpi1 && \
+    && mkdir /usr/local/src/libscalapack-mpi1 && \
+    cd /usr/local/src/libscalapack-mpi1 && \
     apt-get source --build \
         libscalapack-mpi1 \
     && apt-get purge --assume-yes \
@@ -39,7 +40,7 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
         libscalapack-mpi1_1.8.0-9_amd64.deb \
     && rm -rf \
         /etc/apt/sources.list.d/wheezy.list \
-        /usr/src/libscalapack-mpi1 \
+        /usr/src/local/libscalapack-mpi1 \
         /var/lib/apt/lists/*
 
 
