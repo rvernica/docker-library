@@ -162,49 +162,52 @@ The image exposes the following ports:
 
 # Build Details
 
-The `scidb:15.7-pre`, `scidb:15.7`, and `scidb:15.7-ext` images are build as follows:
+The `scidb:15.12-pre`, `scidb:15.12`, and `scidb:15.12-ext` images are build as follows:
 
 1. Base image is set to the official [`debian:8`](https://hub.docker.com/_/debian/) image;
 1. Set environment variables for SciDB build (version, paths, etc.);
 1. Install dependencies from Debian `8` repository;
 1. Install `openjdk-8-jdk` from [backports](https://backports.debian.org) repository;
-1. Build from source `libpgxx3` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
+1. Build from source and install `libpgxx3` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Install dependencies from [Paradigm 4](https://downloads.paradigm4.com/) (Ubuntu `14.04`) repository;
 1. Download SciDB source code from [SciDB Forum](http://forum.paradigm4.com/t/scidb-release-15-7/843);
+1. Apply Paradigm4 patches [published](https://docs.google.com/document/d/1Ohgu89rnlUR-OuCyZ1SBCkP9mTuVLTrXVw-bm4AHxow/edit) after SciDB `15.12` release;
 1. Apply patches required to build SciDB on Debian `8`;
 1. Build SciDB libraries;
-1. **`scidb:15.7-pre`** is created (necessary due to `2h` time limit for builds on Docker Hub);
+1. **`scidb:15.12-pre`** is created (necessary due to `2h` time limit for builds on Docker Hub);
 1. Build SciDB;
 1. Set environment variables for SciDB instance (number of instances, database name, etc.);
+1. Set SHA-1 commit hash for Shim;
 1. Setup password-less SSH;
 1. Setup PostgreSQL credentials;
 1. Install SciDB;
-1. Install Shim;
+1. Build from source and install Shim (`.deb` package provided on Paradigm4 GitHub cannot be used due to dependency on `libprotobuf8`; only `7` and `9` are available in Debian);
 1. Add and setup `ENTRYPOINT` script;
 1. Expose SciDB (`1239`) and Shim (`8080` and `8083`) ports;
-1. **`scidb:15.7`** is created;
+1. **`scidb:15.12`** is created;
 1. Install dependencies from Debian `8` repository;
 1. Set SHA-1 commit hash for `dev_tools` and `accelerated_io_tools`;
 1. Download and build `dev_tools`;
 1. Start SciDB;
 1. Load `dev_tools` in SciDB and install `accelerated_io_tools` from SciDB;
-1. **`scidb:15.7-ext`** is created.
+1. **`scidb:15.12-ext`** is created.
 
-The `scidb:15.7-pkg` image is build as follows:
+The `scidb:15.12-pkg` image is build as follows:
 
-1. Base image is set to `scidb:15.7`;
+1. Base image is set to `scidb:15.12`;
 1. Install dependencies from Debian `8` repository;
-1. Build from source `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
+1. Build from source and install `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Build SciDB `.deb` packages;
-1. **`scidb:15.7-pkg`** is created.
+1. Build Shim `.deb` package;
+1. **`scidb:15.12-pkg`** is created.
 
-Once the SciDB `.deb` packages generated in the `scidb:15.7-pkg` image are uploaded to the [rvernica/deb](https://bintray.com/rvernica/deb) Bintray repository, the `scidb:15.7-deb` image is build as follows:
+Once the SciDB `.deb` packages generated in the `scidb:15.12-pkg` image are uploaded to the [rvernica/deb](https://bintray.com/rvernica/deb) Bintray repository, the `scidb:15.12-deb` image is build as follows:
 
 1. Base image is set to the official [`debian:8`](https://hub.docker.com/_/debian/) image;
 1. Set environment variables for SciDB (version, database name, etc.);
 1. Install dependencies from Debian `8` repository;
-1. Build from source `libpgxx3` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
-1. Build from source `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
+1. Build from source and install `libpgxx3` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
+1. Build from source and install `libscalapack-mpi1` from Debian `7` (unnecessary packages are removed once the `.deb` files are built);
 1. Add [Paradigm 4](https://downloads.paradigm4.com/) (Ubuntu `14.04`) and [rvernica/deb](https://bintray.com/rvernica/deb) Bintray repositories;
 1. Install SciDB and Shim from `.deb` packages;
 1. Setup password-less SSH;
@@ -213,6 +216,6 @@ Once the SciDB `.deb` packages generated in the `scidb:15.7-pkg` image are uploa
 1. Initialize SciDB (`init-syscat` and `init-all`);
 1. Add and setup `ENTRYPOINT` script;
 1. Expose SciDB (`1239`) and Shim (`8080` and `8083`) ports;
-1. **`scidb:15.7-deb`** is created.
+1. **`scidb:15.12-deb`** is created.
 
 [![](https://badge.imagelayers.io/rvernica/scidb:latest.svg)](https://imagelayers.io/?images=rvernica/scidb:latest)
