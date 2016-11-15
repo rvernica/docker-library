@@ -50,4 +50,4 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
 RUN cd $SCIDB_SOURCE_PATH && \
     ./run.py make_packages --force
 
-RUN make --directory=/usr/local/src/shim-$SHIM_SHA1  deb-pkg
+RUN make --directory=/usr/local/src/shim-$SHIM_SHA1 deb-pkg
