@@ -16,7 +16,7 @@ before_script:
 script:
   - docker build --tag "$image" .
   - ~/official-images/test/run.sh "$image"
-  - docker build --tag "$image-onbuild" --file Dockerfile.onbuild
+  - docker build --tag "$image-onbuild" --file Dockerfile.onbuild .
 
 after_script:
   - docker images
