@@ -8,6 +8,17 @@
 * Automated builds at [Docker Hub](https://hub.docker.com/r/rvernica/django/) [![](https://images.microbadger.com/badges/version/rvernica/django.svg)](https://microbadger.com/images/rvernica/django)
 * Continuous integration [![Build Status](https://travis-ci.org/rvernica/docker-library.svg?branch=master)](https://travis-ci.org/rvernica/docker-library)
 
+# Tags
+
+| Tag | Django | Python | Download Size | Unpack Size |
+| --- | ---    | ---    | ---           | ---:        |
+| [`django:python3`](https://github.com/rvernica/docker-library/blob/master/django/3.5/Dockerfile)                 | `1.10.3`         | `3.5` | [![](https://images.microbadger.com/badges/image/rvernica/django:python3.svg)](https://microbadger.com/images/rvernica/django:python3)                 | `116.8MB` |
+| [`django:python3-onbuild`](https://github.com/rvernica/docker-library/blob/master/django/3.5/Dockerfile.onbuild) | `1.10.3` onbuild | `3.5` | [![](https://images.microbadger.com/badges/image/rvernica/django:python3-onbuild.svg)](https://microbadger.com/images/rvernica/django:python3-onbuild) | `84.6MB`  |
+| [`django:python3-lts`](https://github.com/rvernica/docker-library/blob/master/django/3.5/Dockerfile.lts)         | `1.8.16` LTS     | `3.5` | [![](https://images.microbadger.com/badges/image/rvernica/django:python3-lts.svg)](https://microbadger.com/images/rvernica/django:python3-lts)         | `114.4MB` |
+| [`django:python2`](https://github.com/rvernica/docker-library/blob/master/django/2.7/Dockerfile)                 | `1.10.3`         | `2.7` | [![](https://images.microbadger.com/badges/image/rvernica/django:python2.svg)](https://microbadger.com/images/rvernica/django:python2)                 | `104.5MB` |
+| [`django:python2-onbuild`](https://github.com/rvernica/docker-library/blob/master/django/2.7/Dockerfile.onbuild) | `1.10.3` onbuild | `2.7` | [![](https://images.microbadger.com/badges/image/rvernica/django:python2-onbuild.svg)](https://microbadger.com/images/rvernica/django:python2-onbuild) | `72.5MB`  |
+| [`django:python2-lts`](https://github.com/rvernica/docker-library/blob/master/django/2.7/Dockerfile.lts)         | `1.8.16` LTS     | `2.7` | [![](https://images.microbadger.com/badges/image/rvernica/django:python2-lts.svg)](https://microbadger.com/images/rvernica/django:python2-lts)         | `102.1MB` |
+
 # What is Django?
 
 Django is a free and open source web application framework, written in Python, which follows the model-view-controller architectural pattern. Django's primary goal is to ease the creation of complex, database-driven websites with an emphasis on reusability and "pluggability" of components.
