@@ -6,7 +6,7 @@
 * Latest version: `1.10.3`
 * Latest [Long-Term Support (LTS)](https://www.djangoproject.com/download/#supported-versions) version: `1.8.16`
 * Automated builds at [Docker Hub](https://hub.docker.com/r/rvernica/django/) [![](https://images.microbadger.com/badges/version/rvernica/django.svg)](https://microbadger.com/images/rvernica/django)
-* Continuous integration [![Build Status](https://travis-ci.org/rvernica/docker-django.svg?branch=master)](https://travis-ci.org/rvernica/docker-django)
+* Continuous integration [![Build Status](https://travis-ci.org/rvernica/docker-library.svg?branch=master)](https://travis-ci.org/rvernica/docker-library)
 
 # What is Django?
 
