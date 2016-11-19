@@ -10,7 +10,7 @@ install:
 
 before_script:
   - env | sort
-  - cd "$PY_VERSION"
+  - cd "django/$PY_VERSION"
   - image="django:python$PY_VERSION"
 
 script:
