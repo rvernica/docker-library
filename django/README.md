@@ -10,7 +10,7 @@
 
 # Tags
 
-| Tag | Django | Python | Download Size | Unpack Size |
+| Tag | Django | Python | Download Size | Image Size |
 | --- | ---    | ---    | ---           | ---:        |
 | [`django:python3`](https://github.com/rvernica/docker-library/blob/master/django/3.5/Dockerfile)                 | `1.10.3`         | `3.5` | [![](https://images.microbadger.com/badges/image/rvernica/django:python3.svg)](https://microbadger.com/images/rvernica/django:python3)                 | `116.8MB` |
 | [`django:python3-onbuild`](https://github.com/rvernica/docker-library/blob/master/django/3.5/Dockerfile.onbuild) | `1.10.3` onbuild | `3.5` | [![](https://images.microbadger.com/badges/image/rvernica/django:python3-onbuild.svg)](https://microbadger.com/images/rvernica/django:python3-onbuild) | `84.6MB`  |
