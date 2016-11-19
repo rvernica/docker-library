@@ -14,9 +14,9 @@ before_script:
   - image="django:python$PY_VERSION"
 
 script:
-  - docker build -t "$image" .
+  - docker build --tag "$image" .
   - ~/official-images/test/run.sh "$image"
-  - docker build -t "$image-onbuild" onbuild
+  - docker build --tag "$image-onbuild" --file Dockerfile.onbuild
 
 after_script:
   - docker images
