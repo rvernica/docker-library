@@ -16,36 +16,36 @@ Five different tags are available for SciDB. Three are intended for the end user
 
 The tags intended for the end user are:
 
-| Tag | From | Size | Comments |
-| --- | --- | --- | --- |
-| [`scidb:15.12`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile)         | `scidb:15.12-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12.svg)](https://microbadger.com/images/rvernica/scidb:15.12)         / `1.972 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.12-deb) / `602.3 MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
-| [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.12-ext) / `2.005 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:        | ---      |
+| [`scidb:15.12`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile)         | `scidb:15.12-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12.svg)](https://microbadger.com/images/rvernica/scidb:15.12)         | `1.972GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.12-deb) | `602.3MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
+| [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.12-ext) | `2.005GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
 
 The tags used for building are:
 
-| Tag | From | Size | Comments |
-| --- | --- | --- | --- |
-| [`scidb:15.12-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pre) | `debian:8`        | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-pre.svg)](https://microbadger.com/images/rvernica/scidb:15.12-pre) / `1.612 GB` | Install and build SciDB dependencies and libs, respectively
-| [`scidb:15.12-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pkg) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-pkg.svg)](https://microbadger.com/images/rvernica/scidb:15.12-pkg) / `2.282 GB` | Build SciDB Debian packages (.deb)
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:        | ---      |
+| [`scidb:15.12-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pre) | `debian:8`        | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-pre.svg)](https://microbadger.com/images/rvernica/scidb:15.12-pre) | `1.612GB` | Install and build SciDB dependencies and libs, respectively
+| [`scidb:15.12-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.pkg) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-pkg.svg)](https://microbadger.com/images/rvernica/scidb:15.12-pkg) | `2.282GB` | Build SciDB Debian packages (.deb)
 
 
 ## `15.7`
 
 The tags intended for the end user are:
 
-| Tag | From | Size | Comments |
-| --- | --- | --- | --- | --- |
-| [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7.svg)](https://microbadger.com/images/rvernica/scidb:15.7)         / `1.918 GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.7-deb) / `602.1 MB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
-| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.7-ext) / `1.95 GB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:        | ---      |
+| [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7.svg)](https://microbadger.com/images/rvernica/scidb:15.7)         | `1.918GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.7-deb) | `602.1MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
+| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.7-ext) | `1.95GB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), and [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)) |
 
 The tags used for building are:
 
-| Tag | From | Size | Comments |
-| --- | --- | --- | --- |
-| [`scidb:15.7-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pre) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-pre.svg)](https://microbadger.com/images/rvernica/scidb:15.7-pre) / `1.585 GB` | Install and build SciDB dependencies and libs, respectively
-| [`scidb:15.7-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pkg) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-pkg.svg)](https://microbadger.com/images/rvernica/scidb:15.7-pkg) / `2.223 GB` | Build SciDB Debian packages (.deb)
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:        | ---      |
+| [`scidb:15.7-pre`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pre) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-pre.svg)](https://microbadger.com/images/rvernica/scidb:15.7-pre) | `1.585GB` | Install and build SciDB dependencies and libs, respectively
+| [`scidb:15.7-pkg`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.pkg) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-pkg.svg)](https://microbadger.com/images/rvernica/scidb:15.7-pkg) | `2.223GB` | Build SciDB Debian packages (.deb)
 
 
 # Usage
