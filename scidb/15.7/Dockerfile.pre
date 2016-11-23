@@ -53,6 +53,7 @@ RUN echo "deb http://http.debian.net/debian jessie-backports main" > \
         junit \
         libprotobuf-java \
         openjdk-8-jdk \
+        openjdk-8-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
 
