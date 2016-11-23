@@ -13,8 +13,9 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM \
     SCIDB_NAME=$SCIDB_NAME \
     SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
 
-ENV SHIM_SHA1=854a4fb6c8f14e39010138ea045f0d3b431c607d \
-    SHIM_VERSION=v$SCIDB_VER-20-g854a
+# Sep 13, 2016
+ENV SHIM_SHA1=20c8de46da7951b3529d114dac579c5e7e2281fd \
+    SHIM_VERSION=v$SCIDB_VER-29-g20c8
 
 
 ## Setup SSH
@@ -38,16 +39,14 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
 
 
+ENV SHIM_SHA1=1e1b0fe640ed7dc539d5175c27201162127e0a60
+
 ## Install Shim
 RUN wget --no-verbose --output-document - \
         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz | \
         tar --extract --gzip --directory=/usr/local/src && \
     cd /usr/local/src/shim-$SHIM_SHA1 && \
     sed --in-place "s/^GIT_VERSION := .*$/GIT_VERSION := $SHIM_VERSION/" src/Makefile && \
-    rm --recursive src/network src/util && \
-    cp --recursive $SCIDB_SOURCE_PATH/src/network                     src && \
-    cp --recursive $SCIDB_SOURCE_PATH/src/util                        src && \
-    cp --recursive $SCIDB_SOURCE_PATH/stage/build/src/network/proto/* src/network/proto && \
     make service
 
 
