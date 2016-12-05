@@ -39,8 +39,6 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`date +%s | sha256sum | base64 
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
 
 
-ENV SHIM_SHA1=1e1b0fe640ed7dc539d5175c27201162127e0a60
-
 ## Install Shim
 RUN wget --no-verbose --output-document - \
         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz | \
