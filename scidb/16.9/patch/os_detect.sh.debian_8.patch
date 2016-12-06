@@ -1,0 +1,13 @@
+--- a/deployment/common/os_detect.sh
++++ b/deployment/common/os_detect.sh
+@@ -39,6 +39,10 @@ function detect ()
+     if [ `echo "${input}" | grep "Red Hat" | grep "6." | wc -l` = "1" ]; then
+         OS="RedHat 6"
+     fi
++
++    if [ `echo "${input}" | grep "Debian" | grep "8." | wc -l` = "1" ]; then
++        OS="Ubuntu 14.04"       # Report Ubuntu 14.04 for Debian 8
++    fi
+ }
+ 
+ OS="not supported"

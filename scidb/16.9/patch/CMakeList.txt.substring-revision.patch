@@ -1,0 +1,10 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -83,6 +83,7 @@ if(NOT SCIDB_REVISION AND EXISTS "${CMAKE_SOURCE_DIR}/revision")
+     # Get version from plain source tarball/directory
+     file(READ "${CMAKE_SOURCE_DIR}/revision" SCIDB_REVISION)
+     string(STRIP ${SCIDB_REVISION} SCIDB_REVISION)
++    string(SUBSTRING ${SCIDB_REVISION} 0 7 SCIDB_REVISION)
+     message(STATUS "Reading revision from file: ${SCIDB_REVISION}")
+ endif()
+ if(NOT SCIDB_REVISION)

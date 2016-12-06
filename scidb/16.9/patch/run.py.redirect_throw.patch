@@ -1,0 +1,19 @@
+--- a/run.py
++++ b/run.py
+@@ -476,7 +476,7 @@ def getScidbVersion (scidbEnv):
+     curr_dir=os.getcwd()
+
+     cmdList=[bin_path,
+-             "usage", "|&", "grep", "\"SciDB version:\""]
++             "usage", "2>&1", "|", "grep", "\"SciDB version:\""]
+     ret,out,err = executeIt(cmdList,
+                             useShell=True,
+                             collectOutput=True,
+@@ -673,7 +673,7 @@ def install(scidbEnv):
+     os.chdir(scidbEnv.build_path)
+
+     if not scidbEnv.args.light:
+-        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
++        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force, throw=False)
+
+     mkdir_p(scidbEnv.install_path)
