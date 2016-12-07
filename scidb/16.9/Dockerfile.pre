@@ -103,6 +103,5 @@ RUN cd $SCIDB_SOURCE_PATH && \
         catalog_lib \
         compression_lib \
         array_lib \
-        ops_lib \
-        scalar_proc_lib
+        ops_lib
     # $SCIDB_SOURCE_PATH/run.py make -j2
