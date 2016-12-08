@@ -132,21 +132,14 @@ RUN cd $SCIDB_SOURCE_PATH && \
 RUN cd $SCIDB_SOURCE_PATH && \
     env PATH=$PATH:/opt/scidb/$SCIDB_VER/3rdparty/mpich2/bin \
         ./run.py setup --force && \
-    $SCIDB_SOURCE_PATH/run.py make -j2
-    # cd stage/build && make -j2 \
-    #     json_lib \
-    #     MurmurHash_lib \
-    #     util_lib \
-    #     scidb_msg_lib \
-    #     genmeta \
-    #     catalog_lib \
-    #     array_lib \
-    #     system_lib \
-    #     compression_lib \
-    #     ops_lib \
-    #     scalar_proc_lib \
-    #     qproc_lib \
-    #     usr_namespace_lib \
-    #     io_lib \
-    #     network_lib
+    cd stage/build && make -j2 \
+        MurmurHash_lib \
+        json_lib \
+        scidb_msg_lib \
+        util_lib \
+        system_lib \
+        catalog_lib \
+        compression_lib \
+        array_lib \
+        ops_lib
     # $SCIDB_SOURCE_PATH/run.py make -j2
