@@ -98,10 +98,8 @@ RUN cd $SCIDB_SOURCE_PATH && \
         json_lib \
         scidb_msg_lib \
         system_lib \
-        storage_lib \
         util_lib \
-        catalog_lib \
         compression_lib \
-        array_lib \
-        ops_lib
+        catalog_lib \
+        array_lib
     # $SCIDB_SOURCE_PATH/run.py make -j2
