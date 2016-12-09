@@ -148,7 +148,7 @@ RUN cd $SCIDB_SOURCE_PATH && \
         scidb_msg_lib \
         system_lib \
         util_lib \
-        compression_lib
+        compression_lib \
         catalog_lib \
         array_lib
     # $SCIDB_SOURCE_PATH/run.py make -j2
