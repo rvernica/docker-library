@@ -1,0 +1,15 @@
+--- a/CMakeBuildFlags.cmake
++++ b/CMakeBuildFlags.cmake
+@@ -49,6 +49,12 @@ if(${DISTRO_NAME_VER} MATCHES "Ubuntu") # TODO: unify Centos with this
+   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -I/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2/include/mpi")
+ endif()
+
++# CMAKE_<LANG>_RELEASE
++set(CMAKE_CXX_FLAGS_RELEASE     "-DNDEBUG -O3 -fno-strict-aliasing") # -fno-strict-aliasing because the alternative is -Wno-error
++set(CMAKE_CXX_FLAGS_RELEASE     "${CMAKE_CXX_FLAGS_RELEASE} -Wno-error=unused-result") # Ubuntu warns of unused-result with -O[2-3], CentOS does not
++set(CMAKE_C_FLAGS_RELEASE       "-DNDEBUG -O3")
++set(CMAKE_Fortran_FLAGS_RELEASE "-DNDEBUG -O3")
++
+ # CMAKE_<LANG>_RELWITHDEBINFO  -- not asserted, optimized (same as _ASSERT with asserts disabled)
+ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO     "-DNDEBUG -O3 -fno-strict-aliasing") # -fno-strict-aliasing because the alternative is -Wno-error
+ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO     "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -Wno-error=unused-result") # Ubuntu warns of unused-result with -O[2-3], CentOS does not
