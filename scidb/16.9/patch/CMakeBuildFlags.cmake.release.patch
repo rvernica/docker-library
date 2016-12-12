@@ -1,5 +1,14 @@
 --- a/CMakeBuildFlags.cmake
 +++ b/CMakeBuildFlags.cmake
+@@ -21,7 +21,7 @@ set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -D__STDC_FORMAT_MACROS")
+ set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -D__STDC_LIMIT_MACROS")
+ # code generation
+ set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -fPIC")
+-set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -g -ggdb3 -fno-omit-frame-pointer -fPIC")
++# set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -g -ggd4b3 -fno-omit-frame-pointer -fPIC")
+
+ # CLIKE_LANGUAGE_WARNINGS  for C/C++ but most don't apply to Fortran
+ # adjustments to warnings
 @@ -49,6 +49,12 @@ if(${DISTRO_NAME_VER} MATCHES "Ubuntu") # TODO: unify Centos with this
    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -I/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2/include/mpi")
  endif()
