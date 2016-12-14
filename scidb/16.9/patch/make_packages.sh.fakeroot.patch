@@ -1,0 +1,11 @@
+--- a/utils/make_packages.sh
++++ b/utils/make_packages.sh
+@@ -243,7 +243,7 @@ if [ "$type" == "deb" ]; then
+ 
+         info Building binary packages locally
+         pushd ${build_dir} > /dev/null 2>&1
+-           BUILD_DIR="${build_dir}" INSOURCE=1 dpkg-buildpackage -rfakeroot -uc -us -b -j${jobs} || die dpkg-buildpackage failed
++           BUILD_DIR="${build_dir}" INSOURCE=1 dpkg-buildpackage -uc -us -b -j${jobs} || die dpkg-buildpackage failed
+         popd > /dev/null 2>&1
+ 
+         # Apparently, dpkg-buildpackage has to generate .deb files in ../ (go figure ...)
