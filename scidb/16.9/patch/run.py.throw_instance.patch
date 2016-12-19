@@ -1,0 +1,22 @@
+diff --git a/run.py b/run.py
+index f02692c..35030d5 100755
+--- a/run.py
++++ b/run.py
+@@ -539,7 +539,7 @@ def generateConfigFile(scidbEnv, db_name, host, port, data_path, instance_num, n
+ 
+     fd = open(configFile,"w")
+     print >>fd, "[%s]"            %(db_name)
+-    if instance_num > 1:
++    if False and instance_num > 1:
+         print >>fd, "server-0=%s,%d"    %(host,instance_num/2-1)
+         print >>fd, "server-1=%s,%d-%d" %(secondName,instance_num/2,instance_num-1)
+         print >>fd, "redundancy=1"
+@@ -673,7 +673,7 @@ def install(scidbEnv):
+     os.chdir(scidbEnv.build_path)
+ 
+     if not scidbEnv.args.light:
+-        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force)
++        rm_rf(scidbEnv.install_path+"/*", scidbEnv.args.force, throw=False)
+ 
+     mkdir_p(scidbEnv.install_path)
+ 
