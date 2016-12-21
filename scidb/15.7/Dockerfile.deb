@@ -7,7 +7,8 @@ ARG SCIDB_NAME=scidb
 ENV SCIDB_VER=15.7         \
     SCIDB_NAME=$SCIDB_NAME
 
-ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
+ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER \
+    SCIDB_SHIM=ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb
 
 ENV SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
     PATH=$PATH:$SCIDB_INSTALL_PATH/bin
@@ -161,10 +162,9 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
 
 
 ## Install Shim
-RUN wget --no-verbose                                                           \
-        --output-document /usr/src/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb     \
-        http://paradigm4.github.io/shim/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb \
-    && dpkg --install /usr/src/ubuntu_14.04_shim_${SCIDB_VER}_amd64.deb
+RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+        http://paradigm4.github.io/shim/$SCIDB_SHIM      \
+    && dpkg --install /tmp/$SCIDB_SHIM
 
 
 COPY docker-entrypoint.sh /
