@@ -6,12 +6,16 @@ USERNAME=rvernica
 
 
 ## 15.7
-# version="0-9267"
-# base="scidb-15.7"
+version="0-9267"
+base="scidb-15.7"
 
 ## 15.12
 version="1-1"
 base="paradigm4-15.12"
+
+## 16.9
+version="0-1"
+base="paradigm4-16.9"
 
 
 names="\
