@@ -2,8 +2,9 @@ FROM rvernica/scidb:16.9
 
 
 ## Install dependencies
-RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
-        bc \
+RUN apt-get update                                          \
+    && apt-get install --assume-yes --no-install-recommends \
+        bc                                                  \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -12,24 +13,25 @@ ENV SCIDB_ACCELERATED_IO_TOOLS=6ce60a65d092186b0336032faaf2656be52848c8
 
 
 ## Install dev_tools
-RUN wget --no-verbose --output-document - \
-        https://github.com/Paradigm4/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz | \
-        tar --extract --gzip --directory=/usr/local/src && \
-    make --directory=/usr/local/src/dev_tools-$SCIDB_DEV_TOOLS && \
-    cp /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS/*.so \
-        $SCIDB_INSTALL_PATH/lib/scidb/plugins && \
-    rm -rf /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS
+RUN wget --no-verbose --output-document -                                      \
+        https://github.com/Paradigm4/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz \
+    |  tar --extract --gzip --directory=/usr/local/src                         \
+    && make --directory=/usr/local/src/dev_tools-$SCIDB_DEV_TOOLS              \
+    && cp /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS/*.so                       \
+        $SCIDB_INSTALL_PATH/lib/scidb/plugins                                  \
+    && rm -rf /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS
 
 
 ## Install accelerated_io_tools
 ## Re-create ".pgpass" file due to hard links created by Docker Hub
-RUN cp /root/.pgpass /root/.pgpass.bk && mv /root/.pgpass.bk /root/.pgpass && \
-    service ssh start && \
-    service postgresql start && \
-    scidb.py startall $SCIDB_NAME && \
-    iquery --afl --query \
-        "load_library('dev_tools'); \
-         install_github( \
+RUN cp /root/.pgpass /root/.pgpass.bk          \
+    && mv /root/.pgpass.bk /root/.pgpass       \
+    && service ssh start                       \
+    && service postgresql start                \
+    && scidb.py startall $SCIDB_NAME           \
+    && iquery --afl --query                    \
+        "load_library('dev_tools');            \
+         install_github(                       \
              'Paradigm4/accelerated_io_tools', \
-             '$SCIDB_ACCELERATED_IO_TOOLS', \
+             '$SCIDB_ACCELERATED_IO_TOOLS',    \
              'https_proxy=$https_proxy')"

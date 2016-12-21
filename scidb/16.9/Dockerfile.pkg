@@ -2,50 +2,53 @@ FROM rvernica/scidb:16.9
 
 
 ## Install dependencies
-RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
-        ant-optional \
-        build-essential \
-        debhelper \
-        docbook-xsl \
-        doxygen \
-        dpkg-dev \
-        fop \
-        git \
-        libblacs-openmpi1 \
-        libpam-dev \
-        ruby \
-        ruby-dev \
-        subversion \
-        swig2.0 \
-        xsltproc \
-    && rm -rf /var/lib/apt/lists/* && \
-    gem install fpm
+RUN apt-get update                                          \
+    && apt-get install --assume-yes --no-install-recommends \
+        ant-optional                                        \
+        build-essential                                     \
+        debhelper                                           \
+        docbook-xsl                                         \
+        doxygen                                             \
+        dpkg-dev                                            \
+        fop                                                 \
+        git                                                 \
+        libblacs-openmpi1                                   \
+        libpam-dev                                          \
+        ruby                                                \
+        ruby-dev                                            \
+        subversion                                          \
+        swig2.0                                             \
+        xsltproc                                            \
+    && rm -rf /var/lib/apt/lists/*                          \
+    && gem install fpm
+
 
 ## Build and install libscalapack-mpi1 from wheezy
-RUN echo "deb-src http://http.debian.net/debian wheezy main" > \
-        /etc/apt/sources.list.d/wheezy.list && \
-    apt-get update && apt-get build-dep --assume-yes --no-install-recommends \
-        libscalapack-mpi1 \
-    && mkdir /usr/local/src/libscalapack-mpi1 && \
-    cd /usr/local/src/libscalapack-mpi1 && \
-    apt-get source --build \
-        libscalapack-mpi1 \
-    && apt-get purge --assume-yes \
-        blacs-pvm-dev \
-        blacs1-pvm \
-        libblacs-mpi-dev \
-        libpvm3 \
-        libreadline-dev \
-        pvm \
-        pvm-dev \
-    && dpkg --install \
-        libscalapack-mpi1_1.8.0-9_amd64.deb \
-    && rm -rf \
-        /etc/apt/sources.list.d/wheezy.list \
-        /usr/local/src/libscalapack-mpi1 \
+RUN echo "deb-src http://http.debian.net/debian wheezy main"  \
+    >  /etc/apt/sources.list.d/wheezy.list                    \
+    && apt-get update                                         \
+    && apt-get build-dep --assume-yes --no-install-recommends \
+        libscalapack-mpi1                                     \
+    && mkdir /usr/local/src/libscalapack-mpi1                 \
+    && cd /usr/local/src/libscalapack-mpi1                    \
+    && apt-get source --build                                 \
+        libscalapack-mpi1                                     \
+    && apt-get purge --assume-yes                             \
+        blacs-pvm-dev                                         \
+        blacs1-pvm                                            \
+        libblacs-mpi-dev                                      \
+        libpvm3                                               \
+        libreadline-dev                                       \
+        pvm                                                   \
+        pvm-dev                                               \
+    && dpkg --install                                         \
+        libscalapack-mpi1_1.8.0-9_amd64.deb                   \
+    && rm -rf                                                 \
+        /etc/apt/sources.list.d/wheezy.list                   \
+        /usr/local/src/libscalapack-mpi1                      \
         /var/lib/apt/lists/*
 
 
 ## Build .deb packages
-RUN cd $SCIDB_SOURCE_PATH && \
-    ./run.py make_packages --force
+RUN cd $SCIDB_SOURCE_PATH             \
+    && ./run.py make_packages --force
