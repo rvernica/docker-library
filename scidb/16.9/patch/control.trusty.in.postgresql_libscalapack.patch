@@ -1,0 +1,39 @@
+--- a/debian/control.trusty.in
++++ b/debian/control.trusty.in
+@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 8.0.0), cmake, g++-4.9, gfortran-4.9, bison, flex,
+                libprotobuf-dev, protobuf-compiler, zlib1g-dev, liblog4cxx10-dev, openssh-client,
+                libreadline6-dev, fop, xsltproc, doxygen, python, subversion, ant, ant-contrib,
+ 	       ant-optional, libprotobuf-java, protobuf-compiler, openjdk-8-jdk, junit, git, libpam-dev,
+-               swig2.0, docbook-xsl, gfortran, libscalapack-mpi1, liblapack-dev,
++               swig2.0, docbook-xsl, gfortran, libscalapack-openmpi1, liblapack-dev,
+ 	       scidb-VERSION_MAJOR.VERSION_MINOR-libcsv,
+                scidb-VERSION_MAJOR.VERSION_MINOR-libmpich2-dev,
+                scidb-VERSION_MAJOR.VERSION_MINOR-mpich2,
+@@ -19,8 +19,8 @@ Homepage: http://scidb.org
+ Package: PKGNAME-VERSION_MAJOR.VERSION_MINOR
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends}, python-paramiko, python-crypto
+-Recommends: postgresql-client-9.3
+-Suggests: postgresql-9.3, postgresql-contrib-9.3
++Recommends: postgresql-client-9.4
++Suggests: postgresql-9.4, postgresql-contrib-9.4
+ Description: SciDB - database for extra large data processing
+     BUILD
+
+@@ -68,7 +68,7 @@ Description: SciDB developer and tester utilities (debug symbols)
+
+ Package: PKGNAME-VERSION_MAJOR.VERSION_MINOR-plugins
+ Architecture: any
+-Depends: ${shlibs:Depends}, ${misc:Depends}, PKGNAME-VERSION_MAJOR.VERSION_MINOR-client (= ${binary:Version}), libscalapack-mpi1 (>=1.8.0), libscalapack-mpi1 (<<1.8.1), scidb-VERSION_MAJOR.VERSION_MINOR-libmpich2-1.2, scidb-VERSION_MAJOR.VERSION_MINOR-mpich2, openssh-client
++Depends: ${shlibs:Depends}, ${misc:Depends}, PKGNAME-VERSION_MAJOR.VERSION_MINOR-client (= ${binary:Version}), libscalapack-openmpi1 (>=1.8.0), libscalapack-openmpi1 (<<1.8.1), scidb-VERSION_MAJOR.VERSION_MINOR-libmpich2-1.2, scidb-VERSION_MAJOR.VERSION_MINOR-mpich2, openssh-client
+ Description: SciDB server and client plugins
+     BUILD
+
+@@ -121,6 +121,6 @@ Description: Install entire SciDB
+
+ Package: PKGNAME-VERSION_MAJOR.VERSION_MINOR-all-coord
+ Architecture: any
+-Depends: PKGNAME-VERSION_MAJOR.VERSION_MINOR (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-client (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-utils (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-plugins (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-client-python (= ${binary:Version}), postgresql-client-9.3, postgresql-9.3, postgresql-contrib-9.3, sudo
++Depends: PKGNAME-VERSION_MAJOR.VERSION_MINOR (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-client (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-utils (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-plugins (= ${binary:Version}), PKGNAME-VERSION_MAJOR.VERSION_MINOR-client-python (= ${binary:Version}), postgresql-client-9.4, postgresql-9.4, postgresql-contrib-9.4, sudo
+ Description: Install entire SciDB and PostgreSQL
+     BUILD
