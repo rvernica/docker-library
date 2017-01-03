@@ -150,5 +150,47 @@ RUN cd $SCIDB_SOURCE_PATH                                       \
     && env PATH=$PATH:/opt/scidb/$SCIDB_VER/3rdparty/mpich2/bin \
         ./run.py setup --force                                  \
     && cd stage/build                                           \
-    && make -j2 scidbtestharness
+    && make -j2                                                 \
+         MurmurHash_lib                                         \
+         json_lib                                               \
+         genmeta                                                \
+         dmalloc                                                \
+         scidb_msg_lib                                          \
+         linear_algebra                                         \
+         jdbc_build                                             \
+         benchGen                                               \
+         dgenerator                                             \
+         gen_matrix                                             \
+         arg_separator                                          \
+         preparecdashreport                                     \
+         point                                                  \
+         rational                                               \
+         complex                                                \
+         ra_decl                                                \
+         more_math                                              \
+         scalapackForMPICH2                                     \
+         match                                                  \
+         bestmatch                                              \
+         savebmp                                                \
+         operators                                              \
+         fits                                                   \
+         misc                                                   \
+         example_udos                                           \
+         tile_integration                                       \
+         prototype_load_tools                                   \
+         system_lib                                             \
+         util_lib                                               \
+         compression_lib                                        \
+         mpi_common                                             \
+         catalog_lib                                            \
+         mpi                                                    \
+         mpi_slave_common                                       \
+         scidbclient                                            \
+         dense_linear_algebra                                   \
+         mpi_slave_direct                                       \
+         mpi_slave_scidb                                        \
+         iquery                                                 \
+         scidbtest                                              \
+         array_lib                                              \
+         scidbtestharness
     # $SCIDB_SOURCE_PATH/run.py make -j2
