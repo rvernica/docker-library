@@ -152,10 +152,7 @@ RUN cd $SCIDB_SOURCE_PATH                                       \
     && cd stage/build                                           \
     && make -j2                                                 \
          MurmurHash_lib                                         \
-         json_lib                                               \
-         genmeta                                                \
          dmalloc                                                \
-         scidb_msg_lib                                          \
          linear_algebra                                         \
          jdbc_build                                             \
          benchGen                                               \
@@ -168,24 +165,16 @@ RUN cd $SCIDB_SOURCE_PATH                                       \
          complex                                                \
          ra_decl                                                \
          more_math                                              \
-         scalapackForMPICH2                                     \
          match                                                  \
          bestmatch                                              \
          savebmp                                                \
          operators                                              \
          fits                                                   \
+         scidb_msg_lib                                          \
          misc                                                   \
          example_udos                                           \
          tile_integration                                       \
          prototype_load_tools                                   \
-         system_lib                                             \
-         util_lib                                               \
-         compression_lib                                        \
-         mpi_common                                             \
-         catalog_lib                                            \
-         mpi                                                    \
-         mpi_slave_common                                       \
-         scidbclient                                            \
          dense_linear_algebra                                   \
          mpi_slave_direct                                       \
          mpi_slave_scidb                                        \
