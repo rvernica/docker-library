@@ -171,10 +171,6 @@ RUN cd $SCIDB_SOURCE_PATH                                       \
          operators                                              \
          fits                                                   \
          scidb_msg_lib                                          \
-         misc                                                   \
-         example_udos                                           \
-         tile_integration                                       \
-         prototype_load_tools                                   \
          dense_linear_algebra                                   \
          mpi_slave_direct                                       \
          mpi_slave_scidb                                        \
