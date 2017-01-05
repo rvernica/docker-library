@@ -18,6 +18,7 @@ RUN apt-get update                                          \
     && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https                                 \
         ca-certificates                                     \
+        libgomp1                                            \
         libpqxx-dev                                         \
         libscalapack-openmpi1                               \
         openssh-server                                      \
