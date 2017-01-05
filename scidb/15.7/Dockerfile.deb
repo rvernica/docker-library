@@ -18,6 +18,7 @@ RUN apt-get update                                          \
     && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https                                 \
         ca-certificates                                     \
+        libscalapack-openmpi1                               \
         openssh-server                                      \
         pkg-config                                          \
         wget                                                \
@@ -67,52 +68,6 @@ RUN echo "deb-src http://http.debian.net/debian wheezy main"  \
     && rm -rf                                                 \
         /etc/apt/sources.list.d/wheezy.list                   \
         /usr/local/src/libpqxx3                               \
-        /var/lib/apt/lists/*
-
-
-## Build and install libscalapack-mpi1 from wheezy
-RUN echo "deb-src http://http.debian.net/debian wheezy main"  \
-    >  /etc/apt/sources.list.d/wheezy.list                    \
-    && apt-get update                                         \
-    && apt-get build-dep --assume-yes --no-install-recommends \
-        libscalapack-mpi1                                     \
-    && mkdir /usr/local/src/libscalapack-mpi1                 \
-    && cd /usr/local/src/libscalapack-mpi1                    \
-    && apt-get source --build                                 \
-        libscalapack-mpi1                                     \
-    && apt-get purge --assume-yes                             \
-        blacs-pvm-dev                                         \
-        blacs1-pvm                                            \
-        bsdmainutils                                          \
-        build-essential                                       \
-        bzip2                                                 \
-        debhelper                                             \
-        dpkg-dev                                              \
-        file                                                  \
-        gettext                                               \
-        gettext-base                                          \
-        groff-base                                            \
-        intltool-debian                                       \
-        libasprintf0c2                                        \
-        libblacs-mpi-dev                                      \
-        libcroco3                                             \
-        libdpkg-perl                                          \
-        libmagic1                                             \
-        libpipeline1                                          \
-        libpvm3                                               \
-        libreadline-dev                                       \
-        libtimedate-perl                                      \
-        libunistring0                                         \
-        man-db                                                \
-        po-debconf                                            \
-        pvm                                                   \
-        pvm-dev                                               \
-        xz-utils                                              \
-    && dpkg --install                                         \
-        libscalapack-mpi1_1.8.0-9_amd64.deb                   \
-    && rm -rf                                                 \
-        /etc/apt/sources.list.d/wheezy.list                   \
-        /usr/local/src/libscalapack-mpi1                      \
         /var/lib/apt/lists/*
 
 
