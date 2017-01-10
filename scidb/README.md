@@ -168,6 +168,45 @@ root@2222a680cde1:/# iquery --afl --query "list('libraries')"
 root@2222a680cde1:/# exit
 ```
 
+Here is an example for starting a debian-package-based container and Docker volumes for PostgreSQL and SciDB data:
+
+```bash
+> docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.4/main --volume scidb:/opt/scidb/16.9/DB-scidb rvernica/scidb:16.9-deb iquery --afl --query "store(build(<val:double>[i=0:1; j=0:1], i*2+j), matrix)"
+[ ok ] Starting OpenBSD Secure Shell server: sshd.
+[ ok ] Starting PostgreSQL 9.4 database server: main.
+Starting shim
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+{i,j} val
+{0,0} 0
+{0,1} 1
+{1,0} 2
+{1,1} 3
+> docker volume ls
+DRIVER              VOLUME NAME
+local               postgres
+local               scidb
+> docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.4/main --volume scidb:/opt/scidb/16.9/DB-scidb rvernica/scidb:16.9-deb iquery --afl --query "scan(matrix)"
+[ ok ] Starting OpenBSD Secure Shell server: sshd.
+[ ok ] Starting PostgreSQL 9.4 database server: main.
+Starting shim
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+scidb.py: INFO: Found 0 scidb processes
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
+scidb.py: INFO: Starting SciDB server.
+scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
+scidb.py: INFO: Starting SciDB server.
+{i,j} val
+{0,0} 0
+{0,1} 1
+{1,0} 2
+{1,1} 3
+```
+
 # Ports Exposed
 
 The image exposes the following ports:
