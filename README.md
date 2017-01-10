@@ -6,5 +6,5 @@ This is a collection of [Dockerfiles](https://docs.docker.com/engine/reference/b
 | --- | --- | --- | --- |
 | [djnago](django)     | Dockerfile for [Django](https://www.djangoproject.com/) based on Alpine                | [![](https://images.microbadger.com/badges/image/rvernica/django.svg)](https://microbadger.com/images/rvernica/django)     | `~70-120MB`  |
 | [graphite](graphite) | Dockerfile for [Graphite Project](https://github.com/graphite-project) based on Alpine | [![](https://images.microbadger.com/badges/image/rvernica/graphite.svg)](https://microbadger.com/images/rvernica/graphite) | `~140MB`     |
-| [scidb](scidb)       | Dockerfiles for [SciDB DBMS](http://www.paradigm4.com/) based on Debian                | [![](https://images.microbadger.com/badges/image/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)       | `~600MB-2GB` |
+| [scidb](scidb)       | Dockerfiles for [SciDB DBMS](http://www.paradigm4.com/) based on Debian                | [![](https://images.microbadger.com/badges/image/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)       | `~400MB-2GB` |
 | [vectror](vector)    | Dockerfile for [Vector](http://vectoross.io/) based on Alpine                          | [![](https://images.microbadger.com/badges/image/rvernica/vector.svg)](https://microbadger.com/images/rvernica/vector)     | `~10MB`      |
