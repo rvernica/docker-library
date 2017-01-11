@@ -16,10 +16,7 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM             \
 
 
 ## Setup SSH
-RUN sed --in-place                                                              \
-        's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' \
-        /etc/pam.d/sshd                                                         \
-    && echo 'StrictHostKeyChecking no'                                          \
+RUN echo 'StrictHostKeyChecking no'                                             \
     >> /etc/ssh/ssh_config                                                      \
     && ssh-keygen -f /root/.ssh/id_rsa -q -N ""                                 \
     && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
