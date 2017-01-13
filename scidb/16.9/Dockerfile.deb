@@ -65,7 +65,8 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
                 --db-password `                                      \
                     cut --delimiter : --fields 5  /root/.pgpass`"    \
         postgres                                                     \
-    && $SCIDB_INSTALL_PATH/bin/scidb.py init-all --force $SCIDB_NAME
+    && $SCIDB_INSTALL_PATH/bin/scidb.py init-all --force $SCIDB_NAME \
+    && service postgresql stop
 
 
 ## Install Shim

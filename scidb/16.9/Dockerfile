@@ -31,6 +31,7 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                  \
     && service postgresql start                                     \
     && echo n                                                       \
     |  $SCIDB_SOURCE_PATH/run.py install                            \
+    && service postgresql stop                                      \
     && sed --in-place                                               \
         s/log4j.rootLogger=DEBUG/log4j.rootLogger=$SCIDB_LOG_LEVEL/ \
         $SCIDB_INSTALL_PATH/share/scidb/log1.properties
