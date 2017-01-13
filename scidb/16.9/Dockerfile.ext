@@ -23,7 +23,10 @@ RUN wget --no-verbose --output-document -                                      \
 
 
 ## Install accelerated_io_tools
-RUN service ssh start                          \
+## Re-create ".pgpass" file due to hard links created by Docker Hub
+RUN cp /root/.pgpass /root/.pgpass.bk          \
+    && mv /root/.pgpass.bk /root/.pgpass       \
+    && service ssh start                       \
     && service postgresql start                \
     && scidb.py startall $SCIDB_NAME           \
     && iquery --afl --query                    \
