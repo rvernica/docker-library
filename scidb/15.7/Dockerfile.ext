@@ -34,4 +34,6 @@ RUN cp /root/.pgpass /root/.pgpass.bk          \
          install_github(                       \
              'Paradigm4/accelerated_io_tools', \
              '$SCIDB_ACCELERATED_IO_TOOLS',    \
-             'https_proxy=$https_proxy')"
+             'https_proxy=$https_proxy')"      \
+    && scidb.py stopall $SCIDB_NAME            \
+    && service postgresql stop
