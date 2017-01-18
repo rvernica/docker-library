@@ -27,3 +27,5 @@ RUN apt-get update                                          \
 ## Build .deb packages
 RUN cd $SCIDB_SOURCE_PATH             \
     && ./run.py make_packages --force
+
+RUN make --directory=/usr/local/src/shim-$SHIM_SHA1 deb-pkg
