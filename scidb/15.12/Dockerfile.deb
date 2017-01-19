@@ -82,7 +82,7 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key \
     && apt-get update                                                         \
     && apt-get install --assume-yes --no-install-recommends                   \
         paradigm4-$SCIDB_VER-all-coord                                        \
-        shim                                                                  \
+        shim=$SCIDB_VER                                                       \
     && rm -rf /var/lib/apt/lists/*
 
 
