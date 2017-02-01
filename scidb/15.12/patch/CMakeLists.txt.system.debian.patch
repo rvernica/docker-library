@@ -1,0 +1,11 @@
+--- a/src/system/CMakeLists.txt
++++ b/src/system/CMakeLists.txt
+@@ -34,7 +34,7 @@ set(CONFIGURE_SCIDB_VERSION_BUILD "${SCIDB_REVISION}")
+ if(${DISTRO_NAME_VER} MATCHES "CentOS-6")
+   set(CONFIGURE_DEFAULT_MPI_DIR "/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2")
+ endif()
+-if(${DISTRO_NAME_VER} MATCHES "Ubuntu")
++if(${DISTRO_NAME_VER} MATCHES "Ubuntu" OR ${DISTRO_NAME_VER} MATCHES "Debian")
+   set(CONFIGURE_DEFAULT_MPI_DIR "/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2")
+ endif()
+ set(CONFIGURE_DEFAULT_MPI_TYPE "mpich2-1.2")

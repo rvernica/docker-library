@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -147,7 +147,7 @@ set(CMAKE_C_FLAGS_VALGRIND "-g -O0 -DCLEAN_EXIT")
+ 
+ set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fno-f2c -Wline-truncation")
+ 
+-if(${DISTRO_NAME_VER} MATCHES "Ubuntu")
++if(${DISTRO_NAME_VER} MATCHES "Ubuntu" OR ${DISTRO_NAME_VER} MATCHES "Debian")
+   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -I/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2/include/mpi")
+ endif()
+ set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -I/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/boost/include/boost")
