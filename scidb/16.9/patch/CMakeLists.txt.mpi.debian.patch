@@ -1,6 +1,6 @@
 --- a/src/mpi/CMakeLists.txt
 +++ b/src/mpi/CMakeLists.txt
-@@ -37,7 +37,7 @@ if (USE_LOCAL_MPI)
+@@ -29,7 +29,7 @@ if (USE_LOCAL_MPI)
     set(LOCAL_MPI_PATH "UNDEFINED_FOR_THIS_PLATFORM")
     set(MPICH2_SUFFIX "")
  

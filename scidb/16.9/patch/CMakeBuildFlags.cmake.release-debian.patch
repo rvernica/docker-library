@@ -6,13 +6,18 @@
  set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -fPIC")
 -set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -g -ggdb3 -fno-omit-frame-pointer -fPIC")
 +# set(ALL_BASE_FLAGS "${ALL_BASE_FLAGS} -g -ggd4b3 -fno-omit-frame-pointer -fPIC")
-
+ 
  # CLIKE_LANGUAGE_WARNINGS  for C/C++ but most don't apply to Fortran
  # adjustments to warnings
-@@ -49,6 +49,12 @@ if(${DISTRO_NAME_VER} MATCHES "Ubuntu") # TODO: unify Centos with this
+@@ -45,10 +45,16 @@ set(CMAKE_CXX_FLAGS     "${ALL_BASE_FLAGS} -std=c++14 -pedantic ${CLIKE_LANGUAGE
+ 
+ set(CMAKE_C_FLAGS       "${ALL_BASE_FLAGS} -pedantic ${CLIKE_LANGUAGE_WARNINGS}")                    # C specific flags
+ set(CMAKE_Fortran_FLAGS "${ALL_BASE_FLAGS} -fno-f2c -Wline-truncation")           # Fortran specific flags
+-if(${DISTRO_NAME_VER} MATCHES "Ubuntu") # TODO: unify Centos with this
++if(${DISTRO_NAME_VER} MATCHES "Ubuntu" OR ${DISTRO_NAME_VER} MATCHES "Debian") # TODO: unify Centos with this
    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -I/opt/scidb/${SCIDB_VERSION_MAJOR}.${SCIDB_VERSION_MINOR}/3rdparty/mpich2/include/mpi")
  endif()
-
+ 
 +# CMAKE_<LANG>_RELEASE
 +set(CMAKE_CXX_FLAGS_RELEASE     "-DNDEBUG -O3 -fno-strict-aliasing") # -fno-strict-aliasing because the alternative is -Wno-error
 +set(CMAKE_CXX_FLAGS_RELEASE     "${CMAKE_CXX_FLAGS_RELEASE} -Wno-error=unused-result") # Ubuntu warns of unused-result with -O[2-3], CentOS does not
