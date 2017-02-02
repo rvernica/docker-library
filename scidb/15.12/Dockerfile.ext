@@ -37,3 +37,8 @@ RUN cp /root/.pgpass /root/.pgpass.bk          \
              'https_proxy=$https_proxy')"      \
     && scidb.py stopall $SCIDB_NAME            \
     && service postgresql stop
+
+
+## Update Shim conf to use aio
+RUN echo aio=1            \
+    >> /var/lib/shim/conf
