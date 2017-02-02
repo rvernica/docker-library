@@ -54,6 +54,7 @@ RUN echo "deb http://http.debian.net/debian jessie-backports main" \
     && apt-get install --assume-yes --no-install-recommends        \
         ant                                                        \
         ant-contrib                                                \
+        ca-certificates-java/jessie-backports                      \
         junit                                                      \
         libprotobuf-java                                           \
         openjdk-8-jdk                                              \
