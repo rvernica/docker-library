@@ -3,10 +3,14 @@ Apache Arrow
 
 * Dockerfile to build [Apache Arrow](https://arrow.apache.org/)
 * Build on top of [Debian Linux](https://www.debian.org/)
-* Builds in release mode:
+
+* `apache-arrow` builds:
   * `arrow`
   * `parquet-cpp`
   * `pyarrow` with `parquet` and `jemalloc`
+* `apache-arrow:pyarrow` builds:
+  * `arrow`
+  * `pyarrow` with `jemalloc`
 
 
 Usage
