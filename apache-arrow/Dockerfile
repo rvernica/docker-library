@@ -42,8 +42,9 @@ WORKDIR $ARROW_SOURCE_PATH/cpp
 RUN cmake                                \
       -DCMAKE_INSTALL_PREFIX=$ARROW_HOME \
       -DCMAKE_BUILD_TYPE=Release         \
+      -DARROW_BUILD_TESTS=Off            \
       .
-RUN make
+RUN make -j4
 RUN make install
 
 
@@ -59,7 +60,7 @@ RUN cmake                                  \
       -DPARQUET_ARROW=On                   \
       -DPARQUET_BUILD_TESTS=Off            \
       .
-RUN make
+RUN make -j4
 RUN make install
 
 
