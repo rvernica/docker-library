@@ -7,36 +7,48 @@ Apache Arrow
 * `apache-arrow` builds:
   * `arrow`
   * `parquet-cpp`
-  * `pyarrow` with `parquet` and `jemalloc`
+  * `pyarrow` with `feather`, `parquet` and `jemalloc`
 * `apache-arrow:pyarrow` builds:
   * `arrow`
-  * `pyarrow` with `jemalloc`
+  * `pyarrow` with `feather` and `jemalloc`
 
 
 Usage
 =====
 
-The image comes with an example to verify that `pyarrow` is working:
+The image comes with an example to verify that `pyarrow` and `pyarrow.feather` are working, see [example.py](https://github.com/rvernica/docker-library/blob/master/apache-arrow/example.py):
 
-```bash
+```python
+>>> import pyarrow
+>>> import pyarrow.feather
+>>> import pandas
+>>> import numpy
+
+>>> pyarrow.from_pylist([1,2,3]) # doctest: +ELLIPSIS
+<pyarrow.array.Int64Array object at 0x...>
+[
+  1,
+  2,
+  3
+]
+
+>>> fn = 'example.feather'
+>>> df = pandas.DataFrame({'ints': numpy.random.randint(0, 10, 5)})
+>>> pyarrow.feather.write_feather(df, fn)
+>>> pyarrow.feather.read_feather(fn) == df
+   ints
+0  True
+1  True
+2  True
+3  True
+4  True
+```
+
+To test the example do:
+
+```python
 > docker run --tty --interactive rvernica/apache-arrow python example.py -v
-Trying:
-    import pyarrow
-Expecting nothing
-ok
-Trying:
-    pyarrow.from_pylist([1,2,3]) # doctest: +ELLIPSIS
-Expecting:
-    <pyarrow.array.Int64Array object at 0x...>
-    [
-      1,
-      2,
-      3
-    ]
-ok
-1 items passed all tests:
-   2 tests in __main__
-2 tests in 1 items.
-2 passed and 0 failed.
+...
+9 passed and 0 failed.
 Test passed.
 ```
