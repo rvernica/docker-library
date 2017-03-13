@@ -4,11 +4,11 @@ Apache Arrow
 * Dockerfile to build [Apache Arrow](https://arrow.apache.org/)
 * Build on top of [Debian Linux](https://www.debian.org/)
 
-* `apache-arrow` builds:
+* `rvernica/apache-arrow` Docker image builds:
   * `arrow`
   * `parquet-cpp`
   * `pyarrow` with `feather`, `parquet` and `jemalloc`
-* `apache-arrow:pyarrow` builds:
+* `rvernica/apache-arrow:pyarrow` Docker image builds:
   * `arrow`
   * `pyarrow` with `feather` and `jemalloc`
 
@@ -46,7 +46,7 @@ The image comes with an example to verify that `pyarrow` and `pyarrow.feather` a
 
 To test the example do:
 
-```python
+```bash
 > docker run --tty --interactive rvernica/apache-arrow python example.py -v
 ...
 9 passed and 0 failed.
