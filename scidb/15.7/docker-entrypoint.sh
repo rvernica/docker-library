@@ -1,6 +1,11 @@
 #!/bin/bash
 set -o errexit
 
+if [ -z "$SCIDB_DATA_PATH" ]
+then
+    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
+fi
+
 
 service ssh start
 service postgresql start
