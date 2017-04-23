@@ -11,12 +11,11 @@ ARG SCIDB_LOG_LEVEL=WARN
 
 ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM             \
     SCIDB_NAME=$SCIDB_NAME                             \
-    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME
-
-    # SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
+    SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
+    SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
 
 # Jan 17, 2017
-ENV SHIM_SHA1=f91ec79f00a53624b957daca5033af7625a58b8c
+# ENV SHIM_SHA1=f91ec79f00a53624b957daca5033af7625a58b8c
 
 
 ## Setup SSH
@@ -42,16 +41,16 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                  \
 
 
 ## Install Shim
-# RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
-#         http://paradigm4.github.io/shim/$SCIDB_SHIM      \
-#     && dpkg --install /tmp/$SCIDB_SHIM                   \
-#     && rm /tmp/$SCIDB_SHIM
+RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+        http://paradigm4.github.io/shim/$SCIDB_SHIM      \
+    && dpkg --install /tmp/$SCIDB_SHIM                   \
+    && rm /tmp/$SCIDB_SHIM
 
-RUN wget --no-verbose --output-document -                                   \
-        https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz         \
-    |  tar --extract --gzip --directory=/usr/local/src                      \
-    && cd /usr/local/src/shim-$SHIM_SHA1                                    \
-    && make service
+# RUN wget --no-verbose --output-document -                                   \
+#         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz         \
+#     |  tar --extract --gzip --directory=/usr/local/src                      \
+#     && cd /usr/local/src/shim-$SHIM_SHA1                                    \
+#     && make service
 
 
 COPY docker-entrypoint.sh /
