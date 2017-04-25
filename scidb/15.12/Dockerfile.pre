@@ -133,10 +133,10 @@ RUN wget --no-verbose --output-document - --load-cookies cookies.txt         \
 
 
 ## Apply SciDB patches
-ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTSFRXWHhOc1ZYTGM&export=download \
-    $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.h
-ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTakhoVjloS2l1aVE&export=download \
-    $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.cpp
+# ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTSFRXWHhOc1ZYTGM&export=download \
+#     $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.h
+# ADD https://docs.google.com/uc?id=0B8eyzr2ndWOTakhoVjloS2l1aVE&export=download \
+#     $SCIDB_SOURCE_PATH/src/query/ops/input/ChunkLoader.cpp
 
 
 ## Apply Debian 8 patches
