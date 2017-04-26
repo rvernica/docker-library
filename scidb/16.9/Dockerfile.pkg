@@ -28,4 +28,4 @@ RUN apt-get update                                          \
 RUN cd $SCIDB_SOURCE_PATH             \
     && ./run.py make_packages --force
 
-RUN make --directory=/usr/local/src/shim-$SHIM_SHA1 deb-pkg
+# RUN make --directory=/usr/local/src/shim-$SHIM_SHA1 deb-pkg
