@@ -39,7 +39,6 @@ RUN wget --no-verbose --output-document - https://downloads.paradigm4.com/key \
     && apt-get update                                                         \
     && apt-get install --assume-yes --no-install-recommends                   \
         paradigm4-$SCIDB_VER-all-coord                                        \
-        shim=$SCIDB_VER                                                       \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -70,10 +69,10 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
     && service postgresql stop
 
 
-# ## Install Shim
-# RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
-#         http://paradigm4.github.io/shim/$SCIDB_SHIM      \
-#     && dpkg --install /tmp/$SCIDB_SHIM
+## Install Shim
+RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
+        http://paradigm4.github.io/shim/$SCIDB_SHIM      \
+    && dpkg --install /tmp/$SCIDB_SHIM
 
 
 COPY docker-entrypoint.sh /
