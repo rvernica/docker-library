@@ -5,11 +5,13 @@ FROM rvernica/scidb:15.7
 RUN apt-get update                                          \
     && apt-get install --assume-yes --no-install-recommends \
         bc                                                  \
+        libpcre3-dev                                        \
     && rm -rf /var/lib/apt/lists/*
 
 
-ENV SCIDB_DEV_TOOLS=d59838b5d99d63791a68d8db45dc140b85531368
-ENV SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
+ARG SCIDB_DEV_TOOLS=d59838b5d99d63791a68d8db45dc140b85531368
+ARG SCIDB_ACCELERATED_IO_TOOLS=cc8be674f0531b40d2bcecf823da41e4204b5d43
+ARG SCIDB_SUPERFUNPACK=d3bf0c94ca767153bd6779ee9a8af0a875cb17d0
 
 
 ## Install dev_tools
@@ -31,11 +33,18 @@ RUN cp /root/.pgpass /root/.pgpass.bk          \
     && scidb.py startall $SCIDB_NAME           \
     && iquery --afl --query                    \
         "load_library('dev_tools');            \
+                                               \
          install_github(                       \
              'Paradigm4/accelerated_io_tools', \
              '$SCIDB_ACCELERATED_IO_TOOLS',    \
              'https_proxy=$https_proxy');      \
-         load_library('accelerated_io_tools')" \
+         load_library('accelerated_io_tools'); \
+                                               \
+         install_github(                       \
+             'Paradigm4/superfunpack',         \
+             '$SCIDB_SUPERFUNPACK',            \
+             'https_proxy=$https_proxy');      \
+         load_library('superfunpack')"         \
     && scidb.py stopall $SCIDB_NAME            \
     && service postgresql stop
 
