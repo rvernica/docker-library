@@ -20,7 +20,7 @@ The tags intended for the end user are:
 | --- | ---  | ---           | ---:       | ---      |
 | [`scidb:16.9`](https://github.com/rvernica/docker-library/blob/master/scidb/16.9/Dockerfile)         | `scidb:16.9-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:16.9.svg)](https://microbadger.com/images/rvernica/scidb:16.9)         | `1.866GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
 | [`scidb:16.9-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/16.9/Dockerfile.deb) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:16.9-deb.svg)](https://microbadger.com/images/rvernica/scidb:16.9-deb) | `410.6MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
-| [`scidb:16.9-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/16.9/Dockerfile.ext) | `scidb:16.9`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:16.9-ext.svg)](https://microbadger.com/images/rvernica/scidb:16.9-ext) | `1.899GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools), [superfunpack](https://github.com/Paradigm4/superfunpack), and [stream](https://github.com/Paradigm4/stream)) |
+| [`scidb:16.9-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/16.9/Dockerfile.ext) | `scidb:16.9`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:16.9-ext.svg)](https://microbadger.com/images/rvernica/scidb:16.9-ext) | `1.899GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
 
 The tags used for building are:
 
@@ -38,7 +38,7 @@ The tags intended for the end user are:
 | --- | ---  | ---           | ---:       | ---      |
 | [`scidb:15.12`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile)         | `scidb:15.12-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12.svg)](https://microbadger.com/images/rvernica/scidb:15.12)         | `1.892GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
 | [`scidb:15.12-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.deb) | `debian:8`        | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.12-deb) | `529.3MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
-| [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.12-ext) | `1.926GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools), [superfunpack](https://github.com/Paradigm4/superfunpack), and [stream](https://github.com/Paradigm4/stream)) |
+| [`scidb:15.12-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.12/Dockerfile.ext) | `scidb:15.12`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.12-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.12-ext) | `1.926GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
 
 The tags used for building are:
 
@@ -56,7 +56,7 @@ The tags intended for the end user are:
 | --- | ---  | ---           | ---:       | ---      |
 | [`scidb:15.7`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile)         | `scidb:15.7-pre` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7.svg)](https://microbadger.com/images/rvernica/scidb:15.7)         | `1.835GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
 | [`scidb:15.7-deb`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.deb) | `debian:8`       | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-deb.svg)](https://microbadger.com/images/rvernica/scidb:15.7-deb) | `527MB`   | SciDB (w/ [Shim](https://github.com/Paradigm4/shim)) from Debian packages ([Bintray](https://bintray.com/rvernica/deb))
-| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.7-ext) | `1.867GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim), [dev_tools](https://github.com/Paradigm4/dev_tools), [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools), and [superfunpack](https://github.com/Paradigm4/superfunpack)) |
+| [`scidb:15.7-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/15.7/Dockerfile.ext) | `scidb:15.7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:15.7-ext.svg)](https://microbadger.com/images/rvernica/scidb:15.7-ext) | `1.867GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
 
 The tags used for building are:
 
@@ -206,6 +206,20 @@ scidb.py: INFO: Starting SciDB server.
 {1,0} 2
 {1,1} 3
 ```
+
+# Paradigm4 Plug-ins
+
+The `scidb:XX.YY-ext` images include the folling [Paradigm4](https://github.com/Paradigm4) plug-ins:
+
+* [dev_tools](https://github.com/Paradigm4/dev_tools)
+* [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)
+* [equi_join](https://github.com/Paradigm4/equi_join) only in SciDB `15.12` and `16.9`
+* [grouped_aggregate](https://github.com/Paradigm4/grouped_aggregate)
+* [limit](https://github.com/Paradigm4/limit)
+* [stream](https://github.com/Paradigm4/stream) only in SciDB `15.12` and `16.9`
+* [summarize](https://github.com/Paradigm4/summarize)
+* [superfunpack](https://github.com/Paradigm4/superfunpack)
+
 
 # Ports Exposed
 
