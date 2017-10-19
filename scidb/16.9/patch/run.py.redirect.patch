@@ -1,0 +1,11 @@
+--- a/run.py
++++ b/run.py
+@@ -476,7 +476,7 @@ def getScidbVersion (scidbEnv):
+     curr_dir=os.getcwd()
+
+     cmdList=[bin_path,
+-             "usage", "|&", "grep", "\"SciDB version:\""]
++             "usage", "2>&1", "|", "grep", "\"SciDB version:\""]
+     ret,out,err = executeIt(cmdList,
+                             useShell=True,
+                             collectOutput=True,
