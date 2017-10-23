@@ -4,8 +4,8 @@ ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SCIDB_VER=16.9            \
-    SCIDB_VER_MINOR=5.9851248 \
-    SCIDB_SOURCE_URL="https://docs.google.com/uc?id=0Bx6-HAs-dV5CbjVxcDQxV3A3ems&export=download"
+    SCIDB_VER_MINOR=5.24119eb \
+    SCIDB_SOURCE_URL="https://docs.google.com/uc?id=0Bx6-HAs-dV5CQjlZZDJpamY0dEk&export=download"
 
 ENV SCIDB_SOURCE_PATH=/usr/local/src/scidb-$SCIDB_VER.$SCIDB_VER_MINOR \
     SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER                           \
