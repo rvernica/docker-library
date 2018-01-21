@@ -1,0 +1,77 @@
+FROM rvernica/scidb:18.1
+
+
+## Install dependencies
+RUN apt-get update                                          \
+    && apt-get install --assume-yes --no-install-recommends \
+        bc                                                  \
+        gcc                                                 \
+        libpcre3-dev                                        \
+        libpqxx-dev                                         \
+    && rm -rf /var/lib/apt/lists/*
+
+
+ARG SCIDB_DEV_TOOLS=ad1af92b3b252ab4a64663ec50f0f9b29bbf349d
+ARG SCIDB_ACCELERATED_IO_TOOLS=cad43ac5dd2229aeab0bcb0f9b5bc847971d84ad
+ARG SCIDB_EQUI_JOIN=bcf9ab1ba849d5d4f405640bd55c04ae7000937a
+ARG SCIDB_GROUPED_AGGREGATE=2d017cf53b9a08c5b3d83760fe6594b45fe2db9d
+ARG SCIDB_STREAM=e115ee8dbb9fa01fb4958e3b10d66f9ca65656da
+ARG SCIDB_SUPERFUNPACK=4fbac3ba5cb499f3458cd8b3ab622a139da7b5c5
+
+
+## Install dev_tools
+RUN wget --no-verbose --output-document -                                      \
+        https://github.com/Paradigm4/dev_tools/archive/$SCIDB_DEV_TOOLS.tar.gz \
+    |  tar --extract --gzip --directory=/usr/local/src                         \
+    && make --directory=/usr/local/src/dev_tools-$SCIDB_DEV_TOOLS              \
+    && cp /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS/*.so                       \
+        $SCIDB_INSTALL_PATH/lib/scidb/plugins                                  \
+    && rm -rf /usr/local/src/dev_tools-$SCIDB_DEV_TOOLS
+
+
+## Install Paradigm4 plug-ins
+## Re-create ".pgpass" file due to hard links created by Docker Hub
+RUN cp /root/.pgpass /root/.pgpass.bk          \
+    && mv /root/.pgpass.bk /root/.pgpass       \
+    && service ssh start                       \
+    && service postgresql start                \
+    && scidb.py startall $SCIDB_NAME           \
+    && iquery --afl --query                    \
+        "load_library('dev_tools');            \
+                                               \
+         install_github(                       \
+             'Paradigm4/accelerated_io_tools', \
+             '$SCIDB_ACCELERATED_IO_TOOLS',    \
+             'https_proxy=$https_proxy');      \
+         load_library('accelerated_io_tools'); \
+                                               \
+         install_github(                       \
+             'Paradigm4/equi_join',            \
+             '$SCIDB_EQUI_JOIN',               \
+             'https_proxy=$https_proxy');      \
+         load_library('equi_join');            \
+                                               \
+         install_github(                       \
+             'Paradigm4/grouped_aggregate',    \
+             '$SCIDB_GROUPED_AGGREGATE',       \
+             'https_proxy=$https_proxy');      \
+         load_library('grouped_aggregate');    \
+                                               \
+         install_github(                       \
+             'Paradigm4/stream',               \
+             '$SCIDB_STREAM',                  \
+             'https_proxy=$https_proxy');      \
+         load_library('stream');               \
+                                               \
+         install_github(                       \
+             'Paradigm4/superfunpack',         \
+             '$SCIDB_SUPERFUNPACK',            \
+             'https_proxy=$https_proxy');      \
+         load_library('superfunpack')"         \
+    && scidb.py stopall $SCIDB_NAME            \
+    && service postgresql stop
+
+
+## Update Shim conf to use aio
+RUN echo aio=1            \
+    >> /var/lib/shim/conf
