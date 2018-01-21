@@ -3,13 +3,25 @@
    * Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
    * Build on top of [Debian Linux](https://www.debian.org/)
    * Size: `~400MB-2GB`
-   * Latest version: `16.9`
+   * Latest version: `18.1`
    * Automated build at [Docker Hub](https://hub.docker.com/r/rvernica/scidb/) [![](https://images.microbadger.com/badges/version/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)
 
 
 # Tags
 
 Five different tags are available for SciDB. Three are intended for the end user, while two are used for building.
+
+
+## `18.1`
+
+The tags intended for the end user are:
+
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:       | ---      |
+| [`scidb:18.1`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile)         | `debian:8`   | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1.svg)](https://microbadger.com/images/rvernica/scidb:18.1)         | `1.866GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:18.1-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile.ext) | `scidb:18.1` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1-ext.svg)](https://microbadger.com/images/rvernica/scidb:18.1-ext) | `1.899GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
+
+The `-deb`, `-pre`, and `-pkg` tags are no longer required for version `18.1` since Debian packages are directly provided by Paradigm4. Hence `scidb:18.1` is equivalent with the older `-deb` tags.
 
 
 ## `16.9`
@@ -213,11 +225,11 @@ The `scidb:XX.YY-ext` images include the folling [Paradigm4](https://github.com/
 
 * [dev_tools](https://github.com/Paradigm4/dev_tools)
 * [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)
-* [equi_join](https://github.com/Paradigm4/equi_join) only in SciDB `15.12` and `16.9`
+* [equi_join](https://github.com/Paradigm4/equi_join) only in SciDB > `15.7`
 * [grouped_aggregate](https://github.com/Paradigm4/grouped_aggregate)
-* [limit](https://github.com/Paradigm4/limit)
-* [stream](https://github.com/Paradigm4/stream) only in SciDB `15.12` and `16.9`
-* [summarize](https://github.com/Paradigm4/summarize)
+* [limit](https://github.com/Paradigm4/limit) only in SciDB < `18.1`
+* [stream](https://github.com/Paradigm4/stream) only in SciDB > `15.7`
+* [summarize](https://github.com/Paradigm4/summarize) only in SciDB < `18.1`
 * [superfunpack](https://github.com/Paradigm4/superfunpack)
 
 
