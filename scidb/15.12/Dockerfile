@@ -19,9 +19,9 @@ ENV SHIM_SHA1=20c8de46da7951b3529d114dac579c5e7e2281fd \
 
 
 ## Setup SSH
-RUN echo 'StrictHostKeyChecking no'                                             \
-    >> /etc/ssh/ssh_config                                                      \
-    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""                                 \
+RUN echo 'StrictHostKeyChecking no'                        \
+    >> /etc/ssh/ssh_config                                 \
+    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""            \
     && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 

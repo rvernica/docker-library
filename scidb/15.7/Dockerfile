@@ -16,9 +16,9 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM             \
 
 
 ## Setup SSH
-RUN echo 'StrictHostKeyChecking no'                                             \
-    >> /etc/ssh/ssh_config                                                      \
-    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""                                 \
+RUN echo 'StrictHostKeyChecking no'                        \
+    >> /etc/ssh/ssh_config                                 \
+    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""            \
     && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
