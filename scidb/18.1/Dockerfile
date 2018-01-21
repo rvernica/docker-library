@@ -115,3 +115,11 @@ RUN wget --no-verbose --output-document -                           \
 ## Setup container entrypoint
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+## Port | App
+## -----+-----
+## 1239 | SciDB iquery
+## 8080 | SciDB Shim (HTTP)
+## 8083 | SciDB Shim (HTTPS)
+EXPOSE 1239 8080 8083
