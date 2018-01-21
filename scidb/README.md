@@ -18,8 +18,8 @@ The tags intended for the end user are:
 
 | Tag | From | Download Size | Image Size | Comments |
 | --- | ---  | ---           | ---:       | ---      |
-| [`scidb:18.1`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile)         | `debian:8`   | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1.svg)](https://microbadger.com/images/rvernica/scidb:18.1)         | `1.866GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
-| [`scidb:18.1-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile.ext) | `scidb:18.1` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1-ext.svg)](https://microbadger.com/images/rvernica/scidb:18.1-ext) | `1.899GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
+| [`scidb:18.1`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile)         | `debian:8`   | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1.svg)](https://microbadger.com/images/rvernica/scidb:18.1)         | `692MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:18.1-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile.ext) | `scidb:18.1` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1-ext.svg)](https://microbadger.com/images/rvernica/scidb:18.1-ext) | `757MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
 
 The `-deb`, `-pre`, and `-pkg` tags are no longer required for version `18.1` since Debian packages are directly provided by Paradigm4. Hence `scidb:18.1` is equivalent with the older `-deb` tags.
 
