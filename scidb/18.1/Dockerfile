@@ -1,0 +1,113 @@
+FROM debian:8
+
+ARG TERM=linux
+ARG DEBIAN_FRONTEND=noninteractive
+ARG SCIDB_NAME=scidb
+ARG SCIDB_LOG_LEVEL=WARN
+
+ENV SCIDB_VER=18.1                                    \
+    SCIDB_SCRIPT_ID=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso
+
+ENV SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=$SCIDB_SCRIPT_ID&export=download" \
+    SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
+
+ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
+
+
+## Add Ubuntu package repository for libprotobuf8
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main restricted" \
+    >> /etc/apt/sources.list                                            \
+    && apt-key adv --keyserver keyserver.ubuntu.com                     \
+        --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+
+
+## Install dependencies
+RUN apt-get update                                          \
+    && apt-get install --assume-yes --no-install-recommends \
+        apt-transport-https                                 \
+        ca-certificates                                     \
+        openssh-client                                      \
+        openssh-server                                      \
+        patch                                               \
+        wget                                                \
+    && rm -rf /var/lib/apt/lists/*
+
+
+## Get SciDB install script
+RUN wget --no-verbose                                                        \
+        --output-document /install-scidb-ce.sh                               \
+        --load-cookies cookies.txt                                           \
+        "$SCIDB_SCRIPT_URL&`                                                 \
+            wget --no-verbose --output-document - --save-cookies cookies.txt \
+                "$SCIDB_SCRIPT_URL"                                          \
+            |  grep --only-matching 'confirm=[^&]*'`"
+
+
+## Apply Debian patch
+COPY install-scidb-ce.sh.debian.patch /
+RUN patch --strip=1 \
+    <  install-scidb-ce.sh.debian.patch
+
+
+## Run SciDB install script
+RUN apt-get update                  \
+    && yes                          \
+    |  bash -x /install-scidb-ce.sh \
+    && rm -rf /var/lib/apt/lists/*
+
+
+## Setup SSH
+RUN echo 'StrictHostKeyChecking no'                        \
+    >> /etc/ssh/ssh_config                                 \
+    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""            \
+    && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
+
+## Setup SciDB "config.ini"
+COPY config.deb.ini $SCIDB_INSTALL_PATH/etc/config.ini
+
+
+## Setup PostgreSQL and SciDB
+RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
+            date +%s | sha256sum | base64 | head -c 32`"             \
+    >  /root/.pgpass                                                 \
+    && chmod go-r /root/.pgpass                                      \
+    && service ssh start                                             \
+    && service postgresql start                                      \
+    && su --command="                                                \
+            $SCIDB_INSTALL_PATH/bin/scidb.py init-syscat $SCIDB_NAME \
+                --db-password `                                      \
+                    cut --delimiter : --fields 5  /root/.pgpass`"    \
+        postgres                                                     \
+    && $SCIDB_INSTALL_PATH/bin/scidb.py init-all --force $SCIDB_NAME \
+    && service postgresql stop                                       \
+    && sed --in-place                                                \
+        s/log4j.rootLogger=INFO/log4j.rootLogger=$SCIDB_LOG_LEVEL/   \
+        $SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties
+
+
+## Setup Shim
+ARG SHIM_SHA1=b135a220c65dfacbcf4e132c0f1436077d25b33f
+
+RUN apt-get update                  \
+    && apt-get install --assume-yes --no-install-recommends \
+    make \
+    scidb-18.1-dev \
+    scidb-18.1-libboost1.54-dev \
+    scidb-18.1-libboost-system1.54-dev \
+    liblog4cxx10-dev \
+    zlib1g-dev \
+    && apt-get install --assume-yes --no-install-recommends --target-release \
+    trusty libprotobuf-dev
+
+
+RUN wget --no-verbose --output-document -                           \
+        https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz \
+    |  tar --extract --gzip --directory=/usr/local/src              \
+    && cd /usr/local/src/shim-$SHIM_SHA1                            \
+    && make service
+
+
+## Setup container entrypoint
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]

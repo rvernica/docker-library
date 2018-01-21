@@ -1,0 +1,62 @@
+--- a/install-scidb-ce.sh
++++ b/install-scidb-ce.sh
+@@ -19,7 +19,7 @@ function setup_repos()
+ 	yum clean all
+ 	yum makecache fast
+ 
+-    elif  [[ $OS == *"Ubuntu"* ]]; then
++    elif  [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	wget -O- https://downloads.paradigm4.com/key | apt-key add -
+ 	mkdir -p /etc/apt/sources.list.d
+ 	echo > /etc/apt/sources.list.d/scidb.list
+@@ -60,7 +60,7 @@ function pkg_test()
+     echo "Checking for $1."
+     if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	yum list installed $1 2> /dev/null > /dev/null
+-    elif [[ $OS == *"Ubuntu"* ]]; then
++    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	dpkg -s $1 2> /dev/null > /dev/null
+     else
+ 	echo "Unknown OS!"
+@@ -81,7 +81,7 @@ function pkg_install()
+     if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+ 	if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	    yum install -y $1
+-	elif [[ $OS == *"Ubuntu"* ]]; then
++	elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	    apt-get install --force-yes $1
+ 	fi
+     else
+@@ -111,7 +111,7 @@ function check_dependencies()
+ {
+     if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	declare -a deps=("openssh" "openssh-server" "wget")
+-    elif [[ $OS == *"Ubuntu"* ]]; then
++    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	declare -a deps=("openssh-client" "openssh-server" "wget" )
+ 	update_stdc
+     fi
+@@ -170,7 +170,7 @@ function install_postgres()
+ 	wget --no-check-certificate https://download.postgresql.org/pub/repos/yum/9.3/redhat/rhel-7-x86_64/pgdg-redhat93-9.3-3.noarch.rpm
+ 	yum install -y pgdg-redhat93-9.3-3.noarch.rpm
+ 	rm -f pgdg-redhat93-9.3-3.noarch.rpm
+-    elif [[ $OS == *"Ubuntu"* ]]; then
++    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+ 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+ 	apt update
+@@ -215,7 +215,7 @@ install_postgres
+ pkg_install scidb-18.1-ce --force
+ 
+ if [ $? -eq 0 ]; then
+-    if [[ $OS == *"Ubuntu"* ]]; then
++    if [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	pushd /opt/scidb/18.1/scripts
+ 	./setup_scidb.sh /opt/scidb/18.1
+ 	popd
+@@ -246,5 +246,3 @@ if [[ $err == "true" ]]; then
+ else
+     exit 0
+ fi
+-
+-
