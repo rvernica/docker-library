@@ -19,9 +19,9 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM             \
 
 
 ## Setup SSH
-RUN echo 'StrictHostKeyChecking no'                                             \
-    >> /etc/ssh/ssh_config                                                      \
-    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""                                 \
+RUN echo 'StrictHostKeyChecking no'                        \
+    >> /etc/ssh/ssh_config                                 \
+    && ssh-keygen -f /root/.ssh/id_rsa -q -N ""            \
     && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
@@ -46,10 +46,10 @@ RUN wget --no-verbose --output-document /tmp/$SCIDB_SHIM \
     && dpkg --install /tmp/$SCIDB_SHIM                   \
     && rm /tmp/$SCIDB_SHIM
 
-# RUN wget --no-verbose --output-document -                                   \
-#         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz         \
-#     |  tar --extract --gzip --directory=/usr/local/src                      \
-#     && cd /usr/local/src/shim-$SHIM_SHA1                                    \
+# RUN wget --no-verbose --output-document -                           \
+#         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz \
+#     |  tar --extract --gzip --directory=/usr/local/src              \
+#     && cd /usr/local/src/shim-$SHIM_SHA1                            \
 #     && make service
 
 
