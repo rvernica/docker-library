@@ -1,15 +1,22 @@
 FROM debian:8
 
+
 ARG TERM=linux
 ARG DEBIAN_FRONTEND=noninteractive
+
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
+ARG SCIDB_SCRIPT_ID=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso
+ARG SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=$SCIDB_SCRIPT_ID&export=download"
 
-ENV SCIDB_VER=18.1                                    \
-    SCIDB_SCRIPT_ID=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso
+# Dec 28, 2017
+ARG SHIM_SHA1=b135a220c65dfacbcf4e132c0f1436077d25b33f
 
-ENV SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=$SCIDB_SCRIPT_ID&export=download" \
-    SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
+
+ENV SCIDB_VER=18.1   \
+    SCIDB_NAME=scidb
+
+ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
 
 ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
@@ -17,8 +24,9 @@ ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 ## Add Ubuntu package repository for libprotobuf8
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main restricted" \
     >> /etc/apt/sources.list                                            \
-    && apt-key adv --keyserver keyserver.ubuntu.com                     \
-        --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32
+    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys        \
+        40976EAF437D05B5                                                \
+        3B4FE6ACC0B21F32
 
 
 ## Install dependencies
@@ -26,10 +34,15 @@ RUN apt-get update                                          \
     && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https                                 \
         ca-certificates                                     \
+        liblog4cxx10-dev                                    \
         openssh-client                                      \
         openssh-server                                      \
         patch                                               \
         wget                                                \
+        zlib1g-dev                                          \
+    && apt-get install --assume-yes --no-install-recommends \
+        --target-release trusty                             \
+        libprotobuf-dev                                     \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -50,9 +63,14 @@ RUN patch --strip=1 \
 
 
 ## Run SciDB install script
-RUN apt-get update                  \
-    && yes                          \
-    |  bash -x /install-scidb-ce.sh \
+RUN apt-get update                                          \
+    && yes                                                  \
+    |  bash -x /install-scidb-ce.sh                         \
+    && apt-get install --assume-yes --no-install-recommends \
+        make                                                \
+        scidb-$SCIDB_VER-dev                                \
+        scidb-$SCIDB_VER-libboost1.54-dev                   \
+        scidb-$SCIDB_VER-libboost-system1.54-dev            \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -72,6 +90,7 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
             date +%s | sha256sum | base64 | head -c 32`"             \
     >  /root/.pgpass                                                 \
     && chmod go-r /root/.pgpass                                      \
+    && chmod a+r $SCIDB_INSTALL_PATH/etc/config.ini                  \
     && service ssh start                                             \
     && service postgresql start                                      \
     && su --command="                                                \
@@ -84,21 +103,6 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
     && sed --in-place                                                \
         s/log4j.rootLogger=INFO/log4j.rootLogger=$SCIDB_LOG_LEVEL/   \
         $SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties
-
-
-## Setup Shim
-ARG SHIM_SHA1=b135a220c65dfacbcf4e132c0f1436077d25b33f
-
-RUN apt-get update                  \
-    && apt-get install --assume-yes --no-install-recommends \
-    make \
-    scidb-18.1-dev \
-    scidb-18.1-libboost1.54-dev \
-    scidb-18.1-libboost-system1.54-dev \
-    liblog4cxx10-dev \
-    zlib1g-dev \
-    && apt-get install --assume-yes --no-install-recommends --target-release \
-    trusty libprotobuf-dev
 
 
 RUN wget --no-verbose --output-document -                           \
