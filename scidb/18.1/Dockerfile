@@ -6,8 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
-ARG SCIDB_SCRIPT_ID=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso
-ARG SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=$SCIDB_SCRIPT_ID&export=download"
+ARG SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso&export=download"
 
 # Dec 28, 2017
 ARG SHIM_SHA1=b135a220c65dfacbcf4e132c0f1436077d25b33f
