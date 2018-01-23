@@ -221,7 +221,7 @@ scidb.py: INFO: Starting SciDB server.
 
 # Paradigm4 Plug-ins
 
-The `scidb:XX.YY-ext` images include the folling [Paradigm4](https://github.com/Paradigm4) plug-ins:
+The `scidb:XX.YY-ext` images include the following [Paradigm4](https://github.com/Paradigm4) plug-ins:
 
 * [dev_tools](https://github.com/Paradigm4/dev_tools)
 * [accelerated_io_tools](https://github.com/Paradigm4/accelerated_io_tools)
