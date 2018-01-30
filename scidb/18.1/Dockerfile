@@ -8,8 +8,8 @@ ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
 ARG SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso&export=download"
 
-# Jan 22, 2018 (session authentication)
-ARG SHIM_SHA1=d01726e5eddf10ac78e3521968716a7117f92b22
+# Jan 29, 2018 (session authentication)
+ARG SHIM_SHA1=f14cd0164109222203d0d690ea09414716db655f
 
 
 ENV SCIDB_VER=18.1   \

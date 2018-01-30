@@ -14,8 +14,8 @@ ENV SCIDB_INSTANCE_NUM=$SCIDB_INSTANCE_NUM             \
     SCIDB_DATA_PATH=$SCIDB_INSTALL_PATH/DB-$SCIDB_NAME \
     SCIDB_SHIM=shim_${SCIDB_VER}_amd64.deb
 
-# Jan 22, 2018 (session authentication)
-ENV SHIM_SHA1=6eccf51bbc0f775dde3252cce820a01de7e6f3ce
+# Jan 29, 2018 (session authentication)
+ENV SHIM_SHA1=ab252b0d699a744f21941321f9be2fbe29c674de
 
 
 ## Setup SSH
