@@ -50,7 +50,17 @@ RUN wget --no-verbose --output-document -                           \
         https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz \
     |  tar --extract --gzip --directory=/usr/local/src              \
     && cd /usr/local/src/shim-$SHIM_SHA1                            \
-    && make service
+    && make service                                                 \
+    && openssl req                                                  \
+        -new                                                        \
+        -newkey rsa:4096                                            \
+        -days 3650                                                  \
+        -nodes                                                      \
+        -x509                                                       \
+        -subj "/C=US/ST=MA/L=Waltham/O=Paradigm4/CN=$(hostname)"    \
+        -keyout /var/lib/shim/ssl_cert.pem                          \
+    2> /dev/null                                                    \
+    >> /var/lib/shim/ssl_cert.pem
 
 
 COPY docker-entrypoint.sh /
