@@ -21,10 +21,10 @@ ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
 ## Add Ubuntu package repository for libprotobuf8
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main restricted" \
-    >> /etc/apt/sources.list                                            \
-    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys        \
-        40976EAF437D05B5                                                \
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"     \
+    >> /etc/apt/sources.list.d/trusty-main.list                  \
+    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys \
+        40976EAF437D05B5                                         \
         3B4FE6ACC0B21F32
 
 
