@@ -2,13 +2,26 @@ FROM rvernica/scidb:18.1
 
 
 ## Install dependencies
-RUN apt-get update                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        bc                                                  \
-        gcc                                                 \
-        libpcre3-dev                                        \
-        libpqxx-dev                                         \
-    && rm -rf /var/lib/apt/lists/*
+RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
+    >> /etc/apt/sources.list.d/red-data-tools.list                         \
+    && apt-get update                                                      \
+    && apt-get install                                                     \
+         --assume-yes                                                      \
+         --no-install-recommends                                           \
+         --allow-unauthenticated                                           \
+        red-data-tools-keyring                                             \
+    && apt-get update                                                      \
+    && apt-get install --assume-yes --no-install-recommends                \
+        bc                                                                 \
+        gcc                                                                \
+        libarrow-dev                                                       \
+        libarrow0                                                          \
+        libpcre3-dev                                                       \
+        libpqxx-dev                                                        \
+    && rm -rf /var/lib/apt/lists/*                                         \
+    && wget --no-verbose https://bootstrap.pypa.io/get-pip.py              \
+    && python get-pip.py                                                   \
+    && pip install scidb-strm
 
 
 ARG SCIDB_DEV_TOOLS=ad1af92b3b252ab4a64663ec50f0f9b29bbf349d
