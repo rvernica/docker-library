@@ -2,20 +2,38 @@ FROM rvernica/scidb:16.9
 
 
 ## Install dependencies
-RUN apt-get update                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        bc                                                  \
-        libpcre3-dev                                        \
-    && rm -rf /var/lib/apt/lists/*
+RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty main"               \
+    >  /etc/apt/sources.list.d/trusty-main.list                               \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys               \
+        40976EAF437D05B5                                                      \
+        3B4FE6ACC0B21F32                                                      \
+    && echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
+    >> /etc/apt/sources.list.d/red-data-tools.list                            \
+    && apt-get update                                                         \
+    && apt-get install                                                        \
+         --assume-yes                                                         \
+         --no-install-recommends                                              \
+         --allow-unauthenticated                                              \
+        red-data-tools-keyring                                                \
+    && apt-get update                                                         \
+    && apt-get install --assume-yes --no-install-recommends                   \
+        bc                                                                    \
+        libarrow-dev                                                          \
+        libarrow0                                                             \
+        libpcre3-dev                                                          \
+    && rm -rf /var/lib/apt/lists/*                                            \
+    && wget --no-verbose https://bootstrap.pypa.io/get-pip.py                 \
+    && python get-pip.py                                                      \
+    && pip install scidb-strm==16.9.1
 
 
 ARG SCIDB_DEV_TOOLS=332127216cd6d5791320abafd767e09164cd22e2
-ARG SCIDB_ACCELERATED_IO_TOOLS=9e0cd26e9e93ea1c748e80f182e1b2bf81718a4b
+ARG SCIDB_ACCELERATED_IO_TOOLS=c7dac75ff51d945b40c5b87c0d8e0e52cc8a8a68
 ARG SCIDB_EQUI_JOIN=3e4971b3296a449711fd23c457cb6a8cfc0fcfc9
 ARG SCIDB_GROUPED_AGGREGATE=c3e9342a8019c1710e043bb708bd784d40e6d4fb
-ARG SCIDB_LIMIT=5eef2a7d625f9b1e1819495cc32ee5f80bcf9b6b
-ARG SCIDB_STREAM=b4ba7e2999c06a57872501e1a22aed1d5faa2980
-ARG SCIDB_SUMMARIZE=b07f9583c63066d5445aa381a0f3a1a52eb7b31b
+ARG SCIDB_LIMIT=bd0751d226e734ab721cbbc161c69ff677bb4922
+ARG SCIDB_STREAM=cf83752dd8e5cdd045abc2ae8e8482e16cb091e5
+ARG SCIDB_SUMMARIZE=4eae8663a8d054e375bdca6d897305dc36f3d382
 ARG SCIDB_SUPERFUNPACK=d3bf0c94ca767153bd6779ee9a8af0a875cb17d0
 
 
