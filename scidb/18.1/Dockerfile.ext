@@ -1,6 +1,8 @@
 FROM rvernica/scidb:18.1
 
 
+ARG ARROW_VER=0.8.0-2
+
 ## Install dependencies
 RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
     >> /etc/apt/sources.list.d/red-data-tools.list                         \
@@ -14,8 +16,8 @@ RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
     && apt-get install --assume-yes --no-install-recommends                \
         bc                                                                 \
         gcc                                                                \
-        libarrow-dev                                                       \
-        libarrow0                                                          \
+        libarrow-dev=$ARROW_VER                                            \
+        libarrow0=$ARROW_VER                                               \
         libpcre3-dev                                                       \
         libpqxx-dev                                                        \
     && rm -rf /var/lib/apt/lists/*                                         \
