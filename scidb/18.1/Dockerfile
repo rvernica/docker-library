@@ -33,6 +33,7 @@ RUN apt-get update                                          \
     && apt-get install --assume-yes --no-install-recommends \
         apt-transport-https                                 \
         ca-certificates                                     \
+        gcc-4.9                                             \
         liblog4cxx10-dev                                    \
         libssl-dev                                          \
         openssh-client                                      \
