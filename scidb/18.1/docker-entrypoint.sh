@@ -7,16 +7,25 @@ then
 fi
 
 
-service ssh        start
-service postgresql start
-service shimsvc    start
+if [ `lsb_release --id | cut --fields=2` = "CentOS" ]
+then
+    SSH_SERVICE=sshd
+    POSTGRES_SERVICE=postgresql-9.3
+else
+    SSH_SERVICE=ssh
+    POSTGRES_SERVICE=postgresql
+fi
+
+service $SSH_SERVICE      start
+service $POSTGRES_SERVICE start
+service shimsvc           start
 
 
 $SCIDB_INSTALL_PATH/bin/scidb.py startall $SCIDB_NAME
 
 
 trap "$SCIDB_INSTALL_PATH/bin/scidb.py stopall $SCIDB_NAME; \
-      service postgresql stop" \
+      service $POSTGRES_SERVICE stop" \
      EXIT HUP INT QUIT TERM
 
 

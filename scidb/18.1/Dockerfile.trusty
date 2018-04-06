@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
-ARG SCIDB_SCRIPT_URL="https://docs.google.com/uc?id=1EUwQPKcex40ODbwpW0OLfjqpJk-cbxso&export=download"
+ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/18.1/install-scidb-ce-v2.sh"
 
 # Jan 30, 2018 (session authentication)
 ARG SHIM_SHA1=3416b4300b38b5f0ffac02db99f911b4e46b9916
@@ -38,13 +38,7 @@ RUN apt-get update                                          \
 
 
 ## Get SciDB install script
-RUN wget --no-verbose                                                        \
-        --output-document /install-scidb-ce.sh                               \
-        --load-cookies cookies.txt                                           \
-        "$SCIDB_SCRIPT_URL&`                                                 \
-            wget --no-verbose --output-document - --save-cookies cookies.txt \
-                "$SCIDB_SCRIPT_URL"                                          \
-            |  grep --only-matching 'confirm=[^&]*'`"
+RUN wget --no-verbose --output-document /install-scidb-ce.sh $SCIDB_SCRIPT_URL
 
 
 ## Run SciDB install script

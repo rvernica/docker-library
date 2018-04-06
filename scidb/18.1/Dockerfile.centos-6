@@ -1,8 +1,7 @@
-FROM debian:8
+FROM centos:6
 
 
 ARG TERM=linux
-ARG DEBIAN_FRONTEND=noninteractive
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
@@ -20,53 +19,31 @@ ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
 ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 
-## Add Ubuntu package repository for libprotobuf8
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"     \
-    >> /etc/apt/sources.list.d/trusty-main.list                  \
-    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys \
-        40976EAF437D05B5                                         \
-        3B4FE6ACC0B21F32
-
-
 ## Install dependencies
-RUN apt-get update                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        apt-transport-https                                 \
-        ca-certificates                                     \
-        gcc-4.9                                             \
-        liblog4cxx10-dev                                    \
-        libssl-dev                                          \
-        openssh-client                                      \
-        openssh-server                                      \
-        patch                                               \
-        wget                                                \
-        zlib1g-dev                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        --target-release trusty                             \
-        libprotobuf-dev                                     \
-    && rm -rf /var/lib/apt/lists/*
+RUN yum install --assumeyes    \
+      centos-release-scl       \
+    && yum install --assumeyes \
+        devtoolset-3-runtime   \
+        devtoolset-3-toolchain \
+        openssl-devel          \
+        wget                   \
+        zlib-devel             \
+    && yum clean all
 
 
 ## Get SciDB install script
 RUN wget --no-verbose --output-document /install-scidb-ce.sh $SCIDB_SCRIPT_URL
 
 
-## Apply Debian patch
-COPY install-scidb-ce.sh.debian.patch /
-RUN patch --strip=1 \
-    <  install-scidb-ce.sh.debian.patch
-
-
 ## Run SciDB install script
-RUN apt-get update                                          \
-    && yes                                                  \
-    |  bash -x /install-scidb-ce.sh                         \
-    && apt-get install --assume-yes --no-install-recommends \
-        make                                                \
-        scidb-$SCIDB_VER-dev                                \
-        scidb-$SCIDB_VER-libboost1.54-dev                   \
-        scidb-$SCIDB_VER-libboost-system1.54-dev            \
-    && rm -rf /var/lib/apt/lists/*
+RUN yes                                 \
+    |  bash -x /install-scidb-ce.sh     \
+    && yum install --assumeyes          \
+        log4cxx-devel                   \
+        protobuf-devel                  \
+        scidb-$SCIDB_VER-dev            \
+        scidb-$SCIDB_VER-libboost-devel \
+    && yum clean all
 
 
 ## Setup SSH
@@ -86,15 +63,15 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
     >  /root/.pgpass                                                 \
     && chmod go-r /root/.pgpass                                      \
     && chmod a+r $SCIDB_INSTALL_PATH/etc/config.ini                  \
-    && service ssh start                                             \
-    && service postgresql start                                      \
+    && service sshd start                                            \
+    && service postgresql-9.3 start                                  \
     && su --command="                                                \
             $SCIDB_INSTALL_PATH/bin/scidb.py init-syscat $SCIDB_NAME \
                 --db-password `                                      \
                     cut --delimiter : --fields 5  /root/.pgpass`"    \
         postgres                                                     \
     && $SCIDB_INSTALL_PATH/bin/scidb.py init-all --force $SCIDB_NAME \
-    && service postgresql stop                                       \
+    && service postgresql-9.3 stop                                   \
     && sed --in-place                                                \
         s/log4j.rootLogger=INFO/log4j.rootLogger=$SCIDB_LOG_LEVEL/   \
         $SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties
