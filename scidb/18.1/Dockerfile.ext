@@ -26,7 +26,7 @@ RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
     && pip install scidb-strm
 
 
-ARG SCIDB_DEV_TOOLS=ad1af92b3b252ab4a64663ec50f0f9b29bbf349d
+ARG SCIDB_DEV_TOOLS=90aa0db6af31b48e69ba9ad1c15e632a0aa4b0fa
 ARG SCIDB_ACCELERATED_IO_TOOLS=fb336130df76904f5aa7213abd7855385d51992e
 ARG SCIDB_EQUI_JOIN=244f569ccdbb81da7c23747bb46cc2751bc2734e
 ARG SCIDB_GROUPED_AGGREGATE=7cc9a50891bbe0a10c9b4ede07e658346b3f62d3
