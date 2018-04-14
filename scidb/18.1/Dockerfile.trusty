@@ -8,8 +8,7 @@ ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
 ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/18.1/install-scidb-ce-v2.sh"
 
-# Jan 30, 2018 (session authentication)
-ARG SHIM_SHA1=3416b4300b38b5f0ffac02db99f911b4e46b9916
+ARG SHIM_SHA1=a19d256ee5885b201f8f738a46017cf541d0fc3a
 
 
 ENV SCIDB_VER=18.1   \
