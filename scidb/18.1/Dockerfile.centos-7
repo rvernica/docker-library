@@ -5,7 +5,7 @@ ARG TERM=linux
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
-ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/18.1/install-scidb-ce-v2.sh"
+ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/18.1/install-scidb-ce.sh"
 
 
 ENV SCIDB_VER=18.1   \
