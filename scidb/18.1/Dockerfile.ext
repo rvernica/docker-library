@@ -27,11 +27,6 @@ RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
 
 
 ARG SCIDB_DEV_TOOLS=90aa0db6af31b48e69ba9ad1c15e632a0aa4b0fa
-ARG SCIDB_ACCELERATED_IO_TOOLS=fb336130df76904f5aa7213abd7855385d51992e
-ARG SCIDB_EQUI_JOIN=244f569ccdbb81da7c23747bb46cc2751bc2734e
-ARG SCIDB_GROUPED_AGGREGATE=7cc9a50891bbe0a10c9b4ede07e658346b3f62d3
-ARG SCIDB_STREAM=912449c6bdf8de946281d46213403d7cc7515739
-ARG SCIDB_SUPERFUNPACK=5379c98d732954fef3d6a200bd0f1b73ba1424a1
 
 
 ## Install dev_tools
@@ -45,46 +40,9 @@ RUN wget --no-verbose --output-document -                                      \
 
 
 ## Install Paradigm4 plug-ins
-## Re-create ".pgpass" file due to hard links created by Docker Hub
-RUN cp /root/.pgpass /root/.pgpass.bk          \
-    && mv /root/.pgpass.bk /root/.pgpass       \
-    && service ssh start                       \
-    && service postgresql start                \
-    && scidb.py startall $SCIDB_NAME           \
-    && iquery --afl --query                    \
-        "load_library('dev_tools');            \
-                                               \
-         install_github(                       \
-             'Paradigm4/accelerated_io_tools', \
-             '$SCIDB_ACCELERATED_IO_TOOLS',    \
-             'https_proxy=$https_proxy');      \
-         load_library('accelerated_io_tools'); \
-                                               \
-         install_github(                       \
-             'Paradigm4/equi_join',            \
-             '$SCIDB_EQUI_JOIN',               \
-             'https_proxy=$https_proxy');      \
-         load_library('equi_join');            \
-                                               \
-         install_github(                       \
-             'Paradigm4/grouped_aggregate',    \
-             '$SCIDB_GROUPED_AGGREGATE',       \
-             'https_proxy=$https_proxy');      \
-         load_library('grouped_aggregate');    \
-                                               \
-         install_github(                       \
-             'Paradigm4/stream',               \
-             '$SCIDB_STREAM',                  \
-             'https_proxy=$https_proxy');      \
-         load_library('stream');               \
-                                               \
-         install_github(                       \
-             'Paradigm4/superfunpack',         \
-             '$SCIDB_SUPERFUNPACK',            \
-             'https_proxy=$https_proxy');      \
-         load_library('superfunpack')"         \
-    && scidb.py stopall $SCIDB_NAME            \
-    && service postgresql stop
+RUN wget --output-document=-                                    \
+        https://paradigm4.github.io/extra-scidb-libs/install.sh \
+    |  sh
 
 
 ## Update Shim conf to use aio
