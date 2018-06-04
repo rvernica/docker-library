@@ -1,28 +1,16 @@
 FROM rvernica/scidb:18.1
 
 
-ARG ARROW_VER=0.8.0-2
-
 ## Install dependencies
-RUN echo "deb https://packages.red-data-tools.org/ubuntu/ trusty universe" \
-    >> /etc/apt/sources.list.d/red-data-tools.list                         \
-    && apt-get update                                                      \
-    && apt-get install                                                     \
-         --assume-yes                                                      \
-         --no-install-recommends                                           \
-         --allow-unauthenticated                                           \
-        red-data-tools-keyring                                             \
-    && apt-get update                                                      \
-    && apt-get install --assume-yes --no-install-recommends                \
-        bc                                                                 \
-        gcc                                                                \
-        libarrow-dev=$ARROW_VER                                            \
-        libarrow0=$ARROW_VER                                               \
-        libpcre3-dev                                                       \
-        libpqxx-dev                                                        \
-    && rm -rf /var/lib/apt/lists/*                                         \
-    && wget --no-verbose https://bootstrap.pypa.io/get-pip.py              \
-    && python get-pip.py                                                   \
+RUN apt-get update                                              \
+    && apt-get install --assume-yes --no-install-recommends     \
+        bc                                                      \
+        gcc                                                     \
+        libpcre3-dev                                            \
+        libpqxx-dev                                             \
+    && rm -rf /var/lib/apt/lists/*                              \
+    && wget --no-verbose https://bootstrap.pypa.io/get-pip.py   \
+    && python get-pip.py                                        \
     && pip install scidb-strm
 
 
@@ -43,6 +31,24 @@ RUN wget --no-verbose --output-document -                                      \
 RUN wget --output-document=-                                    \
         https://paradigm4.github.io/extra-scidb-libs/install.sh \
     |  sh
+
+
+## Load plug-ins
+## Re-create ".pgpass" file due to hard links created by Docker Hub
+RUN cp /root/.pgpass /root/.pgpass.bk          \
+    && mv /root/.pgpass.bk /root/.pgpass       \
+    && service ssh start                       \
+    && service postgresql start                \
+    && scidb.py startall $SCIDB_NAME           \
+    && iquery --afl --query                    \
+        "load_library('dev_tools');            \
+         load_library('accelerated_io_tools'); \
+         load_library('equi_join');            \
+         load_library('grouped_aggregate');    \
+         load_library('stream');               \
+         load_library('superfunpack')"         \
+    && scidb.py stopall $SCIDB_NAME            \
+    && service postgresql stop
 
 
 ## Update Shim conf to use aio
