@@ -59,8 +59,8 @@ RUN echo 'StrictHostKeyChecking no'                        \
     && cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
-## Setup SciDB "config.ini"
-COPY config.deb.ini $SCIDB_INSTALL_PATH/etc/config.ini
+## Setup SciDB config file
+COPY config.ini $SCIDB_INSTALL_PATH/etc/
 
 
 ## Setup PostgreSQL and SciDB
