@@ -20,7 +20,7 @@ ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 
 ## Install dependencies
 RUN yum install --assumeyes    \
-      centos-release-scl       \
+        https://downloads.paradigm4.com/devtoolset-3/centos/6/sclo/x86_64/rh/devtoolset-3/scidb-devtoolset-3.noarch.rpm \
     && yum install --assumeyes \
         devtoolset-3-runtime   \
         devtoolset-3-toolchain \
