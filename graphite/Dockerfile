@@ -1,33 +1,29 @@
-FROM alpine:3.5
+FROM alpine:3.8
 
 
-RUN apk add --update-cache     \
-        ca-certificates        \
-        libffi-dev             \
-        py-cairo               \
-        py-pip                 \
-        py-twisted             \
+RUN apk add --update-cache                      \
+        ca-certificates                         \
+        cairo                                   \
+        libffi-dev                              \
+        py-pip                                  \
+        py-twisted                              \
     && rm -rf /var/cache/apk/*
 
-RUN pip install --upgrade pip                                               \
-    &&  pip install                                                         \
-        carbon                                                              \
-        django                                                              \
-        django-tagging                                                      \
-        gunicorn                                                            \
-        pyparsing                                                           \
-        pytz                                                                \
-        whisper                                                             \
-    && pip install https://github.com/graphite-project/ceres/tarball/master
+RUN pip install --upgrade pip                   \
+    &&  pip install                             \
+        carbon                                  \
+        gunicorn                                \
+        whisper
 
-RUN apk add --update-cache --virtual=build-deps                                    \
-        gcc                                                                        \
-        python-dev                                                                 \
-        musl-dev                                                                   \
-    && pip install scandir                                                         \
-    && pip install https://github.com/graphite-project/graphite-web/tarball/master \
-    && apk del build-deps                                                          \
+RUN apk add --update-cache --virtual=build-deps \
+        gcc                                     \
+        python-dev                              \
+        musl-dev                                \
+    && pip install                              \
+        graphite-web                            \
+    && apk del build-deps                       \
     && rm -rf /var/cache/apk/*
+
 
 RUN cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf \
     && cp /opt/graphite/conf/storage-schemas.conf.example                    \

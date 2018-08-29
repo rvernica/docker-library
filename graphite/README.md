@@ -3,8 +3,9 @@ Graphite
 
 *   Dockerfile for [Graphite Project](https://github.com/graphite-project)
 *   Build on top of [Alpine](http://alpinelinux.org/) Linux
-*   Uses graphite-web [branch](https://github.com/rvernica/graphite-web/tree/django-1.9-patch) ported to Django 1.9
-*   Size: `~140MB` (`~100MB` in Alpine packages)
+*   Size: `~153MB` (`~100MB` in Alpine packages)
+*   [![](https://images.microbadger.com/badges/image/rvernica/graphite.svg)](https://microbadger.com/images/rvernica/graphite)
+
 
 Usage
 -----
@@ -28,7 +29,7 @@ This image is intended to be used behind an HTTP server like nginx. (See below f
             ...
         }
         ...
-        
+
     An example is provided [here](https://github.com/rvernica/Dockerfile/blob/master/graphite/nginx.conf)
 
 *   Start graphite container:
