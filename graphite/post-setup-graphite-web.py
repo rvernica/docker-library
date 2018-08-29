@@ -36,8 +36,9 @@ password = ''.join(
     (random.choice(string.letters + string.digits + string.punctuation))
     for x in range(20))
 
-User.objects.create_superuser('admin', 'admin@localhost', password)
-print '[graphite-web] Superuser: admin, Password: %s' % (password, )
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@localhost', password)
+    print '[graphite-web] Superuser: admin, Password: %s' % (password, )
 
 
 ## Set flag file
