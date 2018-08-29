@@ -3,8 +3,8 @@ Graphite
 
 *   Dockerfile for [Graphite Project](https://github.com/graphite-project)
 *   Build on top of [Alpine](http://alpinelinux.org/) Linux
-*   Size: `~153MB` (`~100MB` in Alpine packages)
-*   [![](https://images.microbadger.com/badges/image/rvernica/graphite.svg)](https://microbadger.com/images/rvernica/graphite)
+*   Image Size: `153MB` (`~100MB` in Alpine packages)
+*   Dowload Size: [![](https://images.microbadger.com/badges/image/rvernica/graphite.svg)](https://microbadger.com/images/rvernica/graphite)
 
 
 Usage
