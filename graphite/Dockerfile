@@ -49,20 +49,7 @@ VOLUME /opt/graphite/static
 
 
 COPY post-setup-graphite-web.py /usr/local/bin/
+COPY docker-entrypoint.sh /
 
-
-## 1. Start Carbon daemon
-## 2. Generate Secret Key for Django application
-## 3. Start Django application using Gunicorn
-CMD /opt/graphite/bin/carbon-cache.py start                                     \
-    && PYTHONPATH=/opt/graphite/webapp DJANGO_SETTINGS_MODULE=graphite.settings \
-        python /usr/local/bin/post-setup-graphite-web.py                        \
-    && PYTHONPATH=/opt/graphite/whisper:/opt/graphite/webapp/graphite           \
-        /usr/bin/gunicorn graphite_wsgi:application --workers 4 --bind :8080
-
-## Start Carbon daemon and Django application in developement mode
-# CMD /opt/graphite/bin/carbon-cache.py start                                            \
-#     && PYTHONPATH=/opt/graphite/webapp DJANGO_SETTINGS_MODULE=graphite.settings        \
-#         python /usr/local/bin/post-setup-graphite-web.py --debug                       \
-#     && PYTHONPATH=/opt/graphite/whisper /opt/graphite/bin/run-graphite-devel-server.py \
-#         --libs=/opt/graphite/webapp/ /opt/graphite/
+ENTRYPOINT ["/docker-entrypoint.sh"]
+# ENTRYPOINT ["/docker-entrypoint.sh", "--debug"]
