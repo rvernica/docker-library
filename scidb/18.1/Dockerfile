@@ -87,6 +87,7 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
     && chmod a+r $SCIDB_INSTALL_PATH/etc/config.ini                  \
     && service ssh start                                             \
     && service postgresql start                                      \
+    && until pg_isready; do sleep 1; done                            \
     && su --command="                                                \
             $SCIDB_INSTALL_PATH/bin/scidb.py init-syscat $SCIDB_NAME \
                 --db-password `                                      \

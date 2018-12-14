@@ -39,6 +39,7 @@ RUN cp /root/.pgpass /root/.pgpass.bk          \
     && mv /root/.pgpass.bk /root/.pgpass       \
     && service ssh start                       \
     && service postgresql start                \
+    && until pg_isready; do sleep 1; done      \
     && scidb.py startall $SCIDB_NAME           \
     && iquery --afl --query                    \
         "load_library('dev_tools');            \

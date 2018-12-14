@@ -67,6 +67,9 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                   \
                 -w                                                   \
                 -t 300"                                              \
                 postgres                                             \
+    && until su --command="/usr/pgsql-9.3/bin/pg_isready" postgres   \
+    ;  do sleep 1                                                    \
+    ;  done                                                          \
     && su --command="                                                \
             $SCIDB_INSTALL_PATH/bin/scidb.py init-syscat $SCIDB_NAME \
                 --db-password `                                      \
