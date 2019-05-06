@@ -48,6 +48,7 @@ RUN apt-get update                                          \
 
 ## Get SciDB install script
 RUN wget --no-verbose --output-document /install-scidb-ce.sh $SCIDB_SCRIPT_URL
+RUN chmod +x /install-scidb-ce.sh
 
 
 ## Apply Debian patch
@@ -59,7 +60,7 @@ RUN patch --strip=1 \
 ## Run SciDB install script
 RUN apt-get update                                          \
     && yes                                                  \
-    |  bash -x /install-scidb-ce.sh                         \
+    |  /install-scidb-ce.sh                                 \
     && apt-get install --assume-yes --no-install-recommends \
         make                                                \
         scidb-$SCIDB_VER-dev                                \

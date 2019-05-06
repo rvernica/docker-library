@@ -32,11 +32,12 @@ RUN yum install --assumeyes    \
 
 ## Get SciDB install script
 RUN wget --no-verbose --output-document /install-scidb-ce.sh $SCIDB_SCRIPT_URL
+RUN chmod +x /install-scidb-ce.sh
 
 
 ## Run SciDB install script
 RUN yes                                 \
-    |  bash -x /install-scidb-ce.sh     \
+    |  /install-scidb-ce.sh             \
     && yum install --assumeyes          \
         log4cxx-devel                   \
         protobuf-devel                  \
