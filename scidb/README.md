@@ -1,7 +1,7 @@
 # SciDB
 
    * Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
-   * Build on top of [Debian Linux](https://www.debian.org/)
+   * Built on top of [Debian Linux](https://www.debian.org/) or [CentOS](https://www.centos.org/)
    * Size: `~400MB-2GB`
    * Latest version: `18.1`
    * Automated build at [Docker Hub](https://hub.docker.com/r/rvernica/scidb/) [![](https://images.microbadger.com/badges/version/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)
