@@ -3,13 +3,23 @@
    * Dockerfile for [SciDB DBMS](http://www.paradigm4.com/)
    * Built on top of [Debian Linux](https://www.debian.org/) or [CentOS](https://www.centos.org/)
    * Size: `~400MB-2GB`
-   * Latest version: `18.1`
+   * Latest version: `19.3`
    * Automated build at [Docker Hub](https://hub.docker.com/r/rvernica/scidb/) [![](https://images.microbadger.com/badges/version/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)
 
 
 # Tags
 
-Five different tags are available for SciDB. Three are intended for the end user, while two are used for building.
+Five different tags are available for SciDB.
+
+
+## `19.3`
+
+| Tag | From | Download Size | Image Size | Comments |
+| --- | ---  | ---           | ---:       | ---      |
+| [`scidb:19.3`](https://github.com/rvernica/docker-library/blob/master/scidb/19.3/Dockerfile)                   | `debian:8`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:19.3.svg)](https://microbadger.com/images/rvernica/scidb:19.3)                   |  `3.51GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:19.3-trusty`](https://github.com/rvernica/docker-library/blob/master/scidb/19.3/Dockerfile.trusty)     | `ubuntu:14.04` | [![](https://images.microbadger.com/badges/image/rvernica/scidb:19.3-trusty.svg)](https://microbadger.com/images/rvernica/scidb:19.3-trusty)     |  `3.54GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:19.3-centos-6`](https://github.com/rvernica/docker-library/blob/master/scidb/19.3/Dockerfile.centos-6) | `centos:6`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:19.3-centos-6.svg)](https://microbadger.com/images/rvernica/scidb:19.3-centos-6) |  `4.25GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
+| [`scidb:19.3-centos-7`](https://github.com/rvernica/docker-library/blob/master/scidb/19.3/Dockerfile.centos-7) | `centos:7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:19.3-centos-7.svg)](https://microbadger.com/images/rvernica/scidb:19.3-centos-7) |  `3.8GB`  | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
 
 
 ## `18.1`
@@ -24,7 +34,7 @@ The tags intended for the end user are:
 | [`scidb:18.1-centos-7`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile.centos-7) | `centos:7`     | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1-centos-7.svg)](https://microbadger.com/images/rvernica/scidb:18.1-centos-7) |  `477MB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim))
 | [`scidb:18.1-ext`](https://github.com/rvernica/docker-library/blob/master/scidb/18.1/Dockerfile.ext)           | `scidb:18.1`   | [![](https://images.microbadger.com/badges/image/rvernica/scidb:18.1-ext.svg)](https://microbadger.com/images/rvernica/scidb:18.1-ext)           | `1.04GB` | SciDB (w/ [Shim](https://github.com/Paradigm4/shim) and [Paradigm4 plug-ins](#paradigm4-plug-ins))
 
-The `-deb`, `-pre`, and `-pkg` tags are no longer required for version `18.1` since Debian packages are directly provided by Paradigm4. Hence `scidb:18.1` is equivalent with the older `-deb` tags.
+The `-deb`, `-pre`, and `-pkg` tags are no longer required for version `18.1` or newer since Debian packages are directly provided by Paradigm4. Hence `scidb:18.1` is equivalent with the older `-deb` tags.
 
 
 ## `16.9`
@@ -86,54 +96,57 @@ The tags used for building are:
 When started, the images intended for the end user, use an [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#/entrypoint) script to start SSH, PostgreSQL, SciDB, and Shim. As a final command the entrypoint script tails the SciDB log. For example to start a base container and redirect its output to the console, use:
 
 ```bash
-> docker run --tty rvernica/scidb:16.9
+$ docker run --tty rvernica/scidb:19.3                                                                     [0]
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
-[ ok ] Starting PostgreSQL 9.4 database server: main.
+[ ok ] Starting PostgreSQL 9.3 database server: main.
 Starting shim
 shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
-scidb.py: INFO: Found 0 scidb processes
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
-scidb.py: INFO: Starting SciDB server.
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
-scidb.py: INFO: Starting SciDB server.
-load = fn(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict){store(input(output_array,input_file,instance_id,format,max_errors,shadow_array,isStrict),output_array)};
-sys_create_array_aux = fn(_A_,_E_,_C_){join(aggregate(apply(_A_,_t_,_E_),approxdc(_t_)),build(<values_per_chunk:uint64 null>[i=0:0,1,0],_C_))};
-sys_create_array_att = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(_L_,min(_D_),max(_D_),approxdc(_D_)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])};
-sys_create_array_dim = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null>[No=0:0,1,0],_S_,true),cast(aggregate(apply(aggregate(_L_,count(*),_D_),_t_,_D_),min(_t_),max(_t_),count(*)),<min:int64 null,max:int64 null,count:int64 null>[No=0:0,1,0])),<lo:int64 null,hi:int64 null,ci:int64 null,co:int64 null,min:int64 null,max:int64 null,count:int64 null>[n=0:*,?,0])}
-2016-12-23 01:55:54,209 [0x7f0e097df880] [DEBUG]: Network manager is intialized
-2016-12-23 01:55:54,209 [0x7f0e097df880] [DEBUG]: NetworkManager::run()
-2016-12-23 01:55:54,209 [0x7f0e097df880] [DEBUG]: server-id = 0
-2016-12-23 01:55:54,209 [0x7f0e097df880] [DEBUG]: server-instance-id = 0
-2016-12-23 01:55:54,212 [0x7f0e097df880] [DEBUG]: Registered instance # 0
-2016-12-23 01:55:54,212 [0x7f0e097df880] [INFO ]: SciDB instance. SciDB Version: 16.9.0. Build Type: Release. Commit: db1a98f. Copyright (C) 2008-2015 SciDB, Inc. is exiting.
+[scidbctl] Starting SciDB cluster scidb ...
+[scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
+[scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
+[scidbctl] Started 2 instances, waiting up to 30 seconds for cluster sync
+[scidbctl] Cluster is ready
+ccm-use-tls : 0
+ccm-session-time-out : 2700
+ccm-read-time-out : 10
+diskindex-renumber-ebm : 1
+
+2019-05-06 17:23:38.000552 [0x7f994b90eec0] [INFO ]: The SciDB process does not do perf wait timing.
+2019-05-06 17:23:39.000147 [0x7f994b90eec0] [WARN ]: Ignoring io-paths-list config.ini entry "" (""): Not an absolute path
+2019-05-06 17:23:39.000197 [0x7f994b90eec0] [INFO ]: Stopping CcmService
+2019-05-06 17:23:39.000197 [0x7f994b90eec0] [INFO ]: SciDB instance. SciDB Version: 19.3.0. Build Type: RelWithDebInfo. Commit: fae26e9. Copyright (C) 2008-2019 SciDB, Inc. is exiting.
+2019-05-06 19:35:52.000892 [0x7fd288a55ec0] [WARN ]: Ignoring io-paths-list config.ini entry "" (""): Not an absolute path
 ```
 
 Any additional arguments provided when a container is started are executed at the end of this script. So, to get access to the container in interactive mode, append `bash` at the end of the `docker run` command. For example, to start a base container in interactive mode, use:
 
 ```bash
-> docker run --tty --interactive rvernica/scidb:16.9 bash
+$ docker run --tty --interactive --rm rvernica/scidb:19.3 bash                                                [130]
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
-[ ok ] Starting PostgreSQL 9.4 database server: main.
+[ ok ] Starting PostgreSQL 9.3 database server: main.
 Starting shim
 shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
-scidb.py: INFO: Found 0 scidb processes
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
-scidb.py: INFO: Starting SciDB server.
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
-scidb.py: INFO: Starting SciDB server.
-root@a86f0f5867dd:/# iquery --afl --query "list('libraries')"
+[scidbctl] Starting SciDB cluster scidb ...
+[scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
+[scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
+[scidbctl] Started 2 instances, waiting up to 30 seconds for cluster sync
+[scidbctl] Cluster is ready
+
+root@7f8b50a2055d:/# iquery --afl --query "list('libraries')"
 {inst,n} name,major,minor,patch,build,build_type
-{0,0} 'SciDB',16,9,0,229747087,'Release'
-{1,0} 'SciDB',16,9,0,229747087,'Release'
-root@a86f0f5867dd:/# exit
+{0,0} 'SciDB',19,3,0,263071465,'RelWithDebInfo'
+{1,0} 'SciDB',19,3,0,263071465,'RelWithDebInfo'
+
+root@7f8b50a2055d:/# exit
 ```
 
 Here is an example for starting and interacting with a detached extended container:
 
 ```bash
-> docker run --detach rvernica/scidb:16.9-ext
+$ docker run --detach rvernica/scidb:16.9-ext
 16b699486f2d802d9bd34cf36486d47762b6863a9cd0cb294a9e520dc7f4ef1f
-> docker logs 16b699
+
+$ docker logs 16b699
 Starting OpenBSD Secure Shell server: sshd.
 Starting PostgreSQL 9.4 database server: main.
 Starting shim
@@ -152,7 +165,8 @@ sys_create_array_dim = fn(_L_,_S_,_D_){redimension(join(build(<n:int64 null,lo:i
 2016-12-23 01:55:54,209 [0x7f0e097df880] [DEBUG]: server-instance-id = 0
 2016-12-23 01:55:54,212 [0x7f0e097df880] [DEBUG]: Registered instance # 0
 2016-12-23 01:55:54,212 [0x7f0e097df880] [INFO ]: SciDB instance. SciDB Version: 16.9.0. Build Type: Release. Commit: db1a98f. Copyright (C) 2008-2015 SciDB, Inc. is exiting.
-> docker exec --tty 16b699 iquery --afl --query "load_library('accelerated_io_tools'); list('libraries')"
+
+$ docker exec --tty 16b699 iquery --afl --query "load_library('accelerated_io_tools'); list('libraries')"
 Query was executed successfully
 {inst,n} name,major,minor,patch,build,build_type
 {0,0} 'SciDB',16,9,0,229747087,'Release'
@@ -163,58 +177,41 @@ Query was executed successfully
 {1,2} 'libdev_tools.so',16,9,0,229747087,null
 ```
 
-Here is an example for starting a debian-package-based container in interactive mode:
+Here is an example for starting a container with Docker volumes for PostgreSQL and SciDB data:
 
 ```bash
-> docker run --tty --interactive rvernica/scidb:16.9-deb bash
+$ docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.3/main --volume scidb:/opt/scidb/19.3/DB-scidb rvernica/scidb:19.3 iquery --afl --query "store(build(<val:double>[i=0:1; j=0:1], i*2+j), matrix); scan(matrix)"
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
-[ ok ] Starting PostgreSQL 9.4 database server: main.
+[ ok ] Starting PostgreSQL 9.3 database server: main.
 Starting shim
 shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
-scidb.py: INFO: Found 0 scidb processes
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
-scidb.py: INFO: Starting SciDB server.
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
-scidb.py: INFO: Starting SciDB server.
-root@2222a680cde1:/# iquery --afl --query "list('libraries')"
-{inst,n} name,major,minor,patch,build,build_type
-{0,0} 'SciDB',16,9,0,229747087,'Release'
-{1,0} 'SciDB',16,9,0,229747087,'Release'
-root@2222a680cde1:/# exit
-```
-
-Here is an example for starting a debian-package-based container and Docker volumes for PostgreSQL and SciDB data:
-
-```bash
-> docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.4/main --volume scidb:/opt/scidb/16.9/DB-scidb rvernica/scidb:16.9-deb iquery --afl --query "store(build(<val:double>[i=0:1; j=0:1], i*2+j), matrix)"
-[ ok ] Starting OpenBSD Secure Shell server: sshd.
-[ ok ] Starting PostgreSQL 9.4 database server: main.
-Starting shim
-shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
-scidb.py: INFO: Found 0 scidb processes
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
-scidb.py: INFO: Starting SciDB server.
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
-scidb.py: INFO: Starting SciDB server.
+[scidbctl] Starting SciDB cluster scidb ...
+[scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
+[scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
+[scidbctl] Started 2 instances, waiting up to 30 seconds for cluster sync
+[scidbctl] Cluster is ready
+Query was executed successfully
 {i,j} val
 {0,0} 0
 {0,1} 1
 {1,0} 2
 {1,1} 3
-> docker volume ls
+
+$ docker volume ls
 DRIVER              VOLUME NAME
 local               postgres
 local               scidb
-> docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.4/main --volume scidb:/opt/scidb/16.9/DB-scidb rvernica/scidb:16.9-deb iquery --afl --query "scan(matrix)"
+
+$ docker run --tty --interactive --volume postgres:/var/lib/postgresql/9.3/main --volume scidb:/opt/scidb/19.3/DB-scidb rvernica/scidb:19.3 iquery --afl --query "scan(matrix)"
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
-[ ok ] Starting PostgreSQL 9.4 database server: main.
+[ ok ] Starting PostgreSQL 9.3 database server: main.
 Starting shim
 shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
-scidb.py: INFO: Found 0 scidb processes
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 0))
-scidb.py: INFO: Starting SciDB server.
-scidb.py: INFO: start((server 0 (127.0.0.1) local instance 1))
-scidb.py: INFO: Starting SciDB server.
+[scidbctl] Starting SciDB cluster scidb ...
+[scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
+[scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
+[scidbctl] Started 2 instances, waiting up to 30 seconds for cluster sync
+[scidbctl] Cluster is ready
 {i,j} val
 {0,0} 0
 {0,1} 1
