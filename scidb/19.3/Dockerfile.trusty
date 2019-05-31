@@ -32,6 +32,7 @@ RUN apt-get update                                          \
         openssh-client                                      \
         openssh-server                                      \
         patch                                               \
+        psmisc                                              \
         software-properties-common                          \
         wget                                                \
         zlib1g-dev                                          \
