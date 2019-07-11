@@ -42,14 +42,15 @@ RUN cp /root/.pgpass /root/.pgpass.bk          \
     && until pg_isready; do sleep 1; done      \
     && scidbctl.py start $SCIDB_NAME           \
     && iquery --afl --query                    \
-        "-- load_library('dev_tools');         \
-         load_library('accelerated_io_tools'); \
+        "load_library('accelerated_io_tools'); \
          load_library('equi_join');            \
          load_library('grouped_aggregate');    \
          load_library('stream');               \
          load_library('superfunpack')"         \
     && scidbctl.py stop $SCIDB_NAME            \
     && service postgresql stop
+
+# load_library('dev_tools');
 
 
 ## Update Shim conf to use aio
