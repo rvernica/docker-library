@@ -22,29 +22,30 @@ ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/$SCIDB_VER/insta
 
 
 ## Add Ubuntu package repository for libprotobuf8
-RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"     \
-    >> /etc/apt/sources.list.d/trusty-main.list                  \
-    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys \
-        1FE11567623A70C9                                         \
-        3B4FE6ACC0B21F32
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"            \
+    >> /etc/apt/sources.list.d/trusty-main.list                         \
+    && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys        \
+        1FE11567623A70C9                                                \
+        3B4FE6ACC0B21F32                                                \
+        40976EAF437D05B5
 
 
 ## Install dependencies
-RUN apt-get update                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        apt-transport-https                                 \
-        ca-certificates                                     \
-        gcc-4.9                                             \
-        liblog4cxx10-dev                                    \
-        libssl-dev                                          \
-        openssh-client                                      \
-        openssh-server                                      \
-        patch                                               \
-        wget                                                \
-        zlib1g-dev                                          \
-    && apt-get install --assume-yes --no-install-recommends \
-        --target-release trusty                             \
-        libprotobuf-dev                                     \
+RUN apt-get update                                              \
+    && apt-get install --assume-yes --no-install-recommends     \
+        apt-transport-https                                     \
+        ca-certificates                                         \
+        gcc-4.9                                                 \
+        liblog4cxx10-dev                                        \
+        libssl-dev                                              \
+        openssh-client                                          \
+        openssh-server                                          \
+        patch                                                   \
+        wget                                                    \
+        zlib1g-dev                                              \
+    && apt-get install --assume-yes --no-install-recommends     \
+        --target-release trusty                                 \
+        libprotobuf-dev                                         \
     && rm -rf /var/lib/apt/lists/*
 
 
