@@ -1,4 +1,4 @@
-FROM rvernica/scidb:19.3
+FROM rvernica/scidb:19.3-trusty
 
 
 ## Install dependencies
