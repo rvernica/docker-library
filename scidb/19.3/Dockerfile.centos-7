@@ -20,17 +20,17 @@ ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/$SCIDB_VER/insta
 
 ## Prep for systemd 1/2
 ENV container docker
-RUN (cd /lib/systemd/system/sysinit.target.wants/;                      \
-    for i in *;                                                         \
-    do [ $i == systemd-tmpfiles-setup.service ] || rm --force $i;       \
-    done);                                                              \
-    rm --force /lib/systemd/system/multi-user.target.wants/*;           \
+RUN ( cd /lib/systemd/system/sysinit.target.wants/;                     \
+      for i in *;                                                       \
+      do [ $i = systemd-tmpfiles-setup.service ] || rm --force $i;      \
+      done );                                                           \
     rm --force /etc/systemd/system/*.wants/*;                           \
-    rm --force /lib/systemd/system/local-fs.target.wants/*;             \
-    rm --force /lib/systemd/system/sockets.target.wants/*udev*;         \
-    rm --force /lib/systemd/system/sockets.target.wants/*initctl*;      \
+    rm --force /lib/systemd/system/anaconda.target.wants/*;             \
     rm --force /lib/systemd/system/basic.target.wants/*;                \
-    rm --force /lib/systemd/system/anaconda.target.wants/*;
+    rm --force /lib/systemd/system/local-fs.target.wants/*;             \
+    rm --force /lib/systemd/system/multi-user.target.wants/*;           \
+    rm --force /lib/systemd/system/sockets.target.wants/*initctl*;      \
+    rm --force /lib/systemd/system/sockets.target.wants/*udev*
 VOLUME [ "/sys/fs/cgroup" ]
 
 
