@@ -8,8 +8,11 @@ fi
 
 
 echo "----------------------"
+echo "Start Docker container with the following arguments:"
+echo "  --volume /sys/fs/cgroup:/sys/fs/cgroup:ro"
+echo '  --volume /tmp/$(mktemp --directory):/run'
 echo "Start SciDB by running"
-echo "$SCIDB_INSTALL_PATH/bin/scidb.py startall $SCIDB_NAME"
+echo "  $SCIDB_INSTALL_PATH/bin/scidb-ctl.py start $SCIDB_NAME"
 echo "----------------------"
 
 
