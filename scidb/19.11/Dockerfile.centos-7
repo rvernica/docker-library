@@ -46,12 +46,10 @@ RUN wget --no-verbose --output-document /install-scidb-ce.sh "$SCIDB_SCRIPT_URL"
 
 ## Run SciDB install script
 RUN yes                                         \
-    |  bash -x /install-scidb-ce.sh             \
+    |  /install-scidb-ce.sh                     \
     && yum install --assumeyes                  \
         scidb-$SCIDB_VER-dev                    \
     && yum clean all
-
-        # scidb-$SCIDB_VER-libboost-devel         \
 
 
 ## Setup SSH
