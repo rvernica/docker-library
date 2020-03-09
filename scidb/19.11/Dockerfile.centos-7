@@ -46,7 +46,7 @@ RUN wget --no-verbose --output-document /install-scidb-ce.sh "$SCIDB_SCRIPT_URL"
 
 ## Run SciDB install script
 RUN yes                                         \
-    |  /install-scidb-ce.sh                     \
+    |  bash /install-scidb-ce.sh                \
     && yum install --assumeyes                  \
         scidb-$SCIDB_VER-dev                    \
     && yum clean all
