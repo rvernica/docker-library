@@ -1,0 +1,52 @@
+FROM rvernica/scidb:19.11-centos-7
+
+
+## Install dependencies
+RUN wget --no-verbose https://bootstrap.pypa.io/get-pip.py      \
+    && python get-pip.py                                        \
+    && pip install scidb-strm
+
+
+## Install Paradigm4 plug-ins
+RUN wget --output-document=-                                                    \
+        https://github.com/Paradigm4/extra-scidb-libs/raw/v19.11/install.sh     \
+    |  sh
+
+
+## Load plug-ins
+## Re-create ".pgpass" file due to hard links created by Docker Hub
+RUN cp /root/.pgpass /root/.pgpass.bk                                   \
+    && mv /root/.pgpass.bk /root/.pgpass                                \
+    && /usr/sbin/sshd                                                   \
+    && sed --in-place                                                   \
+        s/\\.\\.\\.0/172.17.0.0/                                        \
+        /var/lib/pgsql/9.3/data/pg_hba.conf                             \
+    && su --command="                                                   \
+            /usr/pgsql-9.3/bin/pg_ctl start                             \
+                -D /var/lib/pgsql/9.3/data/                             \
+                -s                                                      \
+                -w                                                      \
+                -t 300"                                                 \
+                postgres                                                \
+    && until su --command="/usr/pgsql-9.3/bin/pg_isready" postgres      \
+    ;  do sleep 1                                                       \
+    ;  done                                                             \
+    && $SCIDB_INSTALL_PATH/bin/scidbctl.py start $SCIDB_NAME            \
+    && iquery --afl --query                                             \
+        "load_library('accelerated_io_tools');                          \
+         load_library('equi_join');                                     \
+         load_library('grouped_aggregate');                             \
+         load_library('stream');                                        \
+         load_library('superfunpack')"                                  \
+    && $SCIDB_INSTALL_PATH/bin/scidbctl.py stop $SCIDB_NAME             \
+    && su --command="                                                   \
+            /usr/pgsql-9.3/bin/pg_ctl stop                              \
+                -D /var/lib/pgsql/9.3/data/                             \
+                -s                                                      \
+                -m fast"                                                \
+                postgres
+
+
+## Update Shim conf to use aio
+RUN echo aio=1            \
+    >> /var/lib/shim/conf
