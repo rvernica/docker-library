@@ -1,0 +1,62 @@
+diff --git a/install-scidb-ce.sh b/install-scidb-ce.sh
+index afc8e6a..87c6547 100644
+--- a/install-scidb-ce.sh
++++ b/install-scidb-ce.sh
+@@ -56,7 +56,7 @@ function pkg_test()
+     echo "Checking for $1."
+     if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	yum list installed $1 2> /dev/null > /dev/null
+-    elif [[ $OS == *"Ubuntu"* ]]; then
++    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	dpkg -s $1 2> /dev/null > /dev/null
+     else
+ 	echo "Unknown OS!"
+@@ -77,7 +77,7 @@ function pkg_install()
+     if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+ 	if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	    yum install -y $1
+-	elif [[ $OS == *"Ubuntu"* ]]; then
++	elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	    apt-get install --force-yes $1
+ 	fi
+     else
+@@ -107,7 +107,7 @@ function check_dependencies()
+ {
+     if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+ 	declare -a deps=("openssh" "openssh-server" "wget")
+-    elif [[ $OS == *"Ubuntu"* ]]; then
++    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	declare -a deps=("openssh-client" "openssh-server" "wget" )
+ 	update_stdc
+     fi
+@@ -185,11 +185,14 @@ if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
+     wget https://downloads.paradigm4.com/community/19.11/scidb-19.11.0-repos.rpm
+     rpm -i scidb-19.11.0-repos.rpm
+     rm -f scidb-19.11.0-repos.rpm
+-elif [[ $OS == *"Ubuntu"* ]]; then
++elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+     rm -f scidb-19.11.0-repos.deb
+     wget https://downloads.paradigm4.com/community/19.11/scidb-19.11.0-repos.deb
+     dpkg -i scidb-19.11.0-repos.deb
+     rm -f scidb-19.11.0-repos.deb
++    if [[ $OS == *"Debian"* ]]; then
++        sed --in-place s/stretch/xenial/ /etc/apt/sources.list.d/scidb.list
++    fi
+     apt-get update
+ fi
+ 
+@@ -202,7 +205,7 @@ fi
+ pkg_install scidb-19.11-ce --force
+ 
+ if [ $? -eq 0 ]; then
+-    if [[ $OS == *"Ubuntu"* ]]; then
++    if [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
+ 	pushd /opt/scidb/19.11/scripts >/dev/null 2>&1
+ 	./setup_scidb.sh /opt/scidb/19.11
+ 	popd >/dev/null 2>&1
+@@ -233,5 +236,3 @@ if [[ $err == "true" ]]; then
+ else
+     exit 0
+ fi
+-
+-
