@@ -1,4 +1,4 @@
-FROM debian:9
+FROM ubuntu:16.04
 
 
 ARG TERM=linux
@@ -18,60 +18,35 @@ ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/$SCIDB_VER/install-scidb-ce.sh"
 
 
-# ENV container docker
-# RUN ( cd /lib/systemd/system/sysinit.target.wants/;                     \
-#       for i in *;                                                       \
-#       do [ $i = systemd-tmpfiles-setup.service ] || rm --force $i;      \
-#       done );                                                           \
-#     rm --force /etc/systemd/system/*.wants/*;                           \
-#     rm --force /lib/systemd/system/local-fs.target.wants/*;             \
-#     rm --force /lib/systemd/system/multi-user.target.wants/*;           \
-#     rm --force /lib/systemd/system/sockets.target.wants/*initctl*;      \
-#     rm --force /lib/systemd/system/sockets.target.wants/*udev*;         \
-#     rm --force /lib/systemd/system/systemd-update-utmp*
-# VOLUME [ "/sys/fs/cgroup" ]
-
-
-## Setup dependencies
+## Install dependencies
 RUN apt-get update                                              \
     && apt-get install --assume-yes --no-install-recommends     \
-        dirmngr                                                 \
-        gpg                                                     \
+        apt-transport-https                                     \
+        ca-certificates                                         \
+        g++                                                     \
+        libboost-system1.58-dev                                 \
+        libboost1.58-dev                                        \
+        liblog4cxx10-dev                                        \
+        libprotobuf-dev                                         \
+        make                                                    \
+        patch                                                   \
+        wget                                                    \
+        zlib1g-dev                                              \
     && rm -rf /var/lib/apt/lists/*
 
 
-## Install dependencies
+## Add Ubuntu package repository for postgresql-9.3
 RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"            \
-    >  /etc/apt/sources.list.d/trusty.list                              \
-    && echo "deb http://archive.ubuntu.com/ubuntu/ xenial main"         \
-    >  /etc/apt/sources.list.d/xenial.list                              \
-    && echo "deb http://archive.ubuntu.com/ubuntu/ xenial universe"     \
-    >> /etc/apt/sources.list.d/xenial.list                              \
+    >> /etc/apt/sources.list.d/trusty-main.list                         \
     && apt-key adv --keyserver keyserver.ubuntu.com  --recv-keys        \
         1E9377A2BA9EF27F                                                \
         1FE11567623A70C9                                                \
         3B4FE6ACC0B21F32                                                \
-        40976EAF437D05B5                                                \
-    && apt-get update                                                   \
-    && apt-get install --assume-yes --no-install-recommends             \
-        apt-transport-https                                             \
-        ca-certificates                                                 \
-        g++                                                             \
-        libboost-system1.58-dev                                         \
-        libboost1.58-dev                                                \
-        liblog4cxx10-dev                                                \
-        make                                                            \
-        patch                                                           \
-        wget                                                            \
-        zlib1g-dev                                                      \
-    && apt-get install --assume-yes --no-install-recommends             \
-        --target-release xenial                                         \
-        libprotobuf-dev                                                 \
-    && rm -rf /var/lib/apt/lists/*
+        40976EAF437D05B5
 
 
 ## Get SciDB install script
-RUN wget --no-verbose --output-document /install-scidb-ce.sh "$SCIDB_SCRIPT_URL"
+RUN wget --no-verbose --output-document /install-scidb-ce.sh $SCIDB_SCRIPT_URL
 
 
 ## Patch SciDB install script
@@ -81,9 +56,6 @@ RUN patch --strip=1 <  install-scidb-ce.sh.patch
 
 ## Run SciDB install script
 RUN apt-get update                                              \
-    && apt-get install --assume-yes --no-install-recommends     \
-        openmpi-bin=1.10.2-8ubuntu1                             \
-        openmpi-common=1.10.2-8ubuntu1                          \
     && yes                                                      \
     |  bash /install-scidb-ce.sh                                \
     && apt-get install --assume-yes --no-install-recommends     \

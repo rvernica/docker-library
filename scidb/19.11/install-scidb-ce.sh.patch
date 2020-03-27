@@ -1,5 +1,5 @@
 diff --git a/install-scidb-ce.sh b/install-scidb-ce.sh
-index afc8e6a..87c6547 100644
+index afc8e6a..782c3e9 100644
 --- a/install-scidb-ce.sh
 +++ b/install-scidb-ce.sh
 @@ -56,7 +56,7 @@ function pkg_test()
@@ -20,15 +20,18 @@ index afc8e6a..87c6547 100644
  	    apt-get install --force-yes $1
  	fi
      else
-@@ -107,7 +107,7 @@ function check_dependencies()
+@@ -107,9 +107,9 @@ function check_dependencies()
  {
      if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
  	declare -a deps=("openssh" "openssh-server" "wget")
 -    elif [[ $OS == *"Ubuntu"* ]]; then
 +    elif [[ $OS == *"Ubuntu"* || $OS == *"Debian"* ]]; then
  	declare -a deps=("openssh-client" "openssh-server" "wget" )
- 	update_stdc
+-	update_stdc
++	# update_stdc
      fi
+     echo "${deps[@]}"
+     for pkg_name in "${deps[@]}"
 @@ -185,11 +185,14 @@ if [[ $OS == *"CentOS"* || $OS == *"RedHat"* ]]; then
      wget https://downloads.paradigm4.com/community/19.11/scidb-19.11.0-repos.rpm
      rpm -i scidb-19.11.0-repos.rpm
