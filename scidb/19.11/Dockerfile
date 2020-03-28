@@ -18,20 +18,6 @@ ENV PATH=$PATH:$SCIDB_INSTALL_PATH/bin
 ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/$SCIDB_VER/install-scidb-ce.sh"
 
 
-# ENV container docker
-# RUN ( cd /lib/systemd/system/sysinit.target.wants/;                     \
-#       for i in *;                                                       \
-#       do [ $i = systemd-tmpfiles-setup.service ] || rm --force $i;      \
-#       done );                                                           \
-#     rm --force /etc/systemd/system/*.wants/*;                           \
-#     rm --force /lib/systemd/system/local-fs.target.wants/*;             \
-#     rm --force /lib/systemd/system/multi-user.target.wants/*;           \
-#     rm --force /lib/systemd/system/sockets.target.wants/*initctl*;      \
-#     rm --force /lib/systemd/system/sockets.target.wants/*udev*;         \
-#     rm --force /lib/systemd/system/systemd-update-utmp*
-# VOLUME [ "/sys/fs/cgroup" ]
-
-
 ## Setup dependencies
 RUN apt-get update                                              \
     && apt-get install --assume-yes --no-install-recommends     \
@@ -67,6 +53,7 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"            \
     && apt-get install --assume-yes --no-install-recommends             \
         --target-release xenial                                         \
         libprotobuf-dev                                                 \
+        libssl-dev                                                      \
     && rm -rf /var/lib/apt/lists/*
 
 

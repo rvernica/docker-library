@@ -18,7 +18,7 @@ fi
 
 service $SSH_SERVICE      start
 service $POSTGRES_SERVICE start
-# service shimsvc           start
+service shimsvc           start
 
 
 $SCIDB_INSTALL_PATH/bin/scidbctl.py start $SCIDB_NAME
