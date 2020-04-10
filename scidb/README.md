@@ -6,10 +6,6 @@
      [CentOS](https://www.centos.org/) Linux
    * Size: `~3GB`
    * Latest version: `19.11`
-   * Automated build at
-     [Docker Hub](https://hub.docker.com/r/rvernica/scidb/)
-     [![](https://images.microbadger.com/badges/version/rvernica/scidb.svg)](https://microbadger.com/images/rvernica/scidb)
-
 
 # Tags
 
@@ -190,7 +186,8 @@ $ docker run --rm --tty --interactive                                           
                           scan(matrix)"
 [ ok ] Starting OpenBSD Secure Shell server: sshd.
 [ ok ] Starting PostgreSQL 9.3 database server: main.
-shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root
+[/var/lib/shim/wwwroot], talking to SciDB on port 1239
 [scidbctl] Starting SciDB cluster scidb ...
 [scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
 [scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
@@ -219,7 +216,8 @@ $ docker run --rm --tty --interactive               \
     iquery --afl --query "scan(matrix)"
   [ ok ] Starting OpenBSD Secure Shell server: sshd.
 [ ok ] Starting PostgreSQL 9.3 database server: main.
-shim: SciDB HTTP service started on port(s) 8080,8083s with web root [/var/lib/shim/wwwroot], talking to SciDB on port 1239
+shim: SciDB HTTP service started on port(s) 8080,8083s with web root
+[/var/lib/shim/wwwroot], talking to SciDB on port 1239
 [scidbctl] Starting SciDB cluster scidb ...
 [scidbctl-0-0-scidb] Starting s0-i0 on server 127.0.0.1
 [scidbctl-0-1-scidb] Starting s0-i1 on server 127.0.0.1
