@@ -8,8 +8,8 @@ RUN wget --no-verbose https://bootstrap.pypa.io/get-pip.py      \
 
 
 ## Install Paradigm4 plug-ins
-RUN wget --output-document=-                                                    \
-        https://github.com/Paradigm4/extra-scidb-libs/raw/v19.11/install.sh     \
+RUN wget --output-document=-                                    \
+        https://paradigm4.github.io/extra-scidb-libs/install.sh \
     |  sh
 
 
