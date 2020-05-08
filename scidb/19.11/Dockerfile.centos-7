@@ -40,6 +40,7 @@ RUN yum install --assumeyes $DEVTOOLSET_URL     \
         devtoolset-3-toolchain                  \
         gcc                                     \
         log4cxx-devel                           \
+        openssl-devel                           \
         patch                                   \
         protobuf-devel                          \
         wget                                    \

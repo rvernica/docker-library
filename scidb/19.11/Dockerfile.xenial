@@ -27,6 +27,7 @@ RUN apt-get update                                              \
         libboost-system1.58-dev                                 \
         liblog4cxx10-dev                                        \
         libprotobuf-dev                                         \
+        libssl-dev                                              \
         make                                                    \
         patch                                                   \
         psmisc                                                  \
