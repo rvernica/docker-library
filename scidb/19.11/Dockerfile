@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
-ARG SHIM_SHA1=f3af57072a3ae169496578b5111df0cbad5ebc37
+ARG SHIM_SHA1=16fe182411be3192030e6d8f587969fc875cabf0
 
 ENV SCIDB_VER=19.11  \
     SCIDB_NAME=scidb
@@ -44,7 +44,6 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu/ trusty main"            \
         ca-certificates                                                 \
         g++                                                             \
         libboost-system1.58-dev                                         \
-        libboost1.58-dev                                                \
         liblog4cxx10-dev                                                \
         make                                                            \
         patch                                                           \

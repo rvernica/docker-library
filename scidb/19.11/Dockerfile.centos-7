@@ -5,6 +5,7 @@ ARG TERM=linux
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
+ARG SHIM_SHA1=16fe182411be3192030e6d8f587969fc875cabf0
 
 ENV SCIDB_VER=19.11  \
     SCIDB_NAME=scidb
@@ -33,8 +34,14 @@ VOLUME [ "/sys/fs/cgroup" ]
 
 
 ## Install dependencies
-RUN yum install --assumeyes                     \
+ARG DEVTOOLSET_URL=https://downloads.paradigm4.com/devtoolset-3/centos/7/sclo/x86_64/rh/devtoolset-3/scidb-devtoolset-3.noarch.rpm
+RUN yum install --assumeyes $DEVTOOLSET_URL     \
+    && yum install --assumeyes                  \
+        devtoolset-3-toolchain                  \
+        gcc                                     \
+        log4cxx-devel                           \
         patch                                   \
+        protobuf-devel                          \
         wget                                    \
         which                                   \
     && yum clean all
@@ -49,6 +56,7 @@ RUN yes                                         \
     |  bash /install-scidb-ce.sh                \
     && yum install --assumeyes                  \
         scidb-$SCIDB_VER-dev                    \
+        scidb-$SCIDB_VER-libboost-devel         \
     && yum clean all
 
 
@@ -103,6 +111,23 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                      \
         $SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties
 
 
+RUN wget --no-verbose --output-document -                           \
+        https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz \
+    |  tar --extract --gzip --directory=/usr/local/src              \
+    && cd /usr/local/src/shim-$SHIM_SHA1                            \
+    && make service                                                 \
+    && openssl req                                                  \
+        -new                                                        \
+        -newkey rsa:4096                                            \
+        -days 3650                                                  \
+        -nodes                                                      \
+        -x509                                                       \
+        -subj "/C=US/ST=MA/L=Waltham/O=Paradigm4/CN=$(hostname)"    \
+        -keyout /var/lib/shim/ssl_cert.pem                          \
+    2> /dev/null                                                    \
+    >> /var/lib/shim/ssl_cert.pem
+
+
 ## Setup container entrypoint
 COPY docker-entrypoint-centos-7.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
@@ -111,9 +136,10 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 ## Port | App
 ## -----+-----
 ## 1239 | SciDB iquery
-EXPOSE 1239
+## 8080 | SciDB Shim (HTTP)
+## 8083 | SciDB Shim (HTTPS)
+EXPOSE 1239 8080 8083
 
 
 ## Prep for systemd 2/2
-RUN rm /lib/systemd/system/sysinit.target.wants/sys-fs-fuse-connections.mount; \
-    rm /etc/systemd/system/multi-user.target.wants/postfix.service
+RUN rm /etc/systemd/system/multi-user.target.wants/postfix.service
