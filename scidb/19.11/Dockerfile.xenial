@@ -24,6 +24,7 @@ RUN apt-get update                                              \
         apt-transport-https                                     \
         ca-certificates                                         \
         g++                                                     \
+        git                                                     \
         libboost-system1.58-dev                                 \
         liblog4cxx10-dev                                        \
         libprotobuf-dev                                         \

@@ -39,6 +39,7 @@ RUN yum install --assumeyes $DEVTOOLSET_URL     \
     && yum install --assumeyes                  \
         devtoolset-3-toolchain                  \
         gcc                                     \
+        git                                     \
         log4cxx-devel                           \
         openssl-devel                           \
         patch                                   \

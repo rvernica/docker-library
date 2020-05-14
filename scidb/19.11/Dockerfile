@@ -22,6 +22,7 @@ ARG SCIDB_SCRIPT_URL="https://downloads.paradigm4.com/community/$SCIDB_VER/insta
 RUN apt-get update                                              \
     && apt-get install --assume-yes --no-install-recommends     \
         dirmngr                                                 \
+        git                                                     \
         gpg                                                     \
     && rm -rf /var/lib/apt/lists/*
 
