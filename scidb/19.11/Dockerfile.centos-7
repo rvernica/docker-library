@@ -5,10 +5,10 @@ ARG TERM=linux
 
 ARG SCIDB_NAME=scidb
 ARG SCIDB_LOG_LEVEL=WARN
-ARG SHIM_SHA1=16fe182411be3192030e6d8f587969fc875cabf0
+ARG SHIM_VER=19.11.3
 
-ENV SCIDB_VER=19.11  \
-    SCIDB_NAME=scidb
+ENV SCIDB_VER=19.11                             \
+    SCIDB_NAME=$SCIDB_NAME
 
 ENV SCIDB_INSTALL_PATH=/opt/scidb/$SCIDB_VER
 
@@ -113,20 +113,20 @@ RUN echo "127.0.0.1:5432:$SCIDB_NAME:$SCIDB_NAME:`                      \
         $SCIDB_INSTALL_PATH/share/scidb/log4cxx.properties
 
 
-RUN wget --no-verbose --output-document -                           \
-        https://github.com/Paradigm4/shim/archive/$SHIM_SHA1.tar.gz \
-    |  tar --extract --gzip --directory=/usr/local/src              \
-    && cd /usr/local/src/shim-$SHIM_SHA1                            \
-    && make service                                                 \
-    && openssl req                                                  \
-        -new                                                        \
-        -newkey rsa:4096                                            \
-        -days 3650                                                  \
-        -nodes                                                      \
-        -x509                                                       \
-        -subj "/C=US/ST=MA/L=Waltham/O=Paradigm4/CN=$(hostname)"    \
-        -keyout /var/lib/shim/ssl_cert.pem                          \
-    2> /dev/null                                                    \
+RUN wget --no-verbose --output-document -                               \
+        https://github.com/Paradigm4/shim/archive/v$SHIM_VER.tar.gz     \
+    |  tar --extract --gzip --directory=/usr/local/src                  \
+    && cd /usr/local/src/shim-$SHIM_VER                                 \
+    && make service                                                     \
+    && openssl req                                                      \
+        -new                                                            \
+        -newkey rsa:4096                                                \
+        -days 3650                                                      \
+        -nodes                                                          \
+        -x509                                                           \
+        -subj "/C=US/ST=MA/L=Waltham/O=Paradigm4/CN=$(hostname)"        \
+        -keyout /var/lib/shim/ssl_cert.pem                              \
+    2> /dev/null                                                        \
     >> /var/lib/shim/ssl_cert.pem
 
 

@@ -2,9 +2,13 @@ FROM rvernica/scidb:19.11-centos-7
 
 
 ## Install dependencies
-RUN wget --no-verbose https://bootstrap.pypa.io/get-pip.py      \
-    && python get-pip.py                                        \
-    && pip install scidb-strm
+RUN yum install --assumeyes                     \
+        python-pip                              \
+        python-pandas                           \
+    && pip install                              \
+        scidb-py                                \
+        scidb-strm                              \
+    && yum clean all
 
 
 ## Install Paradigm4 plug-ins
