@@ -126,7 +126,9 @@ RUN wget --no-verbose --output-document -                               \
         -subj "/C=US/ST=MA/L=Waltham/O=Paradigm4/CN=$(hostname)"        \
         -keyout /var/lib/shim/ssl_cert.pem                              \
     2> /dev/null                                                        \
-    >> /var/lib/shim/ssl_cert.pem
+    >> /var/lib/shim/ssl_cert.pem                                       \
+    && echo "tmp=/tmp"                                                  \
+    >> /var/lib/shim/conf
 
 
 ## Setup container entrypoint
