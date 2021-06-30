@@ -6,7 +6,6 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: scidb
   VERSION: 19.11
-  OS: xenial
 
 jobs:
   build-and-push-image:
@@ -14,6 +13,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+
+    strategy:
+      matrix:
+        OS: [xenial, centos-7]
 
     steps:
       - name: Check out repository
@@ -26,18 +29,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Extract and set metadata
         id: meta
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
-          tags: ${{ env.VERSION }}-${{ env.OS }}
+          tags: ${{ env.VERSION }}-${{ matrix.OS }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}
-          file: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}/Dockerfile.${{ env.OS }}
+          file: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}/Dockerfile.${{ matrix.OS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
