@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: scidb/19.11
-          file: Dockerfile.xenial
+          file: scidb/19.11/Dockerfile.xenial
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
