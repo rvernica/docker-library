@@ -4,7 +4,9 @@ on: [push]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: scidb:19.11-xenial
+  IMAGE_NAME: scidb
+  VERSION: 19.11
+  OS: xenial
 
 jobs:
   build-and-push-image:
@@ -33,8 +35,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: scidb/19.11
-          file: scidb/19.11/Dockerfile.xenial
+          context: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}
+          file: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}/Dockerfile.${{ env.OS }}
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ env.VERSION }}-${{ env.OS }}
           labels: ${{ steps.meta.outputs.labels }}
