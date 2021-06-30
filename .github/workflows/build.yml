@@ -31,6 +31,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ env.VERSION }}-${{ env.OS }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -38,5 +39,5 @@ jobs:
           context: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}
           file: ${{ env.IMAGE_NAME }}/${{ env.VERSION }}/Dockerfile.${{ env.OS }}
           push: true
-          tags: ${{ env.VERSION }}-${{ env.OS }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
