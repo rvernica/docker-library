@@ -4,7 +4,7 @@ on: [push]
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: scidb
+  IMAGE_NAME: ${{ github.repository_owner }}/scidb
   VERSION: 19.11
   OS: xenial
 
