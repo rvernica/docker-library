@@ -1,6 +1,7 @@
 name: Build and Push a Docker Image
 
-on: [workflow_dispatch]
+on: [push]
+# on: [workflow_dispatch]
 
 env:
   REGISTRY: ghcr.io
