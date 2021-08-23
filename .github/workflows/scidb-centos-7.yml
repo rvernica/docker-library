@@ -1,4 +1,4 @@
-name: Build and Push a Docker Image
+name: Build CentOS 7 image for SciDB
 
 on: [workflow_dispatch]
 

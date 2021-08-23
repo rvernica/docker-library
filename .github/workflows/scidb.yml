@@ -1,4 +1,4 @@
-name: Build and Push a Docker Image
+name: Build SciDB image
 
 on: [workflow_dispatch]
 
