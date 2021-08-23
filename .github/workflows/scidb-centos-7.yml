@@ -36,8 +36,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: docker/${{ env.IMAGE_NAME }}
-          file: docker/${{ env.IMAGE_NAME }}/Dockerfile
+          context: scidb/${{ env.IMAGE_NAME }}
+          file: scidb/${{ env.IMAGE_NAME }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
