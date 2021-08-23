@@ -1,0 +1,10 @@
+function nonzero_return() {
+        RETVAL=$?
+        [ $RETVAL -ne 0 ] && echo "$RETVAL"
+}
+
+
+PS1="\[\e[32m\]\w\[\e[31m\]\`nonzero_return\`\[\e[36m\]>\[\e[m\] "
+PATH=$PATH:/opt/scidb/19.11/bin
+
+export PS1 PATH
