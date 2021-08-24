@@ -24,15 +24,14 @@ RUN cat /tmp/bashrc                             \
         >> /root/.bashrc
 
 # Setup additional repositories
-COPY res/pgdg-93-centos.repo /etc/yum.repos.d/
 RUN yum-config-manager --add-repo                                                               \
         https://yum.repos.intel.com/mkl/setup/intel-mkl.repo                                    \
         && rpm --import                                                                         \
-            https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB   \
-            https://ftp.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-93
+            https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
 ENV YUM="yum install --assumeyes --setopt=skip_missing_names_on_install=False"
 RUN $YUM                                        \
         epel-release                            \
+        https://download.postgresql.org/pub/repos/yum/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-3.noarch.rpm \
         https://downloads.paradigm4.com/devtoolset-3/centos/7/sclo/x86_64/rh/devtoolset-3/scidb-devtoolset-3.noarch.rpm
 
 # Install SciDB dependencies
