@@ -72,6 +72,8 @@ RUN $YUM                                        \
 EXPOSE 1239 8080 8083
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
+ENV SCIDB_VER=19.11 \
+        PATH=$PATH:/opt/scidb/19.11/bin
 
 # Copy SciDB configuration
 COPY res/init-scidb.sh /root/
